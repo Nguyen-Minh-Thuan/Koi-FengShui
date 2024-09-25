@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <div>
             <NavBar />
-            <h1>Welcome to Feng Shui Koi</h1>
+            <h1 className='h-[800px]'></h1>
             <Footer />
         </div>
     );

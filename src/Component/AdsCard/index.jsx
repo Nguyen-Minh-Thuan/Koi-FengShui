@@ -1,9 +1,12 @@
 import React from 'react'
+import Header from '../Header_Admin/header'
+import Content from '../AdsList/'
 
 const AdsCard = () => {
     return (
       <div>
-          <h1>AdsCard</h1>
+          <Header/>
+          <Content/>
       </div>
     )
   };
