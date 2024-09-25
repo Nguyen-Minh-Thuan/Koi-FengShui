@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\efpt.config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\efpt.config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\repository\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\repository\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.apiservice\\fsk.apiservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|solutionrelative:fsk.apiservice\\fsk.apiservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\repository\\packagerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\repository\\packagerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\repository\\advertisementrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\repository\\advertisementrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\models\\swp391fengshuikoisystemcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\models\\swp391fengshuikoisystemcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\efpt.config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\efpt.config.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.apiservice\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|solutionrelative:fsk.apiservice\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\base\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,10 +69,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.apiservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|solutionrelative:fsk.apiservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.repository\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{70FCF103-4811-4412-BA68-B1FC34690A50}|FSK.Repository\\FSK.Repository.csproj|solutionrelative:fsk.repository\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2AD1BF80-CB9E-4BD1-9A00-4DB8304C2A42}|FSK.APIService\\FSK.APIService.csproj|c:\\users\\admin\\source\\repos\\swp391.fengshuikoi.fa24\\fsk.apiservice\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -81,7 +97,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -89,16 +105,65 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FSK.APIService.csproj",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\FSK.APIService.csproj",
+              "RelativeDocumentMoniker": "FSK.APIService\\FSK.APIService.csproj",
+              "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\FSK.APIService.csproj",
+              "RelativeToolTip": "FSK.APIService\\FSK.APIService.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-25T09:18:56.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TransactionRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\TransactionRepository.cs",
+              "RelativeDocumentMoniker": "FSK.Repository\\Repository\\TransactionRepository.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\TransactionRepository.cs",
+              "RelativeToolTip": "FSK.Repository\\Repository\\TransactionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T08:39:53.988Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PackageRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\PackageRepository.cs",
+              "RelativeDocumentMoniker": "FSK.Repository\\Repository\\PackageRepository.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\PackageRepository.cs",
+              "RelativeToolTip": "FSK.Repository\\Repository\\PackageRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T08:36:53.642Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdvertisementRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\AdvertisementRepository.cs",
+              "RelativeDocumentMoniker": "FSK.Repository\\Repository\\AdvertisementRepository.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\AdvertisementRepository.cs",
+              "RelativeToolTip": "FSK.Repository\\Repository\\AdvertisementRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-25T08:35:13.691Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "efpt.config.json",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\efpt.config.json",
               "RelativeDocumentMoniker": "FSK.Repository\\efpt.config.json",
               "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\efpt.config.json",
               "RelativeToolTip": "FSK.Repository\\efpt.config.json",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAiwBMAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-25T07:35:19.759Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-25T07:35:19.759Z"
             },
             {
               "$type": "Document",
@@ -108,27 +173,25 @@
               "RelativeDocumentMoniker": "FSK.Repository\\Base\\GenericRepository.cs",
               "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Base\\GenericRepository.cs",
               "RelativeToolTip": "FSK.Repository\\Base\\GenericRepository.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAcwEkAAABgAAAAAAAAAA==",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAuwEkAAABgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T16:49:18.026Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T16:49:18.026Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "FSK.APIService\\Controllers\\UserController.cs",
               "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\Controllers\\UserController.cs",
               "RelativeToolTip": "FSK.APIService\\Controllers\\UserController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAA6wE0AAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAiwE0AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T17:23:46.014Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T17:23:46.014Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "Advertisement.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Models\\Advertisement.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Models\\Advertisement.cs",
@@ -140,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "Package.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Models\\Package.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Models\\Package.cs",
@@ -152,7 +215,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "Transaction.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Models\\Transaction.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Models\\Transaction.cs",
@@ -160,12 +223,11 @@
               "RelativeToolTip": "FSK.Repository\\Models\\Transaction.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T18:52:34.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T18:52:34.629Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "BaseResponseModel.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Models\\BaseResponseModel.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Models\\BaseResponseModel.cs",
@@ -173,12 +235,11 @@
               "RelativeToolTip": "FSK.Repository\\Models\\BaseResponseModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T18:15:51.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T18:15:51.432Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Models\\User.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Models\\User.cs",
@@ -186,12 +247,11 @@
               "RelativeToolTip": "FSK.Repository\\Models\\User.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAUwBUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T18:14:57.263Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T18:14:57.263Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "FSK.APIService.http",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\FSK.APIService.http",
               "RelativeDocumentMoniker": "FSK.APIService\\FSK.APIService.http",
@@ -203,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\appsettings.Development.json",
               "RelativeDocumentMoniker": "FSK.APIService\\appsettings.Development.json",
@@ -215,7 +275,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "FSK.APIService\\Properties\\launchSettings.json",
@@ -227,7 +287,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\Program.cs",
               "RelativeDocumentMoniker": "FSK.APIService\\Program.cs",
@@ -239,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.APIService\\appsettings.json",
               "RelativeDocumentMoniker": "FSK.APIService\\appsettings.json",
@@ -251,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\UnitOfWork.cs",
@@ -263,19 +323,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 4,
               "Title": "UserRepository.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\UserRepository.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Repository\\UserRepository.cs",
               "ToolTip": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Repository\\UserRepository.cs",
               "RelativeToolTip": "FSK.Repository\\Repository\\UserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAqwA0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T16:55:35.977Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "SWP391FengShuiKoiSystemContext.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\FSK.Repository\\Models\\SWP391FengShuiKoiSystemContext.cs",
               "RelativeDocumentMoniker": "FSK.Repository\\Models\\SWP391FengShuiKoiSystemContext.cs",
@@ -283,12 +343,11 @@
               "RelativeToolTip": "FSK.Repository\\Models\\SWP391FengShuiKoiSystemContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAG0AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T16:12:39.039Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-24T16:12:39.039Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "SWP391FengShuiKoiSystem.sql",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391FengShuiKoiSystem.sql",
               "RelativeDocumentMoniker": "..\\SWP391FengShuiKoiSystem.sql",
@@ -299,7 +358,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "SWP391.FengShuiKoi.FA24.sql",
               "DocumentMoniker": "C:\\Users\\ADMIN\\source\\repos\\SWP391.FengShuiKoi.FA24\\SWP391.FengShuiKoi.FA24.sql",
               "RelativeDocumentMoniker": "SWP391.FengShuiKoi.FA24.sql",
