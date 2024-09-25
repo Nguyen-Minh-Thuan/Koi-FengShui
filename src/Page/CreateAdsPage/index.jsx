@@ -54,7 +54,7 @@ const FormField = ({
   </div>
 );
 
-export default function CreateAdsPage() {
+export default function CreateAdsPages() {
   const [formData, setFormData] = useState({
     title: "",
     productType: "",

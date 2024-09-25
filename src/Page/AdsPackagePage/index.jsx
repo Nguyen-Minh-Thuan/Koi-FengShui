@@ -32,7 +32,7 @@ const formReducer = (state, action) => {
   }
 };
 
-const CreateAdsPage = () => {
+const AdsPackagePage = () => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
   const [errors, setErrors] = useState({});
   const [fee, setFee] = useState(0);
@@ -203,7 +203,7 @@ const CreateAdsPage = () => {
           </section>
 
           <div className="flex justify-between mt-6">
-            <Link to="/CreateAdsPage">
+            <Link to="/ads/create">
               <button className="bg-black text-white font-bold py-2 px-6 rounded-md hover:bg-gray-800">
                 Quay lại
               </button>
@@ -222,4 +222,4 @@ const CreateAdsPage = () => {
   );
 };
 
-export default CreateAdsPage;
+export default AdsPackagePage;
