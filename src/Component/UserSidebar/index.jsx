@@ -1,14 +1,4 @@
 import React from 'react';
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-  Avatar,
-} from '@mui/material';
-import { Person, Settings } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const UserSidebar = () => {
@@ -16,9 +6,9 @@ const UserSidebar = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { path: '/user/profile', icon: <Person />, text: 'Thông tin cá nhân' },
-    { path: '/user/settings', icon: <Settings />, text: 'Đổi mật khẩu' },
-    
+    { path: '/user/profile', text: 'User Profile' },
+    { path: '/user/ads/list', text: 'Danh sách tin' },
+    { path: '/user/change-password', text: 'Đổi mật khẩu' },
   ];
 
   const handleTabChange = (path) => {
@@ -26,43 +16,31 @@ const UserSidebar = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: 250,
-        bgcolor: 'white',
-        color: 'black',
-        boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.1)',
-        borderRadius: '5px',
-        overflow: 'hidden',
-      }}
-    >
-      <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ color: 'black', mb: 2 }}>
-          User Profile
-        </Typography>
-      </Box>
-      <List component="nav" sx={{ p: 0 }}>
+    <aside className="col-span-3 bg-white p-6 rounded-lg shadow-lg">
+      <div className="flex items-center mb-6">
+        <div className="h-12 w-12 bg-gray-300 rounded-full mr-3">
+          <img
+            src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"
+            alt="Avatar"
+            className="rounded-full"
+          />
+        </div>
+        <p className="font-bold text-black">Member's name</p>
+      </div>
+      <ul className="space-y-2 text-black">
         {menuItems.map((item) => (
-          <ListItem
+          <li
             key={item.path}
-            button
+            className={`text-black cursor-pointer p-2 rounded-md ${
+              location.pathname === item.path ? 'bg-gray-200 font-bold' : 'hover:bg-gray-100'
+            }`}
             onClick={() => handleTabChange(item.path)}
-            sx={{
-              bgcolor: location.pathname === item.path ? 'black' : 'white',
-              color: location.pathname === item.path ? 'white' : 'black',
-              '&:hover': {
-                bgcolor: location.pathname === item.path ? 'black' : 'rgba(0, 0, 0, 0.08)',
-              },
-            }}
           >
-            <ListItemIcon sx={{ color: location.pathname === item.path ? 'white' : 'black' }}>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
+            {item.text}
+          </li>
         ))}
-      </List>
-    </Box>
+      </ul>
+    </aside>
   );
 };
 

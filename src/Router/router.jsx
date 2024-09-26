@@ -17,7 +17,7 @@ const AppRouter = () => {
         <Route path="/user/profile" element={<UserProfilePage />} />
         <Route path="/ads/product" element={<AdsPage />} />
         <Route path="/ads/create" element={<CreateAdsPages />} />
-        <Route path="/ads/package" element={<AdsPackagePage />} />
+        <Route path="/ads/create/package" element={<AdsPackagePage />} />
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
       </Routes>
