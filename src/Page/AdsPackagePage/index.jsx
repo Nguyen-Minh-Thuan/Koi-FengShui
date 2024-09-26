@@ -103,23 +103,7 @@ const AdsPackagePage = () => {
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
       <main className="flex-grow container mx-auto p-6 grid grid-cols-12 gap-6">
-        <aside className="col-span-3 bg-white p-6 rounded-lg shadow-lg">
-          <div className="flex items-center mb-6">
-            <div className="h-12 w-12 bg-gray-300 rounded-full mr-3">
-              <img
-                src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"
-                alt="Avatar"
-                className="rounded-full"
-              />
-            </div>
-            <p className="font-bold text-black">Member's name</p>
-          </div>
-          <ul className="space-y-4 text-black">
-            <li className="font-bold">Quản lý tin đăng</li>
-            <li className="ml-7">Đăng mới</li>
-            <li className="ml-7">Danh sách tin</li>
-          </ul>
-        </aside>
+        
 
         <main className="col-span-9 bg-white p-6 rounded-lg shadow-lg">
           <section>
