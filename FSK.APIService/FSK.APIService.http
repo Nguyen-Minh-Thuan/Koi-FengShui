@@ -1,6 +1,0 @@
-@FSK.APIService_HostAddress = http://localhost:5236
-
-GET {{FSK.APIService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
