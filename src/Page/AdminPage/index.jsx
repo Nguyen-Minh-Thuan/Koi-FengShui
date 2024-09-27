@@ -1,5 +1,5 @@
 
-import Header from '../../Component/AdminNavbar'
+import Header from '../../Component/HeaderAdmin'
 import Content from '../../Component/AdsList/'
 import AdminNavbar from '../../Component/AdminNavbar/'
 
