@@ -36,7 +36,7 @@ const NavBar = () => {
         <ul className='justify-items-end w-full h-full  text-black flex justify-center py-3 text-l'>
             <li className='px-8'><Link to="/">Trang Chủ</Link></li>
             <li className='px-8'><Link to="/ads/product">Sản Phẩm</Link></li>
-            <li className='px-8'><Link to="/">Đăng kí quảng cáo</Link></li>
+            <li className='px-8'><Link to="/admin">Đăng kí quảng cáo</Link></li>
             <li className='px-8'><Link to="/">Tra Cứu Mệnh</Link></li>
             <li className='px-8'><Link to="/">Chia sẻ</Link></li>
             <li className='px-8'><Link to="/">Fengshui Koi</Link></li>
