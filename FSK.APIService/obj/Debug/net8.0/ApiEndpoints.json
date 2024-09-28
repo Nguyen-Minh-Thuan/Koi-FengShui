@@ -1,7 +1,38 @@
 [
   {
+    "ContainingType": "FSK.APIService.Controllers.AdvertisementController",
+    "Method": "GetPageAds",
+    "RelativePath": "api/Advertisement",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageIndex",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[FSK.Repository.Models.Advertisement, FSK.Repository, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "FSK.APIService.Controllers.UserController",
-    "Method": "GetUser",
+    "Method": "GetPageUser",
     "RelativePath": "api/User",
     "HttpMethod": "GET",
     "IsController": true,

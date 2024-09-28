@@ -14,7 +14,7 @@ namespace FSK.APIService.Controllers
         public UserController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser(int pageIndex = 0, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<User>>> GetPageUser(int pageIndex = 0, int pageSize = 10)
         {
 
             BaseResponseModel response = new BaseResponseModel();

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FSK.APIService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9693c183d986a123ee0b088c6c17d130527b9158")]
 [assembly: System.Reflection.AssemblyProductAttribute("FSK.APIService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FSK.APIService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

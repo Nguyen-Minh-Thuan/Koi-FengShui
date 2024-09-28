@@ -70,3 +70,4 @@ C:\Users\ADMIN\source\repos\SWP391.FengShuiKoi.FA24\FSK.APIService\bin\Debug\net
 C:\Users\ADMIN\source\repos\SWP391.FengShuiKoi.FA24\FSK.APIService\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\ADMIN\source\repos\SWP391.FengShuiKoi.FA24\FSK.APIService\bin\Debug\net8.0\FSK.Repository.dll
 C:\Users\ADMIN\source\repos\SWP391.FengShuiKoi.FA24\FSK.APIService\bin\Debug\net8.0\FSK.Repository.pdb
+C:\Users\ADMIN\source\repos\SWP391.FengShuiKoi.FA24\FSK.APIService\obj\Debug\net8.0\FSK.APIService.sourcelink.json
