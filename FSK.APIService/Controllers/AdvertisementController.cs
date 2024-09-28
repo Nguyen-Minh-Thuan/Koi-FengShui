@@ -11,8 +11,11 @@ namespace FSK.APIService.Controllers
     {
 
         private readonly UnitOfWork _unitOfWork;
+        //private readonly DatabaseContext _Dbcontext;
 
         public AdvertisementController(UnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        //public AdvertisementController(DatabaseContext Dbcontext) => _Dbcontext = Dbcontext;
+
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Advertisement>>> GetPageAds(int pageIndex = 0, int pageSize = 10)
