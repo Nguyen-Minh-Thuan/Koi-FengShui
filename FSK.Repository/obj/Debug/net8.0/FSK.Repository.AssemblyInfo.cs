@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FSK.Repository")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9693c183d986a123ee0b088c6c17d130527b9158")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f13232fa1b539130c93bcda7c0491c56c4976220")]
 [assembly: System.Reflection.AssemblyProductAttribute("FSK.Repository")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FSK.Repository")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

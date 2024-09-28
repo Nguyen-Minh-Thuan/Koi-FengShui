@@ -3,7 +3,7 @@
    "ContextClassName": "SWP391FengShuiKoiSystemContext",
    "ContextNamespace": null,
    "FilterSchemas": false,
-   "IncludeConnectionString": false,
+   "IncludeConnectionString": true,
    "ModelNamespace": null,
    "OutputContextPath": null,
    "OutputPath": "Models",
@@ -19,7 +19,63 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Auspicious]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Color]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Direction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DirectionGroup]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Element]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ElementColor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ElementQuantity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[General]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Inauspicious]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Kua]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Package]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Pattern]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PatternColor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Pond]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Shape]",
          "ObjectType": 0
       },
       {
@@ -28,6 +84,10 @@
       },
       {
          "Name": "[dbo].[User]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Variety]",
          "ObjectType": 0
       }
    ],
