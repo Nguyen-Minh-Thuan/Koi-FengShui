@@ -3,7 +3,7 @@ import User from '../../assets/Icon/Login.png';
 import Logout from '../../assets/Icon/Logout.png'
 import { Link } from 'react-router-dom';
 
-const header = () => {
+const AdminHeader = () => {
   return (
     <div className='relative'>
         <div className='bg-white border-b-2 w-full py-2 flex justify-between px-10 shadow-md'>
@@ -25,4 +25,4 @@ const header = () => {
   )
 }
 
-export default header
+export default AdminHeader
