@@ -7,6 +7,8 @@ import UserProfilePage from "../Page/UserProfile";
 import AdsPage from "../Page/AdsPage";
 import AdsPackagePage from "../Page/AdsPackagePage";
 import CreateAdsPages from "../Page/CreateAdsPage";
+import AdminPage from "../Page/AdminPage";
+import PaymentPage from "../Page/PaymentPage";
 
 const AppRouter = () => {
   return (
@@ -18,6 +20,8 @@ const AppRouter = () => {
         <Route path="/ads/product" element={<AdsPage />} />
         <Route path="/ads/create" element={<CreateAdsPages />} />
         <Route path="/ads/create/package" element={<AdsPackagePage />} />
+        <Route path="/admin/manage" element={<AdminPage />} />
+        <Route path="/ads/create/package/payment" element={<PaymentPage />} />
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
       </Routes>

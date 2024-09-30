@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Typography,
@@ -11,15 +11,15 @@ import {
   Paper,
   Grid,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 
 const UserProfile = () => {
   return (
-    <Paper elevation={3} sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
+    <Paper elevation={3} sx={{ p: 3, maxWidth: 800, mx: "auto" }}>
       <Typography variant="h5" gutterBottom>
         Hồ sơ cá nhân
       </Typography>
-      
+
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -54,14 +54,18 @@ const UserProfile = () => {
             variant="outlined"
           />
         </Grid>
-        
+
         <Grid item xs={12}>
           <FormControl component="fieldset">
             <FormLabel component="legend">Giới tính</FormLabel>
             <RadioGroup row defaultValue="female">
               <FormControlLabel value="male" control={<Radio />} label="Nam" />
               <FormControlLabel value="female" control={<Radio />} label="Nữ" />
-              <FormControlLabel value="other" control={<Radio />} label="Khác" />
+              <FormControlLabel
+                value="other"
+                control={<Radio />}
+                label="Khác"
+              />
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -76,20 +80,13 @@ const UserProfile = () => {
             variant="outlined"
           />
         </Grid>
-        
+
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
+          <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
             Lưu thông tin
           </Button>
         </Grid>
       </Grid>
-
-
     </Paper>
   );
 };

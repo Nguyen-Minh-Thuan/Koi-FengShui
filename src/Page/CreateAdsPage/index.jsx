@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const nguHanhOptions = [
   { value: "", label: "--Mệnh--" },
@@ -22,9 +22,7 @@ const FormField = ({
   errorMessage,
 }) => (
   <div className="mb-4">
-    <label className="block text-sm font-medium text-black">
-      {label} <span className="text-red-500">*</span>
-    </label>
+    <label className="block text-sm font-medium text-black">{label}</label>
     {type === "textarea" ? (
       <textarea
         name={name}
@@ -54,17 +52,17 @@ const FormField = ({
   </div>
 );
 
-export default function CreateAdsPages() {
+export default function CreateAdsPage() {
   const [formData, setFormData] = useState({
     title: "",
     productType: "",
-    menhMau: "",
     menhNguHanh: "",
     description: "",
     image: null,
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = useCallback((e) => {
     const { name, value, type, files } = e.target;
@@ -72,27 +70,30 @@ export default function CreateAdsPages() {
       ...prev,
       [name]: type === "file" ? files[0] : value,
     }));
-    setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error for the field being edited
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   }, []);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.title) newErrors.title = "Tiêu đề là bắt buộc.";
+    if (!formData.title) newErrors.title = "Vui lòng điền tiêu đề.";
     if (!formData.productType)
-      newErrors.productType = "Loại sản phẩm là bắt buộc.";
+      newErrors.productType = "Vui lòng điền loại sản phẩm.";
     if (!formData.menhNguHanh)
-      newErrors.menhNguHanh = "Mệnh ngũ hành là bắt buộc.";
-    if (!formData.description) newErrors.description = "Mô tả là bắt buộc.";
-    if (!formData.image) newErrors.image = "Hình ảnh là bắt buộc.";
+      newErrors.menhNguHanh = "Vui lòng chọn mệnh ngũ hành.";
+    if (!formData.description) newErrors.description = "Vui lòng nhập mô tả.";
+    if (!formData.image) newErrors.image = "Vui lòng tải hình ảnh.";
+
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
-    if (validateForm()) {
-      // Proceed to the next step
-      console.log("Next step");
+  const handleNext = (e) => {
+    if (!validateForm()) {
+      e.preventDefault();
+      return;
     }
+    console.log("Thông tin quảng cáo:", formData);
+    navigate("/ads/create/package");
   };
 
   const renderImagePreview = () =>
@@ -119,11 +120,12 @@ export default function CreateAdsPages() {
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
       <main className="flex-grow container mx-auto p-6">
-        <div className="grid grid-cols-12 gap-6">
-          
-          <section className="col-span-9">
+        <div className="flex justify-center">
+          <section className="col-span-9 w-full max-w-3xl">
             <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Thông tin quảng cáo</h2>
+              <h2 className="text-xl font-bold mb-6 text-center">
+                Thông tin quảng cáo
+              </h2>
               <FormField
                 label="Tiêu đề"
                 name="title"
@@ -132,7 +134,7 @@ export default function CreateAdsPages() {
                 placeholder="Nhập tiêu đề"
                 errorMessage={errors.title}
               />
-              <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <FormField
                   label="Loại sản phẩm"
                   name="productType"
@@ -143,7 +145,7 @@ export default function CreateAdsPages() {
                 />
                 <div>
                   <label className="block text-sm font-medium text-black">
-                    Mệnh ngũ hành <span className="text-red-500">*</span>
+                    Mệnh ngũ hành
                   </label>
                   <select
                     name="menhNguHanh"
@@ -177,8 +179,10 @@ export default function CreateAdsPages() {
               />
             </div>
             <div className="bg-white p-6 mt-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Hình ảnh sản phẩm</h2>
-              <p className="text-sm text-gray-500 mb-4">
+              <h2 className="text-xl font-bold mb-4 text-center">
+                Hình ảnh sản phẩm
+              </h2>
+              <p className="text-sm text-gray-500 mb-4 text-center">
                 Kích thước 1 ảnh tối đa 5MB
               </p>
               <div className="flex items-center justify-center w-full">
@@ -197,29 +201,12 @@ export default function CreateAdsPages() {
                 <span className="text-red-500 text-sm">{errors.image}</span>
               )}
               <div className="flex justify-end mt-6">
-                <Link to="/ads/create/package">
-                  <button
-                    onClick={handleNext}
-                    disabled={
-                      !formData.title ||
-                      !formData.productType ||
-                      !formData.menhNguHanh ||
-                      !formData.description ||
-                      !formData.image
-                    }
-                    className={`bg-black text-white font-bold py-2 px-6 rounded-md hover:bg-gray-800 ${
-                      !formData.title ||
-                      !formData.productType ||
-                      !formData.menhNguHanh ||
-                      !formData.description ||
-                      !formData.image
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
-                    }`}
-                  >
-                    Tiếp theo
-                  </button>
-                </Link>
+                <button
+                  onClick={handleNext}
+                  className="bg-black text-white font-bold py-2 px-6 rounded-md hover:bg-gray-800"
+                >
+                  Tiếp theo
+                </button>
               </div>
             </div>
           </section>
