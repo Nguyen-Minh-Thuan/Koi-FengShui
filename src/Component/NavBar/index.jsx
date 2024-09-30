@@ -26,23 +26,23 @@ const NavBar = () => {
               <img src={logo} alt="logo" className="h-12" />
             </Link>
             <div className='flex items-center justify-start'>
-              <img src={phone} alt='phone' className='h-10'/>
-              <div>0123456789</div>     
+                  
               <Link to="/"><img src={Login} alt='Login' className='ms-8 h-10'/></Link>
-              <Link to="/">Login</Link>
+              <Link to="/login">Đăng nhập/ </Link>
+              <Link to="/register">Đăng ký</Link>
             </div>
           </div>
         </div>
         <ul className='justify-items-end w-full h-full  text-black flex justify-center py-3 text-l'>
             <li className='px-8'><Link to="/">Trang Chủ</Link></li>
             <li className='px-8'><Link to="/ads/product">Sản Phẩm</Link></li>
-            <li className='px-8'><Link to="/admin">Đăng kí quảng cáo</Link></li>
-            <li className='px-8'><Link to="/">Tra Cứu Mệnh</Link></li>
-            <li className='px-8'><Link to="/">Chia sẻ</Link></li>
+            <li className='px-8'><Link to="/ads/create">Đăng kí quảng cáo</Link></li>
+            <li className='px-8'><Link to="/fengshui">Tra Cứu Mệnh</Link></li>
+            <li className='px-8'><Link to="/blog">Chia sẻ</Link></li>
             <li className='px-8'><Link to="/">Fengshui Koi</Link></li>
         </ul>
       </div>
-      <div className="h-[120px]"></div>
+      <div className="h-[113px]"></div>
     </>
   );
 };

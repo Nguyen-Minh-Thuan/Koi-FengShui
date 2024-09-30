@@ -20,14 +20,14 @@ const Footer = () => {
             
             <ul>
               <li><Link to="/" className='hover:underline'>Tra cứu Mệnh</Link></li>
-              <li><Link to="/" className='hover:underline'>Blog chia sẻ</Link></li>
+              <li><Link to="/blog" className='hover:underline'>Blog chia sẻ</Link></li>
               <li><Link to="/about" className='hover:underline'>About</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold">LIÊN HỆ QUẢNG CÁO</h3>
             <ul>
-              <li><Link to="/" className='hover:underline'>Đăng kí quảng cáo sản phẩm</Link></li>
+              <li><Link to="/ads/create" className='hover:underline'>Đăng kí quảng cáo sản phẩm</Link></li>
               <li><Link to="/" className='hover:underline'>Hỗ trợ</Link></li>
               <li><Link to="/" className='hover:underline'>Trợ giúp</Link></li>
             </ul>
