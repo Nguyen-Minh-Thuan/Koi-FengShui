@@ -7,6 +7,7 @@ import UserProfilePage from "../Page/UserProfile";
 import AdsPage from "../Page/AdsPage";
 import AdsPackagePage from "../Page/AdsPackagePage";
 import CreateAdsPages from "../Page/CreateAdsPage";
+<<<<<<< HEAD
 import UserAdsList from "../Page/UserProfile/UserAdsManage";
 import AdsDetailPage from "../Page/AdsDetailPage";
 import BlogPage from "../Page/BlogPage";
@@ -15,6 +16,10 @@ import LoginForm from "../Page/Authen/LoginForm";
 import RegisterForm from "../Page/Authen/RegisterForm";
 import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
+=======
+import AdminPage from "../Page/AdminPage";
+import PaymentPage from "../Page/PaymentPage";
+>>>>>>> NamLa
 
 const AppRouter = () => {
   return (
@@ -30,11 +35,16 @@ const AppRouter = () => {
         <Route path="/ads/product" element={<AdsPage />} />
         <Route path="/ads/create" element={<CreateAdsPages />} />
         <Route path="/ads/create/package" element={<AdsPackagePage />} />
+<<<<<<< HEAD
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />
         <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
 
+=======
+        <Route path="/admin/manage" element={<AdminPage />} />
+        <Route path="/ads/create/package/payment" element={<PaymentPage />} />
+>>>>>>> NamLa
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
       </Routes>

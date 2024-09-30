@@ -1,32 +1,26 @@
 import React, { useState, useCallback, useReducer } from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
 
 const initialState = {
-  title: "",
-  productType: "",
-  menhNguHanh: "",
-  description: "",
-  image: null,
   adType: "",
   startTime: "",
   duration: null,
+  quantity: 0,
 };
 
-const feeMap = {
-  "Tin thường": 4999,
-  "Tin VIP": 14999,
+const feePerDay = {
+  "Tin thường": 5000,
+  "Tin VIP": 12000,
 };
 
 const formReducer = (state, action) => {
   switch (action.type) {
     case "SET_FIELD":
       return { ...state, [action.field]: action.value };
-    case "RESET_ERRORS":
-      return { ...state, errors: {} };
     default:
       return state;
   }
@@ -34,8 +28,8 @@ const formReducer = (state, action) => {
 
 const AdsPackagePage = () => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
-  const [errors, setErrors] = useState({});
   const [fee, setFee] = useState(0);
+  const navigate = useNavigate();
 
   const handleChange = useCallback(
     ({ target: { name, value, type, files } }) => {
@@ -44,103 +38,95 @@ const AdsPackagePage = () => {
         field: name,
         value: type === "file" ? files[0] : value,
       });
-      setErrors((prev) => ({ ...prev, [name]: "" }));
     },
     []
   );
 
   const handleAdTypeChange = (type) => {
     dispatch({ type: "SET_FIELD", field: "adType", value: type });
-    setFee(feeMap[type]);
+    setFee(feePerDay[type]);
   };
 
-  const handleDurationChange = (duration) => {
-    dispatch({ type: "SET_FIELD", field: "duration", value: duration });
-  };
-
-  const handleTimeChange = (e) => {
-    dispatch({ type: "SET_FIELD", field: "startTime", value: e.target.value });
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    Object.keys(initialState).forEach((key) => {
-      if (!formData[key]) newErrors[key] = `${key} là bắt buộc.`;
+  const updateStartTime = (date, time) => {
+    dispatch({
+      type: "SET_FIELD",
+      field: "startTime",
+      value: `${date}T${time}`,
     });
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
-    if (validateForm()) {
-      console.log("Proceed to the next step");
-    }
+  const handleDateChange = (e) =>
+    updateStartTime(e.target.value, formData.startTime.split("T")[1]);
+  const handleTimeChange = (e) =>
+    updateStartTime(formData.startTime.split("T")[0], e.target.value);
+
+  const handleQuantityChange = (e) => {
+    dispatch({
+      type: "SET_FIELD",
+      field: "quantity",
+      value: Number(e.target.value),
+    });
   };
 
-  const renderImagePreview = () =>
-    formData.image ? (
-      <img
-        src={URL.createObjectURL(formData.image)}
-        alt="Uploaded preview"
-        className="w-full h-full object-cover rounded-lg"
-      />
-    ) : (
-      <div className="flex flex-col items-center">
-        <img
-          src="https://img.icons8.com/color/200/file.png"
-          alt="Upload icon"
-          className="h-16 w-16"
-        />
-        <span className="mt-2 text-base text-gray-600">
-          Kéo và Thả, Tải lên hoặc Dán hình ảnh
-        </span>
-      </div>
-    );
+  const calculateTotal = (days) => {
+    const discount = days === 15 ? 0.9 : days === 30 ? 0.8 : 1;
+    return fee * days * formData.quantity * discount;
+  };
 
-  const totalAmount = fee * (formData.duration || 0);
+  const handleSubmit = () => {
+    console.log("Cấu hình tin đăng:", formData);
+    navigate("/ads/create/package/payment");
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
       <main className="flex-grow container mx-auto p-6 flex justify-center">
+<<<<<<< HEAD
         <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
+=======
+        <main className="col-span-9 w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg">
+>>>>>>> NamLa
           <section>
-            <h2 className="text-xl font-semibold mb-6">Cấu hình tin đăng</h2>
-
-            <div className="flex mb-6">
-              {Object.keys(feeMap).map((type) => (
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+              Cấu hình tin đăng
+            </h2>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              {["Tin thường", "Tin VIP"].map((type) => (
                 <div
                   key={type}
-                  className={`flex-1 p-4 border-2 ${
+                  className={`p-4 border-2 ${
                     formData.adType === type
-                      ? "border-blue-400 bg-blue-100"
+                      ? "border-blue-500 bg-blue-50"
                       : "border-gray-300"
-                  } rounded-lg cursor-pointer`}
+                  } rounded-lg cursor-pointer hover:shadow-md transition-shadow duration-200`}
                   onClick={() => handleAdTypeChange(type)}
                 >
-                  <h3 className="text-lg font-semibold mb-2">{type}</h3>
-                  <p className="text-gray-600">
-                    từ {feeMap[type].toLocaleString()} đ/ngày
+                  <h3 className="text-base font-semibold text-gray-700 mb-1">
+                    {type}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    Giá: {feePerDay[type].toLocaleString()} đ/ngày
                   </p>
                 </div>
               ))}
             </div>
-
             <div className="mb-6">
-              <label className="block mb-2 font-semibold">
+              <label className="block mb-2 font-semibold text-lg text-gray-700">
                 Chọn thời gian tin đăng
               </label>
               <div className="flex items-center mb-4">
                 <input
                   type="date"
-                  className="border p-2 rounded-lg w-full"
-                  onChange={handleChange}
+                  className="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleDateChange}
+                  name="startTime"
                 />
                 <select
-                  value={formData.startTime}
                   onChange={handleTimeChange}
-                  className="ml-4 border p-2 rounded-lg"
+                  className="ml-4 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
+                  <option value="">Chọn giờ</option>
                   {hours.map((hour) => (
                     <option key={hour} value={hour}>
                       {hour}
@@ -148,51 +134,81 @@ const AdsPackagePage = () => {
                   ))}
                 </select>
               </div>
-              <div className="flex">
-                {[10, 15, 30].map((days) => (
-                  <button
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                {[5, 15, 30].map((days) => (
+                  <div
                     key={days}
-                    className={`px-4 py-2 border rounded-lg mr-2 ${
+                    className={`p-4 border-2 ${
                       formData.duration === days
-                        ? "bg-blue-100 border-blue-400"
-                        : ""
-                    }`}
-                    onClick={() => handleDurationChange(days)}
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-300"
+                    } rounded-lg cursor-pointer hover:shadow-md transition-shadow duration-200`}
+                    onClick={() =>
+                      dispatch({
+                        type: "SET_FIELD",
+                        field: "duration",
+                        value: days,
+                      })
+                    }
                   >
-                    {days} ngày
-                  </button>
+                    <h3 className="text-base font-semibold text-gray-700 mb-1">
+                      {days} ngày
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {calculateTotal(days).toLocaleString()} đ
+                    </p>
+                  </div>
                 ))}
               </div>
+              <div className="mb-4">
+                <label className="block mb-1 font-semibold text-sm text-gray-700">
+                  Số lượng
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.quantity}
+                  onChange={handleQuantityChange}
+                  className="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
             </div>
           </section>
-
           <section>
-            <h2 className="text-xl font-semibold mb-6">Thanh toán</h2>
-            <div className="bg-gray-100 p-4 rounded-lg">
-              <div className="flex justify-between mb-4">
-                <span>Loại tin</span>
-                <span>{formData.adType || "Chưa chọn"}</span>
+            <h2 className="text-xl font-semibold text-gray-800 mb-3">
+              Thanh toán
+            </h2>
+            <div className="bg-gray-100 p-4 rounded-lg shadow-inner">
+              <div className="flex justify-between mb-3">
+                <span className="text-gray-700">Loại tin</span>
+                <span className="text-gray-900 font-semibold">
+                  {formData.adType || "Chưa chọn"}
+                </span>
               </div>
-              <div className="flex justify-between mb-4">
-                <span>Phí đăng tin</span>
-                <span>{fee.toLocaleString()} đ</span>
+              <div className="flex justify-between mb-3">
+                <span className="text-gray-700">Phí đăng tin</span>
+                <span className="text-gray-900 font-semibold">
+                  {fee.toLocaleString()} đ/ngày
+                </span>
               </div>
-              <div className="flex justify-between font-semibold">
-                <span>Tổng tiền</span>
-                <span>{totalAmount.toLocaleString()} đ</span>
+              <div className="flex justify-between font-semibold text-lg">
+                <span className="text-gray-800">Tổng tiền</span>
+                <span className="text-gray-900">
+                  {calculateTotal(formData.duration || 0).toLocaleString()} đ
+                </span>
               </div>
             </div>
           </section>
-
           <div className="flex justify-between mt-6">
             <Link to="/ads/create">
-              <button className="bg-black text-white font-bold py-2 px-6 rounded-md hover:bg-gray-800">
+              <button className="bg-gray-700 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-600 transition-colors duration-200">
                 Quay lại
               </button>
             </Link>
+
             <button
-              className="bg-orange-500 text-white px-6 py-2 rounded-lg"
-              onClick={handleNext}
+              onClick={handleSubmit}
+              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-500 transition-colors duration-200"
             >
               Thanh toán và đăng tin
             </button>
