@@ -82,11 +82,7 @@ const AdsPackagePage = () => {
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
       <main className="flex-grow container mx-auto p-6 flex justify-center">
-<<<<<<< HEAD
         <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
-=======
-        <main className="col-span-9 w-full max-w-3xl bg-white p-6 rounded-lg shadow-lg">
->>>>>>> NamLa
           <section>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
               Cấu hình tin đăng
