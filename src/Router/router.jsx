@@ -15,7 +15,7 @@ import LoginForm from "../Page/Authen/LoginForm";
 import RegisterForm from "../Page/Authen/RegisterForm";
 import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
-
+import AdminPage from "../Page/AdminPage";
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -34,6 +34,7 @@ const AppRouter = () => {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />
         <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
+        <Route path="/admin/manage" element={<AdminPage/>} />
 
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}

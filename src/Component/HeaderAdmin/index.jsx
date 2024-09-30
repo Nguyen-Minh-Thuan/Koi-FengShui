@@ -1,6 +1,6 @@
 import React from "react";
 import User from "../../assets/Icon/Login.png";
-// import Logout from "../../assets/Icon/Logout.png";
+import Logout from "../../assets/Icon/Logout.png";
 import { Link } from "react-router-dom";
 
 const AdminHeader = () => {
