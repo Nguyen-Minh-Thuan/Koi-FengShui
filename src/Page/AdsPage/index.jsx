@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import AdsCard from '../../Component/AdsCard'
 import NavBar from '../../Component/NavBar'
 import Footer from '../../Component/Footer'
@@ -7,7 +8,7 @@ const adsData = [
   {
     id: 1,
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwN6z53dqmjeQ4Ko9rI_XbltrP3YUMX3Nigg&s",
-    title: "Cá koi Benigoi",
+    title: "Cá koi Yamabuki",
     description: "Cá chép koi Benigoi sẽ tạo nên một điểm nhấn thú vị cho hồ koi của bạn. Với màu sắc đỏ chót, Benigoi tựa như một 'khối cầu lửa'...",
     link: "/koi/benigoi"
   },
@@ -154,12 +155,13 @@ const AdsPage = () => {
       <div className="flex flex-wrap justify-center gap-8">
         {filteredAds.map(ad => (
           <div key={ad.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" style={{ maxWidth: '260px' }}>
-            <AdsCard 
-              image={ad.image}
-              title={ad.title}
-              description={ad.description}
-              link={ad.link}
-            />
+            <Link to={`/ads/product/${ad.id}`}>
+              <AdsCard 
+                image={ad.image}
+                title={ad.title}
+                description={ad.description}
+              />
+            </Link>
           </div>
         ))}
       </div>

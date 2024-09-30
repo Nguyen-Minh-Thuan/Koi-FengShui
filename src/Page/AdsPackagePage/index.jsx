@@ -102,10 +102,8 @@ const AdsPackagePage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
-      <main className="flex-grow container mx-auto p-6 grid grid-cols-12 gap-6">
-        
-
-        <main className="col-span-9 bg-white p-6 rounded-lg shadow-lg">
+      <main className="flex-grow container mx-auto p-6 flex justify-center">
+        <div className="w-full max-w-4xl bg-white p-6 rounded-lg shadow-lg">
           <section>
             <h2 className="text-xl font-semibold mb-6">Cấu hình tin đăng</h2>
 
@@ -199,7 +197,7 @@ const AdsPackagePage = () => {
               Thanh toán và đăng tin
             </button>
           </div>
-        </main>
+        </div>
       </main>
       <Footer />
     </div>

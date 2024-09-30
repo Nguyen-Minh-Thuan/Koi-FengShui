@@ -118,11 +118,10 @@ export default function CreateAdsPages() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
-      <main className="flex-grow container mx-auto p-6">
-        <div className="grid grid-cols-12 gap-6">
-          
-          <section className="col-span-9">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+      <main className="flex-grow container mx-auto p-6 flex justify-center">
+        <div className="max-w-4xl w-full">
+          <section>
+            <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
               <h2 className="text-2xl font-bold mb-6">Thông tin quảng cáo</h2>
               <FormField
                 label="Tiêu đề"
