@@ -82,7 +82,6 @@ export default function CreateAdsPage() {
       newErrors.menhNguHanh = "Vui lòng chọn mệnh ngũ hành.";
     if (!formData.description) newErrors.description = "Vui lòng nhập mô tả.";
     if (!formData.image) newErrors.image = "Vui lòng tải hình ảnh.";
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -119,13 +118,6 @@ export default function CreateAdsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />
-<<<<<<< HEAD
-      <main className="flex-grow container mx-auto p-6 flex justify-center">
-        <div className="max-w-4xl w-full">
-          <section>
-            <div className="bg-white p-6 rounded-lg shadow-lg mb-6">
-              <h2 className="text-2xl font-bold mb-6">Thông tin quảng cáo</h2>
-=======
       <main className="flex-grow container mx-auto p-6">
         <div className="flex justify-center">
           <section className="col-span-9 w-full max-w-3xl">
@@ -133,7 +125,6 @@ export default function CreateAdsPage() {
               <h2 className="text-xl font-bold mb-6 text-center">
                 Thông tin quảng cáo
               </h2>
->>>>>>> NamLa
               <FormField
                 label="Tiêu đề"
                 name="title"
