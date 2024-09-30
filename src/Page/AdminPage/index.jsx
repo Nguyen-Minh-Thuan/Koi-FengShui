@@ -1,13 +1,14 @@
 
-import Header from '../../Component/Header_Admin'
+
 import Content from '../../Component/AdsList/'
 import AdminNavbar from '../../Component/AdminNavbar/'
+import AdminHeader from '../../Component/HeaderAdmin';
 
-const index = () => {
+const AdminPage = () => {
 
   return (
     <div>
-          <Header/>       
+          <AdminHeader/>       
           <div className='flex'>
           <AdminNavbar/>
           <Content/> 
@@ -16,4 +17,4 @@ const index = () => {
   );
 }
 
-export default index;
+export default AdminPage;

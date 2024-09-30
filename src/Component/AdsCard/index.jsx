@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '../Header_Admin/header'
 import Content from '../AdsList/'
 
 const AdsCard = ({ image, title, description, link }) => {
