@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/Logo/Logo_Footer.png';
+import logo from "../../assets/Logo/FengShuiKoi_Logo.jpg";
 
 const Footer = () => {
   return (
@@ -7,9 +7,13 @@ const Footer = () => {
       <div className="max-w-screen-xl mx-auto px-4 flex justify-around  items-center">
         <div className="flex items-center">
           <div>
-              <img src={logo} alt="Feng Shui Koi Logo" className="h-12 mr-3" />
+              <div className='flex'>
+                <Link to="/" className="flex">
+                  <img src={logo} alt="logo" className="h-12 rounded-[100%]" />
+                  <div className="h-full text-3xl font-serif font-medium pt-2 px-4">Feng Shui Koi</div>
+                </Link>
+              </div>
               <div>
-                <h2 className="text-lg font-semibold">Feng Shui Koi</h2>
                 <p className="text-sm">Chuyên tư vấn phong thủy | Chia sẻ kinh nghiệm | Sản phẩm phong thủy</p>
               </div>
           </div>          
