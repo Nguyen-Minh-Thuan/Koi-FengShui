@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
 import { Link, useNavigate } from "react-router-dom";
+// import axios from "axios";
 
 const nguHanhOptions = [
   { value: "", label: "--Mệnh--" },
@@ -94,6 +95,46 @@ export default function CreateAdsPage() {
     console.log("Thông tin quảng cáo:", formData);
     navigate("/ads/create/package");
   };
+
+  // const handleNext = async (e) => {
+  //   if (!validateForm()) {
+  //     e.preventDefault();
+  //     return;
+  //   }
+
+  //   console.log("Thông tin quảng cáo:", formData);
+
+  //   const formDataToSend = new FormData();
+  //   formDataToSend.append("title", formData.title);
+  //   formDataToSend.append("productType", formData.productType);
+  //   formDataToSend.append("menhNguHanh", formData.menhNguHanh);
+  //   formDataToSend.append("description", formData.description);
+  //   if (formData.image) {
+  //     formDataToSend.append("image", formData.image);
+  //   }
+
+  //   try {
+  //     const response = await axios.post("", formDataToSend, {
+  //       //them URL api
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     console.log("Phản hồi từ API:", response.data);
+
+  //     navigate("/ads/create/package");
+  //   } catch (error) {
+  //     console.error("Có lỗi xảy ra khi gửi dữ liệu:", error);
+  //     if (error.response) {
+  //       console.error("Dữ liệu lỗi từ server:", error.response.data);
+  //     } else if (error.request) {
+  //       console.error("Không nhận được phản hồi từ server:", error.request);
+  //     } else {
+  //       console.error("Lỗi trong quá trình thiết lập yêu cầu:", error.message);
+  //     }
+  //   }
+  // };
 
   const renderImagePreview = () =>
     formData.image ? (

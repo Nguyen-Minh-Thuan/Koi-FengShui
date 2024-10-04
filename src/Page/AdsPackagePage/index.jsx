@@ -78,6 +78,38 @@ const AdsPackagePage = () => {
     navigate("/ads/create/package/payment");
   };
 
+  // const handleSubmit = async () => {
+  //   console.log("Cấu hình tin đăng:", formData);
+
+  //   const formDataToSend = new FormData();
+  //   formDataToSend.append("adType", formData.adType);
+  //   formDataToSend.append("startTime", formData.startTime);
+  //   formDataToSend.append("duration", formData.duration);
+  //   formDataToSend.append("quantity", formData.quantity);
+
+  //   try {
+  //     const response = await axios.post("", formDataToSend, {
+  //       //Them URL api
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     console.log("Phản hồi từ API:", response.data);
+
+  //     navigate("/ads/create/package/payment");
+  //   } catch (error) {
+  //     console.error("Có lỗi xảy ra khi gửi dữ liệu:", error);
+  //     if (error.response) {
+  //       console.error("Dữ liệu lỗi từ server:", error.response.data);
+  //     } else if (error.request) {
+  //       console.error("Không nhận được phản hồi từ server:", error.request);
+  //     } else {
+  //       console.error("Lỗi trong quá trình thiết lập yêu cầu:", error.message);
+  //     }
+  //   }
+  // };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <NavBar />

@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
+
 const PaymentPage = () => {
   return (
     <div>

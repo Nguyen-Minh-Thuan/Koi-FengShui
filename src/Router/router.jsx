@@ -16,6 +16,7 @@ import RegisterForm from "../Page/Authen/RegisterForm";
 import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
 import AdminPage from "../Page/AdminPage";
+import PaymentPage from "../Page/PaymentPage";
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -24,8 +25,8 @@ const AppRouter = () => {
         <Route path="/about" element={<AdsCard />} />
         <Route path="/user/profile" element={<UserProfilePage />} />
         <Route path="/user/ads/list" element={<UserAdsList />} />
-        <Route path="/ads/product/:id" element={<AdsDetailPage/>} />
-        <Route path="/blog" element={<BlogPage/>} />
+        <Route path="/ads/product/:id" element={<AdsDetailPage />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
         <Route path="/ads/product" element={<AdsPage />} />
         <Route path="/ads/create" element={<CreateAdsPages />} />
@@ -33,8 +34,12 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />
-        <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
-        <Route path="/admin/manage" element={<AdminPage/>} />
+        <Route
+          path="/fengshui/point/result"
+          element={<FengshuiPointResult />}
+        />
+        <Route path="/admin/manage" element={<AdminPage />} />
+        <Route path="/ads/create/package/payment" element={<PaymentPage />} />
 
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
