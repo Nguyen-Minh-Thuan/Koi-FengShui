@@ -17,6 +17,7 @@ import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
 import AdminPage from "../Page/AdminPage";
 import PaymentPage from "../Page/PaymentPage";
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
