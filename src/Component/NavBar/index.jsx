@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/Logo/Logo_Header.png";
 import search from "../../assets/Icon/Search.png";
 import Login from "../../assets/Icon/Login.png";
 
 const NavBar = () => {
+  const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false); 
+  const menuRef = useRef(null); 
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user'); 
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); 
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null); 
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+ 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
   return (
-    <>
+    <nav>
       <div className="border-b-2 bg-white w-full fixed z-10">
         <div className="justify-items-start">
           <div className="pt-4 flex items-start justify-around ">
@@ -27,11 +61,32 @@ const NavBar = () => {
             <Link to="/" className="flex items-start">
               <img src={logo} alt="logo" className="h-12" />
             </Link>
-            <div className='flex items-center justify-start'>
-                 
-              <Link to="/"><img src={Login} alt='Login' className='ms-8 h-10'/></Link>
-              <Link to="/login">Đăng nhập/ </Link>
-              <Link to="/register">Đăng ký</Link>
+            <div className='flex items-center justify-start' onClick={toggleMenu}>
+              {user ? ( 
+                <>
+                  <div className="relative" ref={menuRef}> 
+                    <Link >
+                      <img src={Login} alt='Login' className='ms-8 h-10' />
+                    </Link>
+                    {menuOpen && ( 
+                      <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
+                        <Link to="/user/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Hồ sơ cá nhân</Link>
+                        <Link to="/user/ads/list" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Quảng cáo của tôi</Link>
+                        <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
+                      </div>
+                    )}
+                  </div>
+                  <Link>
+                  <span>{user.userName}</span> 
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/"><img src={Login} alt='Login' className='ms-8 h-10'/></Link>
+                  <Link to="/login">Đăng nhập/ </Link>
+                  <Link to="/register">Đăng ký</Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -45,7 +100,7 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="h-[113px]"></div>
-    </>
+    </nav>
   );
 };
 
