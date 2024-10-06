@@ -24,7 +24,7 @@ const AppRouter = () => {
   const storageUser = localStorage.getItem("user"); 
   const user = storageUser ? JSON.parse(storageUser) : null; 
   const role = user ? user.role : null; 
-console.log(role)
+  
   return (
     <BrowserRouter>
       <Routes>

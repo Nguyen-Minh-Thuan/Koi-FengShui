@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'; 
+import { useParams } from 'react-router-dom'; 
 import NavBar from '../../Component/NavBar';
 import Footer from '../../Component/Footer';
-import AdsCard from '../../Component/AdsCard';  // Thêm import này
+import AdsCard from '../../Component/AdsCard';  
 
 const AdsDetailPage = () => {
+  const { id } = useParams(); 
+  const [ad, setAd] = useState(null); 
+  useEffect(() => {
+    const fetchAd = async () => {
+      const response = await fetch(`https://localhost:7275/api/Advertisement/GetAdsById?id=${id}`); // Sử dụng adsId
+      const addata = await response.json();
+      const ad = addata.data
+      setAd(ad);
+    };
+
+    fetchAd();
+  }, [id]); 
+
+  if (!ad) {
+    return <div>ad not found</div>; 
+  }
   return (
     <>
     <NavBar/>
     <div className="max-w-5xl mx-auto p-4 font-sans mt-10" >
       <div className="flex flex-col md:flex-row gap-8 mb-12">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwN6z53dqmjeQ4Ko9rI_XbltrP3YUMX3Nigg&s" alt="Koi Benigoi" className="w-full md:w-[300px] h-[450px] object-contain" />
+            <img src={ad.imageUrl} alt={ad.title} className="w-full md:w-[300px] h-[450px] object-contain" />
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Koi Yamabuki Ogon size 10 - 65 cm</h1>
-          <p className="text-gray-600 mb-4">
-            Cá chép koi Benigoi sẽ tạo nên một điểm nhấn thú vị trong hồ koi của bạn. Với màu sắc đỏ chót, Benigoi tựa như một "khối cầu lửa" di chuyển linh hoạt thu hút mọi ánh nhìn trong hồ koi. Hiện chúng tôi cung cấp: Benigoi nhập khẩu từ Nhật, F1, Việt.
-          </p>
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">{ad.title}</h1>
+          <p className="text-gray-600 mb-4">{ad.content}</p>
           <ul className="list-disc list-inside text-gray-600 mb-4">
             <li>Giá trị đơn hàng từ 1 triệu 5 tặng kèm 1 chai vi sinh (không hợp nhất với combo khác).</li>
             <li>Mua 10 tặng 1, tặng kèm 1 chai vi sinh cao cấp 800ml.</li>
@@ -23,8 +38,8 @@ const AdsDetailPage = () => {
           <p className="text-gray-600">Liên hệ: 0987654321</p>
           <p className="text-gray-600 mb-4">Mail: example@gmail.com</p>
           <div className="space-x-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Loại: Cá Koi</span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Danh mục: Mệnh kim, Màu vàng</span>
+            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Loại: {ad.adsType}</span>
+            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Danh mục: {ad.elementId}</span>
           </div>
         </div>
       </div>
@@ -52,6 +67,15 @@ const AdsDetailPage = () => {
     <Footer/>
     </>
   );
+};
+
+const getProductById = (id) => {
+  const products = [
+    { id: '1', name: "Cá koi Benigoi", image: "/path/to/koi-benigoi-1.jpg", description: "Mô tả sản phẩm 1" },
+    { id: '2', name: "Koi Yamabuki Ogon", image: "/path/to/koi-yamabuki-ogon.jpg", description: "Mô tả sản phẩm 2" },
+    { id: '3', name: "Cá koi Benigoi", image: "/path/to/koi-benigoi-2.jpg", description: "Mô tả sản phẩm 3" },
+  ];
+  return products.find(product => product.id === id) || {};
 };
 
 export default AdsDetailPage;
