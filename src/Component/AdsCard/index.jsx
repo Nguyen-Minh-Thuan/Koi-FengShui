@@ -1,12 +1,12 @@
 import React from 'react'
 import Content from '../AdsList/'
 
-const AdsCard = ({ image, title, description, link }) => {
+const AdsCard = ({ imageUrl, title, content, link }) => {
     return (
       <div className="bg-white rounded-lg shadow-md overflow-hidden flex h-[180px] w-[280px]">
           <div className="w-1/3 min-w-[66px] p-2">
               <img 
-                src={image} 
+                src={imageUrl} 
                 alt={title} 
                 className="w-full h-full object-cover rounded"
               />
@@ -19,7 +19,7 @@ const AdsCard = ({ image, title, description, link }) => {
                 WebkitLineClamp: 'none',
                 textOverflow: 'ellipsis'
               }}>
-                  {description}
+                  {content}
               </p>
               <a href={link} className="text-purple-600 font-bold text-xs hover:underline self-end mt-auto">
                   Chi tiết&gt;&gt;
