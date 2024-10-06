@@ -1,13 +1,47 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/Logo/FengShuiKoi_Logo.jpg";
 import search from "../../assets/Icon/Search.png";
 import Login from "../../assets/Icon/Login.png";
 
 const NavBar = () => {
+  const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false); 
+  const menuRef = useRef(null); 
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user'); 
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); 
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null); 
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+ 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
   return (
-    <>
-      <div className="shadow-md bg-white w-full fixed z-10">
+    <nav>
+      <div className="border-b-2 bg-white w-full fixed z-10">
         <div className="justify-items-start">
           <div className="pt-4 flex items-start justify-around ">
             <div className="flex items-start -ms-28">
@@ -27,12 +61,33 @@ const NavBar = () => {
               <img src={logo} alt="logo" className="h-12 rounded-[100%]" />
               <div className="h-full text-3xl font-serif font-medium">Feng Shui Koi</div>
             </Link>
+            <div className='flex items-center justify-start' onClick={toggleMenu}>
+              {user ? ( 
+                <>
+                  <div className="relative" ref={menuRef}> 
+                    <Link >
+                      <img src={Login} alt='Login' className='ms-8 h-10' />
+                    </Link>
+                    {menuOpen && ( 
+                      <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
+                        <Link to="/user/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Hồ sơ cá nhân</Link>
+                        <Link to="/user/ads/list" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Quảng cáo của tôi</Link>
+                        <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
+                      </div>
+                    )}
+                  </div>
+                  <Link>
+                  <span>{user.userName}</span> 
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/"><img src={Login} alt='Login' className='ms-8 h-10'/></Link>
+                  <Link to="/login">Đăng nhập/ </Link>
+                  <Link to="/register">Đăng ký</Link>
+                </>
+              )}
 
-            <div className='flex items-center justify-start'>
-              {/* <Link to="/"><img src={Login} alt='Login' className='ms-8 h-10'/></Link> */}
-              <Link to="/register" className="border-2 border-black rounded-md px-2 py-2 h-120 font">Đăng ký</Link>
-              <Link 
-                to="/login" className="ml-4 bg-black border-2 border-black rounded-md px-1 py-2 h-120 text-white ">Đăng nhập</Link>
             </div>
 
           </div>
@@ -46,8 +101,9 @@ const NavBar = () => {
           <li className='px-8 duration-200 ease-in-out active:scale-110'><Link to="/">Fengshui Koi</Link></li>
         </ul>
       </div>
-      <div className="h-[105px]"></div>
-    </>
+      <div className="h-[113px]"></div>
+    </nav>
+
   );
 };
 
