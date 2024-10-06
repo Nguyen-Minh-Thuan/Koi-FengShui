@@ -17,6 +17,8 @@ import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
 import AdminPage from "../Page/AdminPage";
 import AccessDenied from "../Component/AccessDenied";
+import PaymentPage from "../Page/PaymentPage";
+
 
 const AppRouter = () => {
   const storageUser = localStorage.getItem("user"); 
@@ -28,6 +30,7 @@ console.log(role)
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AdsCard />} />
+
         <Route path="/user/profile" element={role ? <UserProfilePage /> : <Navigate to="/login" />} />
         <Route path="/user/ads/list" element={role ? <UserAdsList /> : <Navigate to="/login" />} />
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
@@ -41,6 +44,10 @@ console.log(role)
         <Route path="/fengshui" element={<FengshuiPage />} />
         <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
         <Route path="/admin/manage" element={role === 1 ? <AdminPage /> : <AccessDenied/>} />
+        <Route path="/ads/create/package/payment" element={<PaymentPage />} />
+
+        {/* <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} /> */}
       </Routes>
     </BrowserRouter>
   );
