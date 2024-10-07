@@ -249,3 +249,95 @@ const AdsPackagePage = () => {
 };
 
 export default AdsPackagePage;
+
+// import React, { useState, useEffect, useCallback, useReducer } from "react";
+// import axios from "axios";
+// import NavBar from "../../Component/NavBar";
+// import Footer from "../../Component/Footer";
+// import { Link, useNavigate } from "react-router-dom";
+
+// const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+
+// const initialState = {
+//   adType: "",
+//   startTime: "",
+//   duration: null,
+//   quantity: 0,
+// };
+
+// const formReducer = (state, action) => {
+//   switch (action.type) {
+//     case "SET_FIELD":
+//       return { ...state, [action.field]: action.value };
+//     default:
+//       return state;
+//   }
+// };
+
+// const AdsPackagePage = () => {
+//   const [formData, dispatch] = useReducer(formReducer, initialState);
+//   const [fee, setFee] = useState(0);
+//   const [pricingData, setPricingData] = useState({});
+//   const [durations, setDurations] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchOptions = async () => {
+//       try {
+//         setLoading(true);
+//         setError(null);
+//         const [priceResponse, durationsResponse] = await Promise.all([
+//           axios.get("URL_API_PRICE"), // Thay bằng endpoint thực tế của bạn
+//           axios.get("URL_API_DURATION"), // Thay bằng endpoint thực tế của bạn
+//         ]);
+
+//         setPricingData(priceResponse.data);
+//         setDurations(durationsResponse.data);
+//       } catch (error) {
+//         console.error("Lỗi khi gọi API:", error);
+//         setError("Không thể tải dữ liệu gói quảng cáo. Vui lòng thử lại sau.");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchOptions();
+//   }, []);
+
+//   if (loading) {
+//     return <div className="text-center">Đang tải dữ liệu...</div>;
+//   }
+
+//   if (error) {
+//     return <div className="text-center text-red-500">{error}</div>;
+//   }
+
+//   const handleAdTypeChange = (type) => {
+//     dispatch({ type: "SET_FIELD", field: "adType", value: type });
+//     setFee(pricingData[type] || 0);
+//   };
+
+//   const updateStartTime = (date, time) => {
+//     dispatch({ type: "SET_FIELD", field: "startTime", value: `${date}T${time}` });
+//   };
+
+//   const handleDateChange = (e) =>
+//     updateStartTime(e.target.value, formData.startTime.split("T")[1]);
+
+//   const handleTimeChange = (e) =>
+//     updateStartTime(formData.startTime.split("T")[0], e.target.value);
+
+//   const handleQuantityChange = (e) => {
+//     dispatch({ type: "SET_FIELD", field: "quantity", value: Number(e.target.value) });
+//   };
+
+//   const calculateTotal = (days) => {
+//     const discount = days === 15 ? 0.9 : days === 30 ? 0.8 : 1;
+//     return fee * days * formData.quantity * discount;
+//   };
+
+//   const handleSubmit = () => {
+//     console.log("Cấu hình tin đăng:", formData);
+//     navigate("/ads/create/package/payment");
+//   };

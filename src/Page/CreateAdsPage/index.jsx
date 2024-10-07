@@ -13,6 +13,15 @@ const nguHanhOptions = [
   { value: "tho", label: "Thổ" },
 ];
 
+const colorOptions = [
+  { value: "", label: "--Chọn màu sắc--" },
+  { value: "red", label: "Đỏ" },
+  { value: "blue", label: "Xanh dương" },
+  { value: "green", label: "Xanh lá" },
+  { value: "yellow", label: "Vàng" },
+  { value: "black", label: "Đen" },
+];
+
 const FormField = ({
   label,
   type = "text",
@@ -58,11 +67,13 @@ export default function CreateAdsPage() {
     title: "",
     productType: "",
     menhNguHanh: "",
+    color: "",
     description: "",
     image: null,
   });
 
   const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
 
   const handleChange = useCallback((e) => {
@@ -81,6 +92,7 @@ export default function CreateAdsPage() {
       newErrors.productType = "Vui lòng điền loại sản phẩm.";
     if (!formData.menhNguHanh)
       newErrors.menhNguHanh = "Vui lòng chọn mệnh ngũ hành.";
+    if (!formData.color) newErrors.color = "Vui lòng chọn màu sắc.";
     if (!formData.description) newErrors.description = "Vui lòng nhập mô tả.";
     if (!formData.image) newErrors.image = "Vui lòng tải hình ảnh.";
     setErrors(newErrors);
@@ -207,6 +219,28 @@ export default function CreateAdsPage() {
                     </span>
                   )}
                 </div>
+                <div>
+                  <label className="block text-sm font-medium text-black">
+                    Màu sắc
+                  </label>
+                  <select
+                    name="color"
+                    value={formData.color}
+                    onChange={handleChange}
+                    className={`w-full p-2 border ${
+                      errors.color ? "border-red-500" : "border-gray-300"
+                    } rounded-md`}
+                  >
+                    {colorOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.color && (
+                    <span className="text-red-500 text-sm">{errors.color}</span>
+                  )}
+                </div>
               </div>
               <FormField
                 label="Mô tả"
@@ -256,3 +290,100 @@ export default function CreateAdsPage() {
     </div>
   );
 }
+
+// import React, { useState, useEffect, useCallback } from "react";
+// import axios from "axios";
+// import NavBar from "../../Component/NavBar";
+// import Footer from "../../Component/Footer";
+// import { Link, useNavigate } from "react-router-dom";
+
+// export default function CreateAdsPage() {
+//   const [formData, setFormData] = useState({
+//     title: "",
+//     productType: "",
+//     menhNguHanh: "",
+//     color: "",
+//     description: "",
+//     image: null,
+//   });
+//   const [errors, setErrors] = useState({});
+//   const [colorOptions, setColorOptions] = useState([]);
+//   const [nguHanhOptions, setNguHanhOptions] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchOptions = async () => {
+//       try {
+//         setLoading(true);
+//         setError(null);
+//         const [colorsResponse, nguHanhResponse] = await Promise.all([
+//           axios.get("URL_API_COLORS"),
+//           axios.get("URL_API_MENH"),
+//         ]);
+
+//         setColorOptions(colorsResponse.data);
+//         setNguHanhOptions(nguHanhResponse.data);
+//       } catch (error) {
+//         console.error("Lỗi khi gọi API:", error);
+//         setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchOptions();
+//   }, []);
+
+//   if (loading) {
+//     return <div className="text-center">Đang tải dữ liệu...</div>;
+//   }
+
+//   if (error) {
+//     return <div className="text-center text-red-500">{error}</div>;
+//   }
+
+//   const handleChange = useCallback((e) => {
+//     const { name, value, type, files } = e.target;
+//     setFormData((prev) => ({
+//       ...prev,
+//       [name]: type === "file" ? files[0] : value,
+//     }));
+//     setErrors((prev) => ({ ...prev, [name]: "" }));
+//   }, []);
+
+//   const validateForm = () => {
+//     const newErrors = {};
+//     if (!formData.title) newErrors.title = "Vui lòng điền tiêu đề.";
+//     if (!formData.productType) newErrors.productType = "Vui lòng điền loại sản phẩm.";
+//     if (!formData.menhNguHanh) newErrors.menhNguHanh = "Vui lòng chọn mệnh ngũ hành.";
+//     if (!formData.color) newErrors.color = "Vui lòng chọn màu sắc.";
+//     if (!formData.description) newErrors.description = "Vui lòng nhập mô tả.";
+//     if (!formData.image) newErrors.image = "Vui lòng tải hình ảnh.";
+//     setErrors(newErrors);
+//     return Object.keys(newErrors).length === 0;
+//   };
+
+//   const handleNext = (e) => {
+//     if (!validateForm()) {
+//       e.preventDefault();
+//       return;
+//     }
+//     console.log("Thông tin quảng cáo:", formData);
+//     navigate("/ads/create/package");
+//   };
+
+//   const renderImagePreview = () =>
+//     formData.image ? (
+//       <img
+//         src={URL.createObjectURL(formData.image)}
+//         alt="Uploaded preview"
+//         className="w-full h-full object-cover rounded-lg"
+//       />
+//     ) : (
+//       <>
+//         <img src="https://img.icons8.com/color/200/file.png" alt="Upload icon" className="h-16 w-16" />
+//         <span className="mt-2 text-base text-gray-600">Kéo và Thả, Tải lên hoặc Dán hình ảnh</span>
+//       </>
+//     );
