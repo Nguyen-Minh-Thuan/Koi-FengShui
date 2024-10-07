@@ -33,7 +33,7 @@ const Footer = () => {
             <ul>
               <li><Link to="/ads/create" className='hover:underline'>Đăng kí quảng cáo sản phẩm</Link></li>
               <li><Link to="/" className='hover:underline'>Hỗ trợ</Link></li>
-              <li><Link to="/" className='hover:underline'>Trợ giúp</Link></li>
+              <li><Link to="/admin" className='hover:underline'>Trợ giúp</Link></li>
             </ul>
           </div>
         </div>

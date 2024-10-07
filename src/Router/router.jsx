@@ -15,9 +15,11 @@ import LoginForm from "../Page/Authen/LoginForm";
 import RegisterForm from "../Page/Authen/RegisterForm";
 import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
-import AdminPage from "../Page/AdminPage";
 import AccessDenied from "../Component/AccessDenied";
 import PaymentPage from "../Page/PaymentPage";
+import AdminPage from "../Page/AdminPage/WebManagement/AccountList";
+import AdsList from "../Page/AdminPage/WebManagement/AdsList"
+import AccountList from '../Page/AdminPage/WebManagement/AccountList'
 
 
 const AppRouter = () => {
@@ -44,6 +46,12 @@ const AppRouter = () => {
         <Route path="/fengshui" element={<FengshuiPage />} />
         <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
         <Route path="/admin/manage" element={role === 1 ? <AdminPage /> : <AccessDenied/>} />
+        <Route path="/ads/create/package/payment" element={<PaymentPage />} />
+
+        <Route path="/admin" element={<AdminPage />}/>
+        <Route path="/admin/adslist" element={<AdsList />} />
+        <Route path="/admin/accountlist" element={<AccountList />} />
+
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
 
         {/* <Route path="/about" element={<About />} />

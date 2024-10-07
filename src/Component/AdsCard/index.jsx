@@ -1,5 +1,5 @@
 import React from 'react'
-import Content from '../AdsList/'
+import Content from '../../Page/AdminPage/WebManagement/AdsList'
 
 const AdsCard = ({ imageUrl, title, content, link }) => {
     return (
