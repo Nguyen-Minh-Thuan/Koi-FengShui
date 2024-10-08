@@ -124,7 +124,7 @@ const FengshuiPoint = () => {
 
     
     if (result && result.status) {
-        navigate('/fengshui/point/result', { state: { koiPoint: result.data.koiPoint, totalPoint: result.data.totalPoint } });
+        navigate('/fengshui/point/result', { state: { koiPoint: result.data.koiPoint, totalPoint: result.data.totalPoint, element: result.data.element, direction: result.data.direction } });
     }
   };
 
