@@ -1,13 +1,11 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import NavBar from '../../../../Component/NavBar';
 import Footer from '../../../../Component/Footer';
 
 const FengshuiPointResult = () => {
-  const koiCards = [
-    { name: "Koi Showa", colors: "(đỏ - trắng - đen)", points: 20, image: "https://visinhcakoi.com/wp-content/uploads/2021/07/ca-koi-showa-2-600x874-1.jpg" },
-    { name: "Koi Kohaku", colors: "(đỏ - trắng)", points: 15, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyp88KyFQt1zED0aMjZDJ0WIYH-Kz6kJnUqw&s" },
-    { name: "Koi Sanke", colors: "(đỏ - trắng - đen)", points: 18, image: "https://microinfluencer.vn/wp-content/uploads/2024/01/sanke__maruten.jpg" },
-  ];
+  const location = useLocation(); 
+  const { koiPoint, totalPoint } = location.state || { koiPoint: [], totalPoint: 0 };
 
   return (
     <>
@@ -61,22 +59,29 @@ const FengshuiPointResult = () => {
       <div className="flex flex-wrap mb-6">
         <div className="w-2/3 pr-4">
           <div className="grid grid-cols-2 gap-4">
-            {koiCards.map((koi, index) => (
+            {koiPoint.map((koi, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="flex">
                   <div className="w-[100px] h-[170px] flex-shrink-0">
                     <img 
-                      src={koi.image}
-                      alt={koi.name} 
+                      src={koi.imageUrl || 'default_image_url'} 
+                      alt={koi.patternName} 
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="p-4 flex flex-col justify-between">
                     <div>
-                      <h2 className="text-xl font-semibold">{koi.name}</h2>
-                      <p className="text-gray-600">{koi.colors}</p>
+                      <h2 className="text-xl font-semibold">{koi.patternName}</h2>
+                      <p className="text-gray-600">
+                        {koi.patternColors.map((color, colorIndex) => (
+                          <span key={colorIndex}>
+                            {color.colorName || 'Màu không xác định'} 
+                            {colorIndex < koi.patternColors.length - 1 ? ', ' : ''}
+                          </span>
+                        ))}
+                      </p>
                     </div>
-                    <p className="text-lg">Điểm: <span className="font-semibold">{koi.points}</span></p>
+                    <p className="text-lg">Điểm: <span className="font-semibold">{koi.patternPoint} / 7</span></p>
                   </div>
                 </div>
               </div>
@@ -86,9 +91,8 @@ const FengshuiPointResult = () => {
         
         <div className="w-1/3 pl-4">
           <div className="bg-gray-100 p-4 rounded-lg h-full">
-            <p className="text-xl font-semibold mb-2">Tổng điểm: 53</p>
-            <p className="mb-2">Không quá tốt, cũng không quá tệ</p>
-            <p>Nếu có thể, hãy thay thế những loại cá Koi có ít hoặc không có màu đỏ/ hồng (tương khắc) để tăng mức độ tương thích</p>
+            <p className="text-xl font-semibold mb-2">Tổng điểm: {totalPoint} / 7</p>
+            
           </div>
         </div>
       </div>
