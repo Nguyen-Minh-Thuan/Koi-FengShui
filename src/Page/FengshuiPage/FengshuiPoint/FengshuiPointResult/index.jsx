@@ -81,7 +81,7 @@ const FengshuiPointResult = () => {
                         ))}
                       </p>
                     </div>
-                    <p className="text-lg">Điểm: <span className="font-semibold">{koi.patternPoint} / 7</span></p>
+                    <p className="text-lg">Điểm: <span className="font-semibold">{Math.round(koi.patternPoint * 100) / 100} / 10</span></p>
                   </div>
                 </div>
               </div>
@@ -91,7 +91,7 @@ const FengshuiPointResult = () => {
         
         <div className="w-1/3 pl-4">
           <div className="bg-gray-100 p-4 rounded-lg h-full">
-            <p className="text-xl font-semibold mb-2">Tổng điểm: {totalPoint} / 7</p>
+            <p className="text-xl font-semibold mb-2">Tổng điểm: {Math.round(totalPoint * 100) / 100} / 10</p>
             
           </div>
         </div>

@@ -20,7 +20,7 @@ const AdminNavbar = () => {
           {WebListOpen && (
             <ul className='flex flex-col' style={{color:'#484848'}}>
               <li className='w-full h-[40px] px-8 py-2 border-t-2'>
-                <Link to='/account'>Account</Link>
+                <Link to='/admin/accountlist'>Account</Link>
               </li>
               <li className='w-full h-[40px] px-8 py-2 border-t-2'>
                 <Link to='/package'>Package</Link>
@@ -29,7 +29,7 @@ const AdminNavbar = () => {
                 <Link to='/blog'>Blog</Link>
               </li>
               <li className='w-full h-[40px] px-8 py-2 border-t-2'>
-                <Link to='/advertise'>Advertise</Link>
+                <Link to='/admin/adslist'>Advertise</Link>
               </li>
             </ul>
           )}
