@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FengshuiGenerate = () => {
+  const navigate = useNavigate();
   const [gender, setGender] = useState('');
   const [birthdate, setBirthdate] = useState('');
-  const [result, setResult] = useState(null); // State để lưu trữ kết quả
+  const [result, setResult] = useState(null); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,13 +15,18 @@ const FengshuiGenerate = () => {
       const response = await fetch(apiUrl);
       if (response.ok) {
         const data = await response.json();
-        setResult(data); // Lưu trữ kết quả vào state
-        console.log(data); // Log kết quả ra console
+        setResult(data); 
+        console.log('Dữ liệu nhận được từ API:', data);
+
+        navigate('/fengshui/pond/result', { state: { 
+          recQuantity: data.data.recQuantity, 
+          variety: data.data.variety 
+        }}); 
       } else {
-        console.error('Có lỗi xảy ra khi gọi API');
+        console.error('Network response was not ok', response.status); 
       }
     } catch (error) {
-      console.error('Lỗi mạng:', error);
+      console.error('There was a problem with the fetch operation:', error);
     }
   };
 

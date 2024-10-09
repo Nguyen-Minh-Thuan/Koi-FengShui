@@ -105,37 +105,20 @@ const FengshuiPoint = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    
     const { pondShape, pondDir } = formData; 
-    
-    
-    console.log('Pond Shape:', pondShape);
-    console.log('Pond Direction:', pondDir);
-    
-    
     const formattedBirthday = birthDate ? `${birthDate.getMonth() + 1}/${birthDate.getDate()}/${birthDate.getFullYear()}` : '';
-    
-    
     const selectedPatterns = selectedFishVarieties.map(variety => variety.patternId);
-    
-    
     const result = await sendPointingData(formattedBirthday, gender, pondShape, pondDir, selectedPatterns); // Sử dụng các giá trị đã chọn
-
     
     if (result && result.status) {
         navigate('/fengshui/point/result', { state: { koiPoint: result.data.koiPoint, totalPoint: result.data.totalPoint, element: result.data.element, direction: result.data.direction } });
     }
   };
-
   
   const apiUrl = 'https://localhost:7275/api/FengShui/Pointing';
-
   
   async function sendPointingData(birthday, gender, shapeId, dirId, selectedPatterns) {
     const data = selectedPatterns.map(patternId => ({ patternId })); 
-
-   
     const [month, day, year] = birthday.split('/'); 
     const birthMonth = month;
     const birthDay = day;
