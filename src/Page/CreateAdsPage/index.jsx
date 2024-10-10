@@ -34,6 +34,7 @@ export default function CreateAdsPage() {
   const [nguHanhOptions, setNguHanhOptions] = useState([]);
   const [colorOptions, setColorOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
+  const [imageURL, setImageURL] = useState(null);
 
   const navigate = useNavigate();
 
@@ -100,25 +101,31 @@ export default function CreateAdsPage() {
     fetchProductTypeOptions();
   }, []);
 
-  const handleChange = useCallback((e) => {
-    const { name, value, type, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "file" ? files[0] : value,
-    }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  }, []);
+  const handleChange = useCallback(
+    (e) => {
+      const { name, value, type, files } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "file" ? files[0] : value,
+      }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    },
+    [],
+    [imageURL]
+  );
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title) newErrors.title = "Vui lòng điền tiêu đề.";
-    if (!formData.productType)
-      newErrors.productType = "Vui lòng chọn loại sản phẩm.";
+    if (!formData.adsTypeId)
+      newErrors.adsTypeId = "Vui lòng chọn loại sản phẩm.";
     if (!formData.elementId)
-      newErrors.menhNguHanh = "Vui lòng chọn mệnh ngũ hành.";
-    if (!formData.color) newErrors.color = "Vui lòng chọn màu sắc.";
-    if (!formData.description) newErrors.description = "Vui lòng nhập mô tả.";
-    if (!formData.image) newErrors.image = "Vui lòng tải hình ảnh.";
+      newErrors.elementId = "Vui lòng chọn mệnh ngũ hành.";
+    if (!formData.colorId) newErrors.colorId = "Vui lòng chọn màu sắc.";
+    if (!formData.content) newErrors.content = "Vui lòng nhập mô tả.";
+    if (!formData.image && !formData.imageUrl) {
+      newErrors.imageUrl = "Vui lòng tải hình ảnh.";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -137,21 +144,24 @@ export default function CreateAdsPage() {
       };
     } catch (error) {
       console.error("Lỗi khi tải ảnh lên Firebase:", error);
-      throw error; // Ném lỗi để xử lý sau
+      throw error;
     }
   };
+
+  if (imageURL) {
+    setFormData((prev) => ({ ...prev, imageUrl: imageURL }));
+  }
 
   const handleNext = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     try {
-      // Tải hình ảnh lên Firebase
       const { name, url } = await uploadImageToFirebase(formData.image);
-      setFormData((prev) => ({ ...prev, image: { name, url } }));
+      setImageURL(url);
 
-      console.log("Dữ liệu đã được gửi thành công!");
-      navigate("/ads/create/package"); // Chuyển hướng đến trang tiếp theo
+      console.log("Thông tin quảng cáo (save):", formData);
+      navigate("/ads/create/package");
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
       alert("Có lỗi xảy ra khi tải lên hình ảnh. Vui lòng kiểm tra lại.");
@@ -165,7 +175,7 @@ export default function CreateAdsPage() {
     }
     try {
       const { name, url } = await uploadImageToFirebase(formData.image);
-      setFormData((prev) => ({ ...prev, image: { name, url } }));
+      setFormData((prev) => ({ ...prev, imageUrl: url }));
 
       console.log("Thông tin quảng cáo (save):", formData);
       navigate("/");
@@ -176,11 +186,18 @@ export default function CreateAdsPage() {
   };
 
   const renderImagePreview = () => {
-    // Kiểm tra nếu formData.image là một đối tượng Blob
-    if (formData.image && formData.image instanceof Blob) {
+    if (formData.image && formData.image instanceof File) {
       return (
         <img
           src={URL.createObjectURL(formData.image)}
+          alt="Uploaded preview"
+          className="w-full h-full object-cover rounded-lg"
+        />
+      );
+    } else if (formData.imageUrl && formData.imageUrl.url) {
+      return (
+        <img
+          src={formData.imageUrl.url}
           alt="Uploaded preview"
           className="w-full h-full object-cover rounded-lg"
         />
@@ -236,11 +253,11 @@ export default function CreateAdsPage() {
                     Loại sản phẩm
                   </label>
                   <select
-                    name="productType"
-                    value={formData.productType}
+                    name="adsTypeId"
+                    value={formData.adsTypeId}
                     onChange={handleChange}
                     className={`w-full p-2 border ${
-                      errors.productType ? "border-red-500" : "border-gray-300"
+                      errors.adsTypeId ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
                   >
                     <option value="">--Chọn loại sản phẩm--</option>
@@ -251,9 +268,9 @@ export default function CreateAdsPage() {
                     ))}
                   </select>
 
-                  {errors.productType && (
+                  {errors.adsTypeId && (
                     <span className="text-red-500 text-sm">
-                      {errors.productType}
+                      {errors.adsTypeId}
                     </span>
                   )}
                 </div>
@@ -267,7 +284,7 @@ export default function CreateAdsPage() {
                     value={formData.elementId}
                     onChange={handleChange}
                     className={`w-full p-2 border ${
-                      errors.menhNguHanh ? "border-red-500" : "border-gray-300"
+                      errors.elementId ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
                   >
                     <option value="">--Chọn mệnh--</option>
@@ -277,9 +294,9 @@ export default function CreateAdsPage() {
                       </option>
                     ))}
                   </select>
-                  {errors.menhNguHanh && (
+                  {errors.elementId && (
                     <span className="text-red-500 text-sm">
-                      {errors.menhNguHanh}
+                      {errors.elementId}
                     </span>
                   )}
                 </div>
@@ -314,8 +331,10 @@ export default function CreateAdsPage() {
                     ))}
                   </select>
 
-                  {errors.color && (
-                    <span className="text-red-500 text-sm">{errors.color}</span>
+                  {errors.colorId && (
+                    <span className="text-red-500 text-sm">
+                      {errors.colorId}
+                    </span>
                   )}
                 </div>
               </div>
@@ -325,19 +344,17 @@ export default function CreateAdsPage() {
                   Mô tả
                 </label>
                 <textarea
-                  name="description"
-                  value={formData.description}
+                  name="content"
+                  value={formData.content}
                   onChange={handleChange}
                   className={`w-full p-2 border ${
-                    errors.description ? "border-red-500" : "border-gray-300"
+                    errors.content ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
                   placeholder="Nhập mô tả"
                   rows="4"
                 />
-                {errors.description && (
-                  <span className="text-red-500 text-sm">
-                    {errors.description}
-                  </span>
+                {errors.content && (
+                  <span className="text-red-500 text-sm">{errors.content}</span>
                 )}
               </div>
             </div>
@@ -356,8 +373,8 @@ export default function CreateAdsPage() {
                   />
                 </label>
               </div>
-              {errors.image && (
-                <span className="text-red-500 text-sm">{errors.image}</span>
+              {errors.imageUrl && (
+                <span className="text-red-500 text-sm">{errors.imageUrl}</span>
               )}
             </div>
 
