@@ -22,6 +22,14 @@ const FengshuiPointResult = () => {
     "Thổ": "yellow-500" 
   };
 
+  const elementColorsT = {
+    "Hỏa": "bg-red-600", 
+    "Thủy": "bg-blue-600", 
+    "Mộc": "bg-green-600", 
+    "Kim": "bg-gray-300", 
+    "Thổ": "bg-yellow-600" 
+  };
+
   const totalKoiPoint = koiPoint.reduce((acc, koi) => acc + koi.patternPoint, 0);
   const progressWidth = (totalKoiPoint / (koiPoint.length * 10)) * 100; 
 
@@ -54,7 +62,7 @@ const FengshuiPointResult = () => {
       <div className="relative mb-6">
         <div className="h-4 bg-gray-200 rounded-full">
           <div 
-            className={`h-full rounded-full bg-${elementColorsC[element.element1] || 'blue-500'}`} 
+            className={`h-full rounded-full ${elementColorsT[element.element1] || 'blue-500'}`} 
             style={{ width: `${progressWidth}%` }} 
           ></div>
         </div>
@@ -95,7 +103,7 @@ const FengshuiPointResult = () => {
                         ))}
                       </p>
                     </div>
-                    <p className="text-lg">Điểm: <span className="font-semibold">{koi.patternPoint} / 10</span></p>
+                    <p className="text-lg">Điểm: <span className="font-semibold">{koi.patternPoint.toFixed(1)} / 10</span></p>
                   </div>
                 </div>
               </div>
@@ -105,7 +113,7 @@ const FengshuiPointResult = () => {
         
         <div className="w-1/3 pl-4">
           <div className="bg-gray-100 p-4 rounded-lg h-full">
-            <p className="text-xl font-semibold mb-2">Tổng điểm: {totalPoint} / 10</p>
+            <p className="text-xl font-semibold mb-2">Tổng điểm: {totalPoint.toFixed(1)} / 10</p>
             
           </div>
         </div>
@@ -118,7 +126,7 @@ const FengshuiPointResult = () => {
           <div>
             <h3 className="font-semibold">Tương sinh</h3>
             <table className="min-w-full border-collapse border border-gray-200">
-              <thead>
+              <thead className={`${elementColorsT[element.element1]  || 'gray-200'} text-white`}>
                 <tr>
                   <th className="border border-gray-300 p-2">Màu</th>
                   <th className="border border-gray-300 p-2">Điểm</th>
@@ -126,7 +134,7 @@ const FengshuiPointResult = () => {
               </thead>
               <tbody>
                 {t_sinh.map(color => (
-                  <tr key={color.elementColorId} className={`bg-${elementColorsC[element.element1] || 'gray-200'}`}>
+                  <tr key={color.elementColorId} >
                     <td className="border border-gray-300 p-2">{color.color.name}</td>
                     <td className="border border-gray-300 p-2">{color.values || 'Chưa có điểm'}</td>
                   </tr>
@@ -137,7 +145,7 @@ const FengshuiPointResult = () => {
           <div>
             <h3 className="font-semibold">Hòa Hợp</h3>
             <table className="min-w-full border-collapse border border-gray-200">
-              <thead>
+              <thead className={`${elementColorsT[element.element1]  || 'gray-200'} text-white`}>
                 <tr>
                   <th className="border border-gray-300 p-2">Màu</th>
                   <th className="border border-gray-300 p-2">Điểm</th>
@@ -145,7 +153,7 @@ const FengshuiPointResult = () => {
               </thead>
               <tbody>
                 {hoa_hop.map(color => (
-                  <tr key={color.elementColorId} className={`bg-${elementColorsC[element.element1] || 'gray-200'}`}>
+                  <tr key={color.elementColorId} >
                     <td className="border border-gray-300 p-2">{color.color.name}</td>
                     <td className="border border-gray-300 p-2">{color.values || 'Chưa có điểm'}</td>
                   </tr>
@@ -156,7 +164,7 @@ const FengshuiPointResult = () => {
           <div>
             <h3 className="font-semibold">Chế Khắc</h3>
             <table className="min-w-full border-collapse border border-gray-200">
-              <thead>
+              <thead className={`${elementColorsT[element.element1]  || 'gray-200'} text-white`}>
                 <tr>
                   <th className="border border-gray-300 p-2">Màu</th>
                   <th className="border border-gray-300 p-2">Điểm</th>
@@ -164,7 +172,7 @@ const FengshuiPointResult = () => {
               </thead>
               <tbody>
                 {che_khac.map(color => (
-                  <tr key={color.elementColorId} className={`bg-${elementColorsC[element.element1] || 'gray-200'}`}>
+                  <tr key={color.elementColorId} >
                     <td className="border border-gray-300 p-2">{color.color.name}</td>
                     <td className="border border-gray-300 p-2">{color.values || 'Chưa có điểm'}</td>
                   </tr>
@@ -175,7 +183,7 @@ const FengshuiPointResult = () => {
           <div>
             <h3 className="font-semibold">Bị Khắc</h3>
             <table className="min-w-full border-collapse border border-gray-200">
-              <thead>
+              <thead className={`${elementColorsT[element.element1]  || 'gray-200'} text-white`}>
                 <tr>
                   <th className="border border-gray-300 p-2">Màu</th>
                   <th className="border border-gray-300 p-2">Điểm</th>
@@ -183,7 +191,7 @@ const FengshuiPointResult = () => {
               </thead>
               <tbody>
                 {bi_khac.map(color => (
-                  <tr key={color.elementColorId} className={`bg-${elementColorsC[element.element1] || 'gray-200'}`}>
+                  <tr key={color.elementColorId} >
                     <td className="border border-gray-300 p-2">{color.color.name}</td>
                     <td className="border border-gray-300 p-2">{color.values || 'Chưa có điểm'}</td>
                   </tr>

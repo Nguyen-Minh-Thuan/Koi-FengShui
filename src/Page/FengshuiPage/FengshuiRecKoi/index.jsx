@@ -16,9 +16,10 @@ const FengshuiRecKoi = () => {
       if (response.ok) {
         const data = await response.json();
         setResult(data); 
-        console.log('Dữ liệu nhận được từ API:', data);
+        console.log('Dữ liệu nhận được từ API reckoi:', data);
 
-        navigate('/fengshui/pond/result', { state: { 
+        navigate('/fengshui/reckoi/result', { state: { 
+          element: data.data.element,
           recQuantity: data.data.recQuantity, 
           variety: data.data.variety 
         }}); 
