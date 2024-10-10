@@ -1,3 +1,4 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -23,7 +24,6 @@ import AccountList from '../Page/AdminPage/WebManagement/AccountList'
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
 
-
 const AppRouter = () => {
   const storageUser = localStorage.getItem("user"); 
   const user = storageUser ? JSON.parse(storageUser) : null; 
@@ -35,14 +35,14 @@ const AppRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AdsCard />} />
 
-        <Route path="/user/profile" element={role ? <UserProfilePage /> : <Navigate to="/login" />} />
-        <Route path="/user/ads/list" element={role ? <UserAdsList /> : <Navigate to="/login" />} />
+        <Route path="/user/profile" element={<UserProfilePage />} />
+        <Route path="/user/ads/list" element={<UserAdsList /> } />
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
         <Route path="/ads/product" element={<AdsPage />} />
-        <Route path="/ads/create" element={role === 3 ? <CreateAdsPages /> : <Navigate to="/login" />} />
-        <Route path="/ads/create/package" element={role === 3 ? <AdsPackagePage /> : <Navigate to="/login" />} />
+        <Route path="/ads/create" element={ <CreateAdsPages /> } />
+        <Route path="/ads/create/package" element={<AdsPackagePage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />

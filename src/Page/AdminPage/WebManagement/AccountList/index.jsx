@@ -8,6 +8,12 @@ import { Link } from 'react-router-dom';
 const AccountList = () => {
 
   const [account, setAccounts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowPerPage, setRowPerPage] = useState(3);
+
+  const startIndex = (currentPage -1)*rowPerPage;
+  const endIndex = startIndex + rowPerPage;
+  const currentAccount = account.slice(startIndex,endIndex);
 
   const fetchAccounts = async () => {
     try {
@@ -21,6 +27,20 @@ const AccountList = () => {
   useEffect(() => {
     fetchAccounts();
   }, []);
+  
+  const handleNextPage = () =>  {
+    if(currentPage < Math.ceil(account.length / rowPerPage))
+      setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage= () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const handleChangeRowPerPage = (event) => {
+    setRowPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(1);
+  }
 
   return (
     <>
@@ -42,7 +62,7 @@ const AccountList = () => {
                 </tr>
               </thead>
               <tbody className='items-center text-center'>
-                {account.map((account, index) => (
+                {currentAccount.map((account, index) => (
                   <tr key={index}>
                     <td className="p-2">{account.userId}</td>
                     <td className="p-2">{account.userName || 'N/A'}</td> {/* Sử dụng email từ user */}
@@ -60,14 +80,16 @@ const AccountList = () => {
 
             <div className="mt-4 flex justify-between items-center">
               <span>Rows per page: </span>
-              <select className="border p-2">
-                <option>5</option>
-                <option>10</option>
-                <option>20</option>
+              <select className="border p-2" value={rowPerPage} onChange={handleChangeRowPerPage}>
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
               </select>
-              <span>1 – {account.length} of {account.length}</span>
-              <button className="ml-2 px-4 py-2">⪡</button>
-              <button className="ml-2 px-4 py-2">⪢</button>
+              <span>
+                {startIndex + 1}-{endIndex > account.length ? account.length : endIndex} of {account.length}
+              </span>
+              <button onClick={handlePrevPage} className={`ml-2 px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === 1}>⪡</button>
+              <button onClick={handleNextPage} className={`ml-2 px-4 py-2 ${currentPage === Math.ceil(account.length / rowPerPage) ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === Math.ceil(account.length / rowPerPage)}>⪢</button>
             </div>
           </div>
         </div>

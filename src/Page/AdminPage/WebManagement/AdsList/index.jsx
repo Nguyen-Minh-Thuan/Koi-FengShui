@@ -9,6 +9,12 @@ import { useState, useEffect } from 'react';
 
 const Index = () => {
   const [ads, setAds] = useState([]); //tao list
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowPerPage, setRowPerPage] = useState(5);
+
+  const startIndex = (currentPage -1)*rowPerPage;
+  const endIndex = startIndex + rowPerPage;
+  const currentAds = ads.slice(startIndex,endIndex);
 
   const fetchAds = async () => {
     //goi api
@@ -23,6 +29,20 @@ const Index = () => {
   useEffect(() => {
     fetchAds();
   }, []);
+
+  const handleNextPage = () =>  {
+    if(currentPage < Math.ceil(ads.length / rowPerPage))
+      setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage= () => {
+    setCurrentPage(currentPage - 1);
+  }
+
+  const handleChangeRowPerPage = (event) => {
+    setRowPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(1);
+  }
 
   return (
     <>
@@ -55,7 +75,7 @@ const Index = () => {
                 </tr>
               </thead>
               <tbody className='items-center text-center'>
-                {ads.map((ad, index) => (
+                {currentAds.map((ad, index) => (
                   <tr key={index}>
                     <td className="p-2">{ad.title}</td>
                     <td className="p-2">{ad.user?.userName || 'N/A'}</td> {/* Sử dụng email từ user */}
@@ -72,14 +92,14 @@ const Index = () => {
 
             <div className="mt-4 flex justify-between items-center">
               <span>Rows per page: </span>
-              <select className="border p-2">
-                <option>5</option>
-                <option>10</option>
-                <option>20</option>
+              <select className="border p-2" value={rowPerPage} onChange={handleChangeRowPerPage}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
               </select>
-              <span>1 – {ads.length} of {ads.length}</span>
-              <button className="ml-2 px-4 py-2">⪡</button>
-              <button className="ml-2 px-4 py-2">⪢</button>
+              <span>{startIndex + 1}-{endIndex > ads.length ? ads.length : endIndex} of {ads.length}</span>
+              <button onClick={handlePrevPage} className={`ml-2 px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === 1}>⪡</button>
+              <button onClick={handleNextPage} className={`ml-2 px-4 py-2 ${currentPage === Math.ceil(ads.length / rowPerPage) ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === Math.ceil(ads.length / rowPerPage)}>⪢</button>
             </div>
           </div>
         </div>
