@@ -65,10 +65,10 @@ const AccountList = () => {
                 {currentAccount.map((account, index) => (
                   <tr key={index}>
                     <td className="p-2">{account.userId}</td>
-                    <td className="p-2">{account.userName || 'N/A'}</td> {/* Sử dụng email từ user */}
+                    <td className="p-2">{account.userName || 'None'}</td> {/* Sử dụng email từ user */}
                     <td className="p-2">******</td> {/* Định dạng ngày */}
-                    <td className="p-2 text-center">{account.email || 'N/A'}</td> {/* Tên gói từ package */}
-                    <td className="p-2">{account.isActive}</td>
+                    <td className="p-2 text-center">{account.email || 'None'}</td> {/* Tên gói từ package */}
+                    <td className="p-2">{account.isActive === true ? <span>Active</span> : <span>Unavailable</span>}</td>
                     <td className="p-2 ">{account.bio}</td>
                     <td className="p-2">
                       <Link to="#" className="text-blue-500 hover:underline">Details</Link>

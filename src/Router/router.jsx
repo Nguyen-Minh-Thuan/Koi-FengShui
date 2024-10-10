@@ -20,6 +20,8 @@ import PaymentPage from "../Page/PaymentPage";
 import AdminPage from "../Page/AdminPage/WebManagement/AccountList";
 import AdsList from "../Page/AdminPage/WebManagement/AdsList";
 import AccountList from "../Page/AdminPage/WebManagement/AccountList";
+import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
+import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
 
 const AppRouter = () => {
   const storageUser = localStorage.getItem("user");
@@ -46,6 +48,11 @@ const AppRouter = () => {
         <Route
           path="/fengshui/point/result"
           element={<FengshuiPointResult />}
+        />
+        <Route path="/fengshui/pond/result" element={<FengshuiPondResult />} />
+        <Route
+          path="/fengshui/reckoi/result"
+          element={<FengshuiRecKoiResult />}
         />
         <Route
           path="/admin/manage"

@@ -1,30 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const FengshuiGenerate = () => {
+const FengshuiRecKoi = () => {
   const navigate = useNavigate();
   const [gender, setGender] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [result, setResult] = useState(null); 
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formattedBirthdate = new Date(birthdate).toLocaleDateString('en-US');
-    const response = await fetch(`https://localhost:7275/api/FengShui/CalculateDir?birthday=${formattedBirthdate}&gender=${gender}`);
-    const data = await response.json();
-    console.log(data)
-    setResult(data); 
-    navigate('/fengshui/pond/result',
-      { state: { 
-        direction: data.data.direction,
-        pondShape: data.data.pondShape, 
-      }}); 
+    const apiUrl = `https://localhost:7275/api/FengShui/Reckoi?birthday=${encodeURIComponent(birthdate)}&gender=${encodeURIComponent(gender)}`;
+
+    try {
+      const response = await fetch(apiUrl);
+      if (response.ok) {
+        const data = await response.json();
+        setResult(data); 
+        console.log('Dữ liệu nhận được từ API reckoi:', data);
+
+        navigate('/fengshui/reckoi/result', { state: { 
+          element: data.data.element,
+          recQuantity: data.data.recQuantity, 
+          variety: data.data.variety 
+        }}); 
+      } else {
+        console.error('Network response was not ok', response.status); 
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
   };
 
   return (
     <div className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center text-white text-center p-4" style={{backgroundImage: "url('/path/to/night-sky-boat-image.jpg')"}}>
-      <h1 className="text-4xl font-bold mb-4">TRA CỨU HỒ CÁ PHONG THỦY</h1>
+      <h1 className="text-4xl font-bold mb-4">TRA CỨU CÁ KOI PHONG THỦY</h1>
       <p className="max-w-2xl mb-8">
         Mỗi con người sinh ra đều có vận mệnh khác nhau. Để chọn lựa được giống cá và hướng
         hồ phù hợp hãy điền thông tin vào bảng dưới đây, Fengshui Koi sẽ giúp bạn giải mã.
@@ -64,4 +73,4 @@ const FengshuiGenerate = () => {
   );
 };
 
-export default FengshuiGenerate;
+export default FengshuiRecKoi;
