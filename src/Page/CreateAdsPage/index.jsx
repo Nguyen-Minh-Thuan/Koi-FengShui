@@ -76,10 +76,8 @@ export default function CreateAdsPage() {
         const getData = await response.json();
 
         const uniqueTypes = {};
-
         getData.data.forEach((item) => {
           const typeName = item.adsType.typeName;
-
           if (!uniqueTypes[typeName]) {
             uniqueTypes[typeName] = item.adsType.adsTypeId;
           }
@@ -101,18 +99,14 @@ export default function CreateAdsPage() {
     fetchProductTypeOptions();
   }, []);
 
-  const handleChange = useCallback(
-    (e) => {
-      const { name, value, type, files } = e.target;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: type === "file" ? files[0] : value,
-      }));
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    },
-    [],
-    [imageURL]
-  );
+  const handleChange = useCallback((e) => {
+    const { name, value, type, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value,
+    }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  }, []);
 
   const validateForm = () => {
     const newErrors = {};
@@ -123,9 +117,8 @@ export default function CreateAdsPage() {
       newErrors.elementId = "Vui lòng chọn mệnh ngũ hành.";
     if (!formData.colorId) newErrors.colorId = "Vui lòng chọn màu sắc.";
     if (!formData.content) newErrors.content = "Vui lòng nhập mô tả.";
-    if (!formData.image && !formData.imageUrl) {
+    if (!formData.image && !formData.imageUrl)
       newErrors.imageUrl = "Vui lòng tải hình ảnh.";
-    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -148,17 +141,14 @@ export default function CreateAdsPage() {
     }
   };
 
-  if (imageURL) {
-    setFormData((prev) => ({ ...prev, imageUrl: imageURL }));
-  }
-
   const handleNext = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     try {
-      const { name, url } = await uploadImageToFirebase(formData.image);
+      const { url } = await uploadImageToFirebase(formData.image);
       setImageURL(url);
+      setFormData((prev) => ({ ...prev, imageUrl: url }));
 
       console.log("Thông tin quảng cáo (save):", formData);
       navigate("/ads/create/package");
@@ -170,11 +160,10 @@ export default function CreateAdsPage() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
+
     try {
-      const { name, url } = await uploadImageToFirebase(formData.image);
+      const { url } = await uploadImageToFirebase(formData.image);
       setFormData((prev) => ({ ...prev, imageUrl: url }));
 
       console.log("Thông tin quảng cáo (save):", formData);
@@ -194,10 +183,10 @@ export default function CreateAdsPage() {
           className="w-full h-full object-cover rounded-lg"
         />
       );
-    } else if (formData.imageUrl && formData.imageUrl.url) {
+    } else if (formData.imageUrl) {
       return (
         <img
-          src={formData.imageUrl.url}
+          src={formData.imageUrl}
           alt="Uploaded preview"
           className="w-full h-full object-cover rounded-lg"
         />
@@ -267,7 +256,6 @@ export default function CreateAdsPage() {
                       </option>
                     ))}
                   </select>
-
                   {errors.adsTypeId && (
                     <span className="text-red-500 text-sm">
                       {errors.adsTypeId}
@@ -287,10 +275,10 @@ export default function CreateAdsPage() {
                       errors.elementId ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
                   >
-                    <option value="">--Chọn mệnh--</option>
+                    <option value="">--Chọn mệnh ngũ hành--</option>
                     {nguHanhOptions.map((option) => (
                       <option key={option.elementId} value={option.elementId}>
-                        {option.element1}
+                        {option.elementName}
                       </option>
                     ))}
                   </select>
@@ -300,43 +288,30 @@ export default function CreateAdsPage() {
                     </span>
                   )}
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-black">
-                    Màu sắc
-                  </label>
-                  <select
-                    name="colorId"
-                    value={formData.colorId}
-                    onChange={(e) => {
-                      const selectedColorId = e.target.value;
-                      const selectedColorName =
-                        e.target.options[e.target.selectedIndex].text;
-
-                      setFormData((prev) => ({
-                        ...prev,
-                        colorId: selectedColorId,
-                        color: selectedColorName,
-                      }));
-                    }}
-                    className={`w-full p-2 border ${
-                      errors.colorId ? "border-red-500" : "border-gray-300"
-                    } rounded-md`}
-                  >
-                    <option value="">--Chọn màu sắc--</option>
-                    {colorOptions.map((option) => (
-                      <option key={option.colorId} value={option.colorId}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  {errors.colorId && (
-                    <span className="text-red-500 text-sm">
-                      {errors.colorId}
-                    </span>
-                  )}
-                </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black">
+                  Màu sắc
+                </label>
+                <select
+                  name="colorId"
+                  value={formData.colorId}
+                  onChange={handleChange}
+                  className={`w-full p-2 border ${
+                    errors.colorId ? "border-red-500" : "border-gray-300"
+                  } rounded-md`}
+                >
+                  <option value="">--Chọn màu sắc--</option>
+                  {colorOptions.map((option) => (
+                    <option key={option.colorId} value={option.colorId}>
+                      {option.colorName}
+                    </option>
+                  ))}
+                </select>
+                {errors.colorId && (
+                  <span className="text-red-500 text-sm">{errors.colorId}</span>
+                )}
               </div>
 
               <div className="mb-4">
@@ -350,47 +325,48 @@ export default function CreateAdsPage() {
                   className={`w-full p-2 border ${
                     errors.content ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
-                  placeholder="Nhập mô tả"
-                  rows="4"
-                />
+                  placeholder="Nhập mô tả chi tiết"
+                ></textarea>
                 {errors.content && (
                   <span className="text-red-500 text-sm">{errors.content}</span>
                 )}
               </div>
-            </div>
-            <div className="bg-white p-6 mt-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-bold mb-4 text-center">
-                Hình ảnh sản phẩm
-              </h2>
-              <div className="flex items-center justify-center w-full">
-                <label className="relative flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100">
-                  {renderImagePreview()}
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-black">
+                  Hình ảnh
+                </label>
+                <div className="w-full p-4 border border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center">
                   <input
                     type="file"
                     name="image"
+                    accept="image/*"
                     onChange={handleChange}
                     className="hidden"
                   />
-                </label>
+                  {renderImagePreview()}
+                </div>
+                {errors.imageUrl && (
+                  <span className="text-red-500 text-sm">
+                    {errors.imageUrl}
+                  </span>
+                )}
               </div>
-              {errors.imageUrl && (
-                <span className="text-red-500 text-sm">{errors.imageUrl}</span>
-              )}
-            </div>
 
-            <div className="flex justify-between mt-6">
-              <button
-                onClick={handleSave}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-              >
-                Save
-              </button>
-              <button
-                onClick={handleNext}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
-                Tiếp theo
-              </button>
+              <div className="flex justify-between mt-6">
+                <button
+                  onClick={handleSave}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md"
+                >
+                  Lưu lại
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md"
+                >
+                  Tiếp tục
+                </button>
+              </div>
             </div>
           </section>
         </div>

@@ -73,6 +73,7 @@ const AdsPackagePage = () => {
 
   const handleDateChange = (e) =>
     updateStartTime(e.target.value, formData.startTime.split("T")[1]);
+
   const handleTimeChange = (e) =>
     updateStartTime(formData.startTime.split("T")[0], e.target.value);
 
@@ -99,9 +100,7 @@ const AdsPackagePage = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Cấu hình tin đăng:", {
-      ...formData,
-    });
+    console.log("Cấu hình tin đăng:", { ...formData });
     navigate("/ads/create/package/payment");
   };
 
@@ -203,7 +202,6 @@ const AdsPackagePage = () => {
                 Quay lại
               </button>
             </Link>
-
             <button
               onClick={handleSubmit}
               className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-500 transition-colors duration-200"
