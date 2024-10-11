@@ -6,8 +6,7 @@ const AdminNavbar = () => {
   const [StatisticListOpen, setStatisticList] = useState(false);
 
   return (
-    <>
-    <div className='flex w-[300px]  border-r-2 shadow-lg '>
+    <div className='flex w-[300px] h-[630px] border-r-2 shadow-lg '>
       <ul className='w-full'>
         <li className='w-full'>
           <button
@@ -28,10 +27,10 @@ const AdminNavbar = () => {
                 <Link to='/admin/accountlist'>Account</Link>
               </li>
               <li className='w-full h-[40px] px-8 py-2 border-t-2'>
-                <Link to='/admin/packages'>Package</Link>
+                <Link to='/package'>Package</Link>
               </li>
               <li className='w-full h-[40px] px-8 py-2 border-t-2'>
-                <Link to='/admin/blog'>Blog</Link>
+                <Link to='/blog'>Blog</Link>
               </li>
               <li className='w-full h-[40px] px-8 py-2 border-t-2'>
                 <Link to='/admin/adslist'>Advertise</Link>
@@ -56,17 +55,16 @@ const AdminNavbar = () => {
           >
             <ul>
               <li className='w-full h-[40px] px-8 py-2 border-b-2'>
-                <Link to='/admin'>Dashboard</Link>
+                <Link to='/account'>Dashboard</Link>
               </li>
               <li className='w-full h-[40px] px-8 py-2 border-b-2'>
-                <Link to='/admin'>....</Link>
+                <Link to='/account'>....</Link>
               </li>
             </ul>
           </div>
         </li>
-      </ul>      
+      </ul>
     </div>
-    </>
   );
 }
 
