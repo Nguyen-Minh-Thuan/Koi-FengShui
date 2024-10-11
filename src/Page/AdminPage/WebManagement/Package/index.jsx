@@ -1,9 +1,18 @@
 import React from 'react'
+import AdminNavbar from '../../../../Component/AdminNavbar'
+import AdminHeader from '../../../../Component/HeaderAdmin'
 
-const index = () => {
+const Index = () => {
   return (
-    <div>index</div>
+    <>
+      <AdminHeader/>
+      <div className='flex'>
+        <AdminNavbar/>
+
+      </div>
+      
+    </>
   )
 }
 
-export default index
+export default Index
