@@ -18,15 +18,10 @@ import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPoin
 import AccessDenied from "../Component/AccessDenied";
 import PaymentPage from "../Page/PaymentPage";
 import AdminPage from "../Page/AdminPage/WebManagement/AccountList";
-<<<<<<< HEAD
 import AdsList from "../Page/AdminPage/WebManagement/AdsList/Index"
 import AccountList from '../Page/AdminPage/WebManagement/AccountList'
-import BlogList from '../Page/AdminPage/WebManagement/Blog/Index'
-import PackageDetails from '../Page/AdminPage/WebManagement/Package/Index'
-=======
-import AdsList from "../Page/AdminPage/WebManagement/AdsList";
-import AccountList from "../Page/AdminPage/WebManagement/AccountList";
->>>>>>> origin
+import BlogList from '../Page/AdminPage/WebManagement/Blog'
+import PackageDetails from '../Page/AdminPage/WebManagement/Package'
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
 
