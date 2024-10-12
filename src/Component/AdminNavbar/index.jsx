@@ -7,7 +7,7 @@ const AdminNavbar = () => {
 
   return (
     <>
-    <div className='flex w-[300px]  border-r-2 shadow-lg '>
+    <div className='flex w-[300px] border-r-2 shadow-lg h-full'>
       <ul className='w-full'>
         <li className='w-full'>
           <button
