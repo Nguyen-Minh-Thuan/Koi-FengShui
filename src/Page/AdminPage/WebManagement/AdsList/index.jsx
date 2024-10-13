@@ -62,7 +62,7 @@ const Index = () => {
                 <img src={search} className="h-8 w-8" alt="Search" />
               </Link>
             </div>
-
+            
             <table className="min-w-full border-collapse border-4 border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
