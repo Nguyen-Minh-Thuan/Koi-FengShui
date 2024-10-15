@@ -1,4 +1,3 @@
-import React from 'react';
 import search from '../../../../assets/Icon//Search.png'
 import { Link } from 'react-router-dom';
 import AdminNavbar from '../../../../Component/AdminNavbar'
@@ -83,7 +82,7 @@ const Index = () => {
                     <td className="p-2 text-center">{ad.package || 'N/A'}</td> {/* Tên gói từ package */}
                     <td className="p-2">{ad.status.status1}</td>
                     <td className="p-2">
-                      <Link to="#" className="text-blue-500 hover:underline">Details</Link>
+                      <Link to={`/admin/adslist/${ad.adsId}`} className="text-blue-500 hover:underline">Details</Link>
                     </td>
                   </tr>
                 ))}

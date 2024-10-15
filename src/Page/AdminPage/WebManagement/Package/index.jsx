@@ -27,11 +27,11 @@ const Index = () => {
       <div className='flex'>
         <AdminNavbar/>
         <div className='flex-1 p-8'>
-        <h1 className='text-center text-xl '> Package List detail </h1>
+        <h1 className='text-center text-3xl font-semibold'> Package List detail </h1>
           <div className='items-center relative w-full h-[630px] px-[15%] py-[3%]'>
             <table className='min-w-full border-collapse border-4 border-gray-300'>
               <thead className=''>
-                <tr >
+                <tr className='bg-gray-200'>
                   <th> Package Name </th>
                   <th> Duration </th>
                   <th> price </th>
@@ -45,7 +45,7 @@ const Index = () => {
                   <td>{pack.duration} days</td>
                   <td>{pack.price}</td>
                   <td>
-                    <Link to='/' className='text-blue-300'>Detail</Link>
+                    <Link to='/' className='text-blue-700 hover:underline'>Detail</Link>
                   </td>
                 </tr>
                 ))}

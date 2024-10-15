@@ -19,6 +19,7 @@ import AccessDenied from "../Component/AccessDenied";
 import PaymentPage from "../Page/PaymentPage";
 import AdminPage from "../Page/AdminPage/WebManagement/AccountList";
 import AdsList from "../Page/AdminPage/WebManagement/AdsList";
+import AdvertisementDetail from "../Page/AdminPage/WebManagement/AdsList/AdsDetail";
 import AccountList from "../Page/AdminPage/WebManagement/AccountList";
 import BlogList from '../Page/AdminPage/WebManagement/Blog'
 import PackageDetails from '../Page/AdminPage/WebManagement/Package'
@@ -64,6 +65,7 @@ const AppRouter = () => {
 
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/adslist" element={<AdsList />} />
+        <Route path="/admin/adslist/:adsId" element={<AdvertisementDetail/>} />
         <Route path="/admin/accountlist" element={<AccountList />} />
         <Route path="/admin/blog" element={<BlogList />} />
         <Route path="/admin/packages" element={<PackageDetails />} />
