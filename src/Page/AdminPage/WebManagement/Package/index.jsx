@@ -45,7 +45,7 @@ const Index = () => {
                   <td>{pack.duration} days</td>
                   <td>{pack.price}</td>
                   <td>
-                    <Link to='/' className='text-blue-700 hover:underline'>Detail</Link>
+                    <Link to={`/admin/packages/${pack.packageId}`} className='text-blue-700 hover:underline'>Detail</Link>
                   </td>
                 </tr>
                 ))}

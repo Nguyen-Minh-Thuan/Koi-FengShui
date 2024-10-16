@@ -17,12 +17,13 @@ import FengshuiPage from "../Page/FengshuiPage";
 import FengshuiPointResult from "../Page/FengshuiPage/FengshuiPoint/FengshuiPointResult";
 import AccessDenied from "../Component/AccessDenied";
 import PaymentPage from "../Page/PaymentPage";
-import AdminPage from "../Page/AdminPage/WebManagement/AccountList";
+import AdminPage from "../Page/AdminPage/WebManagement/AdsList";
 import AdsList from "../Page/AdminPage/WebManagement/AdsList";
 import AdvertisementDetail from "../Page/AdminPage/WebManagement/AdsList/AdsDetail";
 import AccountList from "../Page/AdminPage/WebManagement/AccountList";
 import BlogList from '../Page/AdminPage/WebManagement/Blog'
-import PackageDetails from '../Page/AdminPage/WebManagement/Package'
+import PackageManage from '../Page/AdminPage/WebManagement/Package'
+import PackageDetail from '../Page/AdminPage/WebManagement/Package/PackageDetail'
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
 
@@ -68,7 +69,8 @@ const AppRouter = () => {
         <Route path="/admin/adslist/:adsId" element={<AdvertisementDetail/>} />
         <Route path="/admin/accountlist" element={<AccountList />} />
         <Route path="/admin/blog" element={<BlogList />} />
-        <Route path="/admin/packages" element={<PackageDetails />} />
+        <Route path="/admin/packages" element={<PackageManage />} />
+        <Route path="/admin/packages/:packageId" element={<PackageDetail/>} />
 
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
 

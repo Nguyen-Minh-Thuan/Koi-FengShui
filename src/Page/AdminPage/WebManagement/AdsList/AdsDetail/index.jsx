@@ -18,7 +18,7 @@ const Index = () => {
         alert("Advertisement Approved successful !!");
     } catch (error) {
       console.log(error);
-      alert("Error !!");
+      alert(`Advertisement Approved Fail: ${error.response?.data || error.message}`);
     }
   }
 
@@ -46,8 +46,9 @@ const Index = () => {
       }
     } catch (error) {
       console.error('Error declining ad:', error.response?.data || error.message);
-      alert(`An error occurred: ${error.response?.data?.message || error.message}`);
+      alert(`An error occurred: ${error.response?.data || error.message}`);
     }
+    closeDeclinePopup();
   };
   
   

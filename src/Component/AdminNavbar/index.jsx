@@ -13,7 +13,7 @@ const AdminNavbar = () => {
   // const [StatisticListOpen, setStatisticList] = useState(false);
 
   return (
-    <div className="w-64 h-screen bg-white p-6 shadow-2xl">
+    <div className="w-64  bg-white p-6 shadow-2xl">
       <div className="flex items-center mb-8">
         <img className="w-10 h-10" src={logo}></img>
         <span className="ml-4 text-xl font-semibold">FengShuiKoi</span>
@@ -41,7 +41,7 @@ const AdminNavbar = () => {
             </Link>
           </li>
           <li className="mb-4">
-            <Link to='/admin/blog' className="flex items-center text-gray-600">
+            <Link to='/admin/blog' className="flex items-center ">
               <img src={BlogIcon} className="h-4 w-4 mr-4 ml-1 rounded-sm"></img>
               Blog
             </Link>
