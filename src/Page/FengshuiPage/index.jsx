@@ -11,7 +11,8 @@ const FengshuiPage = () => {
   return (
     <>
     <NavBar/>
-    <div className="bg-cover bg-center py-4 min-h-screen flex flex-col" style={{backgroundImage: "url('https://boruatinhthuc.com/static/600c7f8f1171abca2dde07725bb75691/3dbc4/abstract-06-oceannight.webp')"}}>
+    <div className="bg-cover bg-center py-4 min-h-screen flex flex-col" 
+      style={{backgroundImage: "url('https://boruatinhthuc.com/static/600c7f8f1171abca2dde07725bb75691/3dbc4/abstract-06-oceannight.webp')"}}>
       <div className="container mx-auto px-4 flex-grow flex flex-col">
         <div className="max-w-4xl mx-auto rounded-lg overflow-hidden flex flex-col flex-grow">
           <div className="flex">
