@@ -4,12 +4,21 @@ import NavBar from '../../Component/NavBar';
 import Footer from '../../Component/Footer';
 import AdsCard from '../../Component/AdsCard';  
 
+const elementIdToCategory = {
+  1: 'Kim',
+  2: 'Thủy',
+  3: 'Hỏa',
+  4: 'Mộc',
+  5: 'Thổ',
+};
+
+
 const AdsDetailPage = () => {
   const { id } = useParams(); 
   const [ad, setAd] = useState(null); 
   useEffect(() => {
     const fetchAd = async () => {
-      const response = await fetch(`https://localhost:7275/api/Advertisement/GetAdsById?id=${id}`); // Sử dụng adsId
+      const response = await fetch(`https://localhost:7275/api/Advertisement/GetAdsById?id=${id}`); 
       const addata = await response.json();
       const ad = addata.data
       setAd(ad);
@@ -38,8 +47,10 @@ const AdsDetailPage = () => {
           <p className="text-gray-600">Liên hệ: 0987654321</p>
           <p className="text-gray-600 mb-4">Mail: example@gmail.com</p>
           <div className="space-x-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Loại: {ad.adsType}</span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Danh mục: {ad.elementId}</span>
+            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Loại: {ad.adsType.typeName}</span>
+            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+              Mệnh:  {elementIdToCategory[ad.elementId] || 'Không khả dụng'}
+            </span>
           </div>
         </div>
       </div>
@@ -77,5 +88,6 @@ const getProductById = (id) => {
   ];
   return products.find(product => product.id === id) || {};
 };
+
 
 export default AdsDetailPage;
