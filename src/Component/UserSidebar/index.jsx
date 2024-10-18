@@ -8,7 +8,7 @@ const UserSidebar = () => {
   const menuItems = [
     { path: '/user/profile', text: 'User Profile' },
     { path: '/user/ads/list', text: 'Danh sách tin' },
-    { path: '/user/change-password', text: 'Đổi mật khẩu' },
+    { path: '/user/password/change', text: 'Đổi mật khẩu' },
   ];
 
   const handleTabChange = (path) => {

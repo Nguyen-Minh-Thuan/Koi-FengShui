@@ -23,6 +23,7 @@ import AdsList from "../Page/AdminPage/WebManagement/AdsList"
 import AccountList from '../Page/AdminPage/WebManagement/AccountList'
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
+import UserChangePassword from "../Page/UserProfile/UserChangePassword";
 
 const AppRouter = () => {
   const storageUser = localStorage.getItem("user"); 
@@ -37,6 +38,7 @@ const AppRouter = () => {
 
         <Route path="/user/profile" element={<UserProfilePage />} />
         <Route path="/user/ads/list" element={<UserAdsList /> } />
+        <Route path="/user/password/change" element={<UserChangePassword /> } />
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
