@@ -22,8 +22,8 @@ const FengshuiPoint = () => {
   const [quantity, setQuantity] = useState('');
   const [birthDate, setBirthDate] = useState(null);
   const [fishPatterns, setFishPatterns] = useState([]);
-  const [selectedPatternList, setSelectedPatternList] = useState([]); // New state for selected pattern list
-  const [errors, setErrors] = useState({});
+  const [selectedPatternList, setSelectedPatternList] = useState([]); 
+  const [errors, setErrors] = useState({ fishType: '', quantity: '' });
 
   const toggleFishVariety = (varietyId) => {
     setSelectedFishVarieties(prevSelected => {
@@ -113,17 +113,38 @@ const FengshuiPoint = () => {
   };
 
   const handleAddPattern = () => {
+    let hasError = false;
+    const newErrors = { fishType: '', quantity: ''};
+
+    if (!formData.fishType) {
+      newErrors.fishType = 'Please select a fish type.';
+      hasError = true;
+    }
+
+    if (!formData.fishType) {
+      newErrors.pattern = 'Please select a fish pattern.';
+      hasError = true;
+    }
+
+    if (quantity<=0) {
+      newErrors.quantity = 'Please select a quantity.';
+      hasError = true;
+    }
+
+    setErrors(newErrors);
+
+    if (hasError) return;
+
     const selectedPattern = fishPatterns.find(p => p.patternId === formData.fishType);
     if (selectedPattern) {
       setSelectedPatternList(prevList => [
         ...prevList,
         {
-          patternId: selectedPattern.patternId, // Ensure patternId is included
+          patternId: selectedPattern.patternId,
           name: selectedPattern.patternName,
-          quantity: formData.quantity, // Use quantity from formData
+          quantity: formData.quantity,
         }
       ]);
-      console.log("day la ca da chon",quantity);
     }
   };
 
@@ -141,25 +162,72 @@ const FengshuiPoint = () => {
 
     const selectedPatterns = selectedPatternList.map(pattern => ({
         patternId: pattern.patternId,
-        quantity: validQuantity // Use valid quantity
+        quantity: validQuantity 
     }));
     console.log(selectedPatterns);
 
     const result = await sendPointingData(formattedBirthday, gender, pondShape, pondDir, selectedPatterns);
 
     if (result && result.status) {
-      navigate('/fengshui/point/result', { state: { koiPoint: result.data.koiPoint, totalPoint: result.data.totalPoint, element: result.data.element, direction: result.data.direction } });
+      navigate('/fengshui/point/result', { 
+        state: { 
+          koiPoint: result.data.koiPoint, 
+          totalPoint: result.data.totalPoint, 
+          element: result.data.element, 
+          direction: result.data.direction,
+          totalAmount: result.data.totalAmount,
+          recDir: result.data.recDir,
+          comment: result.data.comment
+        } });
     }
   };
 
   const apiUrl = 'https://localhost:7275/api/FengShui/Pointing';
 
   async function sendPointingData(birthday, gender, shapeId, dirId, selectedPatterns) {
+    const newErrors = {
+      birthDate: '',
+      gender: '',
+      pondDir: '',
+      pondShape: '',
+      selectedPatterns: ''
+    };
+    let hasError = false;
+
+    if (!birthday) {
+      newErrors.birthDate = 'Please provide a valid birth date.';
+      hasError = true;
+    }
+
+    if (!gender) {
+      newErrors.gender = 'Please select a gender.';
+      hasError = true;
+    }
+
+    if (!shapeId) {
+      newErrors.pondShape = 'Please select a pond shape.';
+      hasError = true;
+    }
+
+    if (!dirId) {
+      newErrors.pondDir = 'Please select a pond direction.';
+      hasError = true;
+    }
+
+    if (selectedPatterns.length === 0) {
+      newErrors.selectedPatterns = 'Please add at least one fish pattern.';
+      hasError = true;
+    }
+
+    setErrors(newErrors);
+
+    if (hasError) return;
+
     const data = selectedPatterns.map(pattern => ({
-        patternId: pattern.patternId,
-        quantity: quantity
+      patternId: pattern.patternId,
+      quantity: quantity
     }));
-    console.log("day ",data);
+
     const [month, day, year] = birthday.split('/');
     const birthMonth = month;
     const birthDay = day;
@@ -187,21 +255,6 @@ const FengshuiPoint = () => {
     }
   }
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.fishColor) newErrors.fishColor = 'Fish color is required';
-    if (!formData.fishType) newErrors.fishType = 'Fish type is required';
-    if (!formData.fishDirection) newErrors.fishDirection = 'Fish direction is required';
-    if (!formData.pondDir) newErrors.pondDir = 'Pond direction is required';
-    if (!formData.pondShape) newErrors.pondShape = 'Pond shape is required';
-    if (!formData.quantity) newErrors.quantity = 'Quantity is required';
-    if (!gender) newErrors.gender = 'Gender is required';
-    if (!birthDate) newErrors.birthDate = 'Birth date is required';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   return (
     <div className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center text-white text-center p-4" style={{ backgroundImage: "url('path/to/your/background-image.jpg')" }}>
       <h1 className="text-4xl font-bold mb-4">TRA CỨU ĐỘ TƯỢNG THÍCH</h1>
@@ -212,12 +265,24 @@ const FengshuiPoint = () => {
       </p>
 
       <form onSubmit={handleSubmit} className="bg-white bg-opacity-10 p-8 rounded-lg w-full max-w-2xl">
-        {/* Display validation errors */}
-        {Object.keys(errors).map((key) => (
-          <div key={key} className="text-red-500 mb-2">
-            {errors[key]}
-          </div>
-        ))}
+
+        {/* Display selected pattern list */}
+        {errors.selectedPatterns && <p className="text-red-500 text-sm mt-1">{errors.selectedPatterns}</p>}
+        <div className="grid grid-cols-4 gap-4">
+          {selectedPatternList.map((pattern, index) => (
+            <div key={index} className="bg-white bg-opacity-20 p-2 rounded-lg flex flex-col items-center relative">
+              <button
+                onClick={() => handleRemovePattern(index)}
+                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+              >
+                x
+              </button>
+              <img src={`pattern.imageUrl`} alt={pattern.name} className="w-20 h-32 mb-2 rounded-lg border-2 border-blue-500" />
+              <h3 className="text-md font-bold">{pattern.name}</h3>
+              <p>Số lượng: {pattern.quantity}</p>
+            </div>
+          ))}
+        </div>
 
         <div className="mb-4 flex justify-between">
           <div className="w-1/3 pr-2">
@@ -229,21 +294,38 @@ const FengshuiPoint = () => {
                 value: variety.varietyId,
                 label: variety.varietyName
               }))}
-              className={`basic-multi-select ${errors.fishType ? 'border-red-500' : ''}`}
+              className="basic-multi-select"
               classNamePrefix="select"
               styles={{
                 control: (provided) => ({
                   ...provided,
-                  color: 'black',
+                  color: 'black', // Màu chữ trong dropdown
                 }),
                 option: (provided, state) => ({
                   ...provided,
-                  color: 'black',
-                  backgroundColor: state.isFocused ? 'rgba(0, 0, 0, 0.1)' : 'white',
+                  color: 'black', // Màu chữ cho các tùy chọn trong dropdown
+                  backgroundColor: state.isFocused ? 'rgba(0, 0, 0, 0.1)' : 'white', // Màu nền khi hover
+                }),
+                multiValue: (provided) => ({
+                  ...provided,
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)', // Màu nền cho các giá trị đã chọn
+                }),
+                multiValueLabel: (provided) => ({
+                  ...provided,
+                  color: 'black', // Màu chữ cho các giá trị đã chọn
+                }),
+                multiValueRemove: (provided) => ({
+                  ...provided,
+                  color: 'black', // Màu chữ cho nút xóa
+                  ':hover': {
+                    backgroundColor: 'red', // Màu nền khi hover
+                    color: 'white', // Màu chữ khi hover
+                  },
                 }),
               }}
               onChange={handleFishVarietyChange}
             />
+            {errors.fishType && <p className="text-red-500 text-sm mt-1">{errors.fishType}</p>}
           </div>
 
           <div className="w-1/3 px-2">
@@ -255,17 +337,33 @@ const FengshuiPoint = () => {
                 value: pattern.patternId,
                 label: pattern.patternName
               }))}
-              className={`basic-multi-select ${errors.fishType ? 'border-red-500' : ''}`}
+              className="basic-multi-select"
               classNamePrefix="select"
               styles={{
                 control: (provided) => ({
                   ...provided,
-                  color: 'black',
+                  color: 'black', // Màu chữ trong dropdown
                 }),
                 option: (provided, state) => ({
                   ...provided,
-                  color: 'black',
-                  backgroundColor: state.isFocused ? 'rgba(0, 0, 0, 0.1)' : 'white',
+                  color: 'black', // Màu chữ cho các tùy chọn trong dropdown
+                  backgroundColor: state.isFocused ? 'rgba(0, 0, 0, 0.1)' : 'white', // Màu nền khi hover
+                }),
+                multiValue: (provided) => ({
+                  ...provided,
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)', // Màu nền cho các giá trị đã chọn
+                }),
+                multiValueLabel: (provided) => ({
+                  ...provided,
+                  color: 'black', // Màu chữ cho các giá trị đã chọn
+                }),
+                multiValueRemove: (provided) => ({
+                  ...provided,
+                  color: 'black', // Màu chữ cho nút xóa
+                  ':hover': {
+                    backgroundColor: 'red', // Màu nền khi hover
+                    color: 'white', // Màu chữ khi hover
+                  },
                 }),
               }}
               onChange={(selectedOption) => setFormData(prevData => ({
@@ -273,6 +371,7 @@ const FengshuiPoint = () => {
                 fishType: selectedOption ? selectedOption.value : ''
               }))}
             />
+            {errors.pattern && <p className="text-red-500 text-sm mt-1">{errors.pattern}</p>}
           </div>
 
           <div className="w-1/3 pl-2">
@@ -281,18 +380,19 @@ const FengshuiPoint = () => {
               id="quantity"
               value={quantity}
               onChange={handleQuantityChange}
-              className={`w-full p-2 rounded bg-white text-black ${errors.quantity ? 'border-red-500' : ''}`}
+              className="w-full p-2 rounded bg-white text-black"
             >
               <option value="">Chọn số lượng</option>
               {[1, 2, 3, 4, 5].map(num => (
                 <option key={num} value={num}>{num}</option>
               ))}
             </select>
+            {errors.quantity && <p className="text-red-500 text-sm mt-1">{errors.quantity}</p>}
           </div>
           <button
             type="button"
             className="ml-2 mt-[32px] bg-fuchsia-500 text-white h-[38px] px-4 rounded hover:bg-fuchsia-600 transition-colors flex items-center justify-center"
-            onClick={handleAddPattern} // Update button logic
+            onClick={handleAddPattern} 
           >
             Thêm
           </button>
@@ -313,6 +413,7 @@ const FengshuiPoint = () => {
               <option value="female">Nữ</option>
               <option value="other">Khác</option>
             </select>
+            {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender}</p>}
           </div>
 
           <div className="w-1/2 pl-2">
@@ -327,6 +428,7 @@ const FengshuiPoint = () => {
               }}
               className="w-full"
             />
+            {errors.birthDate && <p className="text-red-500 text-sm mt-1">{errors.birthDate}</p>}
           </div>
         </div>
 
@@ -339,6 +441,7 @@ const FengshuiPoint = () => {
                 <option key={dir.directionId} value={dir.directionId}>{dir.directionName}</option>
               ))}
             </select>
+            {errors.pondDir && <p className="text-red-500 text-sm mt-1">{errors.pondDir}</p>}
           </div>
           <div className="w-[48%]">
             <label htmlFor="pondShape" className="block text-left mb-2">Hình dáng hồ</label>
@@ -348,6 +451,7 @@ const FengshuiPoint = () => {
                 <option key={shape.shapeId} value={shape.shapeId}>{shape.shape1}</option>
               ))}
             </select>
+            {errors.pondShape && <p className="text-red-500 text-sm mt-1">{errors.pondShape}</p>}
           </div>
         </div>
 
