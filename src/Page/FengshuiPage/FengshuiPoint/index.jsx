@@ -22,7 +22,7 @@ const FengshuiPoint = () => {
   const [quantity, setQuantity] = useState('');
   const [birthDate, setBirthDate] = useState(null);
   const [fishPatterns, setFishPatterns] = useState([]);
-  const [selectedPatternList, setSelectedPatternList] = useState([]); // New state for selected pattern list
+  const [selectedPatternList, setSelectedPatternList] = useState([]); 
   const [errors, setErrors] = useState({ fishType: '', quantity: '' });
 
   const toggleFishVariety = (varietyId) => {
@@ -162,14 +162,23 @@ const FengshuiPoint = () => {
 
     const selectedPatterns = selectedPatternList.map(pattern => ({
         patternId: pattern.patternId,
-        quantity: validQuantity // Use valid quantity
+        quantity: validQuantity 
     }));
     console.log(selectedPatterns);
 
     const result = await sendPointingData(formattedBirthday, gender, pondShape, pondDir, selectedPatterns);
 
     if (result && result.status) {
-      navigate('/fengshui/point/result', { state: { koiPoint: result.data.koiPoint, totalPoint: result.data.totalPoint, element: result.data.element, direction: result.data.direction } });
+      navigate('/fengshui/point/result', { 
+        state: { 
+          koiPoint: result.data.koiPoint, 
+          totalPoint: result.data.totalPoint, 
+          element: result.data.element, 
+          direction: result.data.direction,
+          totalAmount: result.data.totalAmount,
+          recDir: result.data.recDir,
+          comment: result.data.comment
+        } });
     }
   };
 
@@ -383,7 +392,7 @@ const FengshuiPoint = () => {
           <button
             type="button"
             className="ml-2 mt-[32px] bg-fuchsia-500 text-white h-[38px] px-4 rounded hover:bg-fuchsia-600 transition-colors flex items-center justify-center"
-            onClick={handleAddPattern} // Update button logic
+            onClick={handleAddPattern} 
           >
             Thêm
           </button>

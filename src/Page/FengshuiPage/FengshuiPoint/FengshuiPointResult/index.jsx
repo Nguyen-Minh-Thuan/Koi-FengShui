@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../../../../Component/NavBar';
@@ -6,7 +5,7 @@ import Footer from '../../../../Component/Footer';
 
 const FengshuiPointResult = () => {
   const location = useLocation(); 
-  const { koiPoint, totalPoint, element, direction } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction:"" };
+  const { koiPoint, totalPoint, element, direction, comment, totalAmount, recDir } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction:"",comment:"", totalAmount:"" ,recDir:[] };
 
   const elementColorsP = {
     "Hỏa": "https://nguyenthehoa.com/wp-content/uploads/Nguyen-to-thuy-to-phong-thuy-HOA.jpg", 
@@ -77,8 +76,16 @@ const FengshuiPointResult = () => {
         </div>
       </div>
       
-      <p className="mb-6">Hướng đặt bể cá hiện tại của bạn là: <span className="font-semibold">{direction}</span></p>
-      
+      <p className="mb-6">Hướng đặt bể cá bạn chọn là: <span className="font-semibold">{direction}</span></p>
+      <p className="mb-6">
+        Hướng đặt bể cá hợp với mệnh của bạn là: {' '} 
+        <span className="font-semibold">
+           {recDir && recDir.length > 0 ? recDir.join(', ') : 'Chưa xác định'}
+        </span>
+      </p>
+
+      <p className="mb-6">Tổng số lượng cá bạn chọn là: <span className="font-semibold">{totalAmount} </span></p>
+
       <div className="flex flex-wrap mb-6">
         <div className="w-2/3 pr-4">
           <div className="grid grid-cols-2 gap-4">
@@ -115,7 +122,7 @@ const FengshuiPointResult = () => {
         <div className="w-1/3 pl-4">
           <div className="bg-gray-100 p-4 rounded-lg h-full">
             <p className="text-xl font-semibold mb-2">Tổng điểm: {totalPoint.toFixed(1)} / 10</p>
-            
+            <p className="text-base mb-2">- {comment}</p>
           </div>
         </div>
       </div>
