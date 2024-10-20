@@ -8,18 +8,18 @@ import { Link } from 'react-router-dom';
 const Index = () => {
   const [blogList, setBlogList] = useState([]);
 
-  const fetchBlogs = async () => {
-    try {
-      const response = await api.get("user");
-      setBlogList(response.data);
-    } catch (error) {
-      console.error("Error fetching blogs: ", error);
-    }
-  };
+  // const fetchBlogs = async () => {
+  //   try {
+  //     const response = await api.get("user");
+  //     setBlogList(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching blogs: ", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
+  // useEffect(() => {
+  //   fetchBlogs();
+  // }, []);
 
   const blogPosts = [
     {
@@ -58,7 +58,7 @@ const Index = () => {
       <AdminHeader />
       <div className='flex'>
         <AdminNavbar />
-        <div className='flex-1 bg-gray-300 p-6'>
+        <div className='flex-1 bg-blue-100 p-6'>
           <div className='grid grid-cols-3 gap-6'>
             {blogPosts.map((blog) => (
               <div key={blog.id} className='bg-white shadow-lg rounded-lg overflow-hidden'>
