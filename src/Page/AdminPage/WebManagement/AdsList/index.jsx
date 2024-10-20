@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 
 const Index = () => {
-  const [ads, setAds] = useState([]); //tao list
+  const [ads, setAds] = useState([]); 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowPerPage, setRowPerPage] = useState(5);
 
@@ -16,12 +16,11 @@ const Index = () => {
   const currentAds = ads.slice(startIndex,endIndex);
 
   const fetchAds = async () => {
-    //goi api
     try {
-      const response = await api.get('Advertisement/GetAll'); //goi api
+      const response = await api.get('Advertisement/GetAll'); 
       setAds(response.data.data);
     } catch (err) {
-      console.error('Error fetching ads:', err); // Xử lý lỗi nếu có
+      console.error('Error fetching ads:', err); 
     }
   };
 
@@ -54,7 +53,7 @@ const Index = () => {
               <div className="border-2 border-black px-2 rounded-lg">
                 <input
                   className="focus:border-transparent focus:outline-none py-2 w-72"
-                  placeholder="Nhập từ khóa cần tìm kiếm"
+                  placeholder="Search"
                 />
               </div>
               <Link to="/" className="bg-white focus:border-transparent cursor-pointer py-1 ml-2">

@@ -66,8 +66,8 @@ const AccountList = () => {
                 {currentAccount.map((account, index) => (
                   <tr key={index}>
                     <td className="p-2">{account.userId}</td>
-                    <td className="p-2">{account.userName || 'None'}</td> {/* Sử dụng email từ user */}
-                    <td className="p-2">******</td> {/* Định dạng ngày */}
+                    <td className="p-2">{account.userName || 'None'}</td> 
+                    <td className="p-2">******</td>
                     <td className="p-2">{account.email || 'None'}</td>
                     <td className='p-2'>
                       {account.roleId === 1 ? "Admin" : (account.roleId === 2 ? "Staff" : "User")}

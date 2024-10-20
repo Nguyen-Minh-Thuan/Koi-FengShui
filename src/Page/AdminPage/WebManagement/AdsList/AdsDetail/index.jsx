@@ -6,7 +6,7 @@ import AdminNavbar from '../../../../../Component/HeaderAdmin'
 import Imgtemp from '../../../../../assets/img/Home_img1.png'
 
 const Index = () => {
-  const { adsId } = useParams(); // Lấy adsId từ URL
+  const { adsId } = useParams(); 
   const [adDetail, setAdDetail] = useState(null);
   const [reasonDecline, setReasonDecline] = useState("");
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);

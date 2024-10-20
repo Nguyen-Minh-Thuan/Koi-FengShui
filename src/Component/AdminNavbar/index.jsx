@@ -68,7 +68,7 @@ const AdminNavbar = () => {
           <li className="mb-4">
             <Link to='/admin' className="flex items-center ">
               <span className="w-3 h-3 mr-4"></span>
-              ......
+              Real Time Stats
             </Link>
           </li>
         </ul>
