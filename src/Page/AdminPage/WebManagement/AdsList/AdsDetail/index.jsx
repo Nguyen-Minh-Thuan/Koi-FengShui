@@ -6,7 +6,7 @@ import AdminNavbar from '../../../../../Component/HeaderAdmin'
 import Imgtemp from '../../../../../assets/img/Home_img1.png'
 
 const Index = () => {
-  const { adsId } = useParams(); // Lấy adsId từ URL
+  const { adsId } = useParams(); 
   const [adDetail, setAdDetail] = useState(null);
   const [reasonDecline, setReasonDecline] = useState("");
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);
@@ -55,7 +55,7 @@ const Index = () => {
   useEffect(() => {
     const fetchAdDetail = async () => {
       try {
-        const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); // API lấy chi tiết quảng cáo
+        const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); 
         setAdDetail(response.data.data);
       } catch (err) {
         console.error('Error fetching ad details:', err);
@@ -65,7 +65,7 @@ const Index = () => {
     if (adsId) {
       fetchAdDetail();
     }
-  }, [adsId]); // Dependency array chứa adsId để đảm bảo khi adsId thay đổi thì useEffect được gọi lại
+  }, [adsId]);
 
   if (!adDetail) {
     return <div>Không có dữ liệu</div>;
