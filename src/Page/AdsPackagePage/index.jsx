@@ -86,22 +86,55 @@ const AdsPackagePage = () => {
   };
 
   const calculateTotal = () => {
-    const total = fee * duration * formData.quantity;
-
-    if (formData.quantity >= 6) {
-      return total * 0.7;
-    } else if (formData.quantity >= 4) {
-      return total * 0.8;
-    } else if (formData.quantity >= 2) {
-      return total * 0.9;
-    }
-
+    const total = fee * formData.quantity;
     return total;
   };
 
-  const handleSubmit = () => {
-    console.log("Cấu hình tin đăng:", { ...formData });
-    navigate("/ads/create/package/payment");
+  const handleSubmit = async () => {
+    const createAdsData = JSON.parse(localStorage.getItem("createAdsData"));
+
+    const paymentData = {
+      adsId: 0,
+      adsTypeId: createAdsData?.adsTypeId,
+      userId: createAdsData?.userId,
+      packageId: adPackages.find((pkg) => pkg.packageName === formData.adType)
+        ?.packageId,
+      title: createAdsData?.title || "",
+      content: createAdsData?.content || "",
+      elementId: createAdsData?.elementId,
+      imageUrl: createAdsData?.imageUrl || "",
+      quantity: formData.quantity,
+    };
+
+    console.log("Dữ liệu thanh toán:", paymentData);
+
+    try {
+      const apiUrl = `https://localhost:7275/api/Advertisement/CreatePayment`;
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const paymentLink = result.data;
+
+        window.location.href = paymentLink;
+
+        console.log("Dữ liệu đã được gửi thành công:", paymentData);
+      } else {
+        const errorMessage = await response.text();
+        console.error("Gửi dữ liệu thất bại:", errorMessage);
+        alert("Gửi dữ liệu thất bại: " + errorMessage);
+      }
+    } catch (error) {
+      console.error("Lỗi trong quá trình gửi dữ liệu:", error);
+    }
   };
 
   return (
@@ -129,7 +162,7 @@ const AdsPackagePage = () => {
                   </h3>
                   <p className="text-sm text-gray-500">
                     Thời gian: {pkg.duration} ngày - Giá:{" "}
-                    {pkg.price.toLocaleString()} đ/ngày
+                    {pkg.price.toLocaleString()}VNĐ
                   </p>
                 </div>
               ))}

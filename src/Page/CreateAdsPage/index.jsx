@@ -4,6 +4,8 @@ import Footer from "../../Component/Footer";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCUbHsFkFAA3cxKZh0oLNk0qrKu-IbK0q4",
@@ -20,19 +22,15 @@ const storage = getStorage(app);
 export default function CreateAdsPage() {
   const [formData, setFormData] = useState({
     userID: "",
-    adsTypeId: "",
     title: "",
-    content: "",
-    packageId: null,
+    adsTypeId: "",
     elementId: "",
+    content: "",
     imageUrl: null,
-    colorId: "",
-    startedDate: null,
   });
 
   const [errors, setErrors] = useState({});
   const [nguHanhOptions, setNguHanhOptions] = useState([]);
-  const [colorOptions, setColorOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
   const [imageURL, setImageURL] = useState(null);
 
@@ -53,18 +51,6 @@ export default function CreateAdsPage() {
         setNguHanhOptions(getData.data);
       } catch (error) {
         console.error("Error fetching ngu hanh options:", error);
-      }
-    };
-
-    const fetchColorOptions = async () => {
-      try {
-        const response = await fetch(
-          "https://localhost:7275/api/Color/GetColor"
-        );
-        const getData = await response.json();
-        setColorOptions(getData.data);
-      } catch (error) {
-        console.error("Error fetching color options:", error);
       }
     };
 
@@ -95,7 +81,6 @@ export default function CreateAdsPage() {
     };
 
     fetchNguHanhOptions();
-    fetchColorOptions();
     fetchProductTypeOptions();
   }, []);
 
@@ -108,6 +93,11 @@ export default function CreateAdsPage() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   }, []);
 
+  const handleQuillChange = (value) => {
+    setFormData((prev) => ({ ...prev, content: value }));
+    setErrors((prev) => ({ ...prev, content: "" }));
+  };
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title) newErrors.title = "Vui lòng điền tiêu đề.";
@@ -115,7 +105,6 @@ export default function CreateAdsPage() {
       newErrors.adsTypeId = "Vui lòng chọn loại sản phẩm.";
     if (!formData.elementId)
       newErrors.elementId = "Vui lòng chọn mệnh ngũ hành.";
-    if (!formData.colorId) newErrors.colorId = "Vui lòng chọn màu sắc.";
     if (!formData.content) newErrors.content = "Vui lòng nhập mô tả.";
     if (!formData.image && !formData.imageUrl)
       newErrors.imageUrl = "Vui lòng tải hình ảnh.";
@@ -146,11 +135,24 @@ export default function CreateAdsPage() {
     if (!validateForm()) return;
 
     try {
-      const { url } = await uploadImageToFirebase(formData.image);
-      setImageURL(url);
-      setFormData((prev) => ({ ...prev, imageUrl: url }));
+      const uploadedImage = await uploadImageToFirebase(formData.image);
+      const imageUrl = uploadedImage.url;
+      setImageURL(imageUrl);
+      setFormData((prev) => ({ ...prev, imageUrl }));
 
-      console.log("Thông tin quảng cáo (save):", formData);
+      const { image, ...sendData } = formData;
+
+      const createAdsData = {
+        userId: sendData.userID,
+        adsTypeId: Number(sendData.adsTypeId),
+        title: sendData.title,
+        content: sendData.content,
+        elementId: parseInt(sendData.elementId),
+        imageUrl: imageUrl,
+      };
+
+      console.log("Thông tin quảng cáo:", createAdsData);
+      localStorage.setItem("createAdsData", JSON.stringify(createAdsData));
       navigate("/ads/create/package");
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
@@ -163,14 +165,51 @@ export default function CreateAdsPage() {
     if (!validateForm()) return;
 
     try {
-      const { url } = await uploadImageToFirebase(formData.image);
-      setFormData((prev) => ({ ...prev, imageUrl: url }));
+      const uploadedImage = await uploadImageToFirebase(formData.image);
+      const imageUrl = uploadedImage.url;
+      setImageURL(imageUrl);
+      setFormData((prev) => ({ ...prev, imageUrl }));
 
-      console.log("Thông tin quảng cáo (save):", formData);
-      navigate("/");
+      const { image, ...sendData } = formData;
+
+      const apiData = {
+        userId: sendData.userID || 0,
+        adsTypeId: parseInt(sendData.adsTypeId) || 0,
+        title: sendData.title || "",
+        content: sendData.content || "",
+        elementId: parseInt(sendData.elementId) || 0,
+        imageUrl: imageUrl || "",
+      };
+
+      console.log("Dữ liệu gửi lên API:", apiData);
+
+      const response = await fetch(
+        "https://localhost:7275/api/Advertisement/CreateDraftedAd",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Thông tin quảng cáo đã được lưu thành công:", apiData);
+        navigate("/");
+      } else {
+        const errorMessage = await response.text();
+        console.error("Lỗi khi lưu quảng cáo:", errorMessage);
+        alert("Có lỗi xảy ra khi lưu quảng cáo. Vui lòng kiểm tra lại.");
+      }
     } catch (error) {
-      console.error("Error uploading image to Firebase:", error);
-      alert("Có lỗi xảy ra khi tải lên hình ảnh. Vui lòng kiểm tra lại.");
+      console.error(
+        "Error uploading image to Firebase or sending data to API:",
+        error
+      );
+      alert(
+        "Có lỗi xảy ra khi tải lên hình ảnh hoặc gửi dữ liệu. Vui lòng kiểm tra lại."
+      );
     }
   };
 
@@ -205,6 +244,24 @@ export default function CreateAdsPage() {
         </>
       );
     }
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ color: [] }, { background: [] }],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
   };
 
   return (
@@ -292,79 +349,63 @@ export default function CreateAdsPage() {
 
               <div className="mb-4">
                 <label className="block text-sm font-medium text-black">
-                  Màu sắc
-                </label>
-                <select
-                  name="colorId"
-                  value={formData.colorId}
-                  onChange={handleChange}
-                  className={`w-full p-2 border ${
-                    errors.colorId ? "border-red-500" : "border-gray-300"
-                  } rounded-md`}
-                >
-                  <option value="">--Chọn màu sắc--</option>
-                  {colorOptions.map((option) => (
-                    <option key={option.colorId} value={option.colorId}>
-                      {option.colorName}
-                    </option>
-                  ))}
-                </select>
-                {errors.colorId && (
-                  <span className="text-red-500 text-sm">{errors.colorId}</span>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-black">
                   Mô tả
                 </label>
-                <textarea
+                <ReactQuill
                   name="content"
                   value={formData.content}
-                  onChange={handleChange}
-                  className={`w-full p-2 border ${
+                  onChange={handleQuillChange}
+                  modules={modules}
+                  className={`${
                     errors.content ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
-                  placeholder="Nhập mô tả chi tiết"
-                ></textarea>
+                  theme="snow"
+                  placeholder="Nhập mô tả quảng cáo"
+                />
                 {errors.content && (
                   <span className="text-red-500 text-sm">{errors.content}</span>
                 )}
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-sm font-medium text-black">
-                  Hình ảnh
+                  Hình ảnh đại diện
                 </label>
-                <div className="w-full p-4 border border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center">
+                <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
                   <input
                     type="file"
                     name="image"
-                    accept="image/*"
                     onChange={handleChange}
+                    accept="image/*"
                     className="hidden"
+                    id="file-input"
                   />
-                  {renderImagePreview()}
+                  <label
+                    htmlFor="file-input"
+                    className="cursor-pointer flex flex-col items-center justify-center"
+                  >
+                    {renderImagePreview()}
+                  </label>
+                  {errors.imageUrl && (
+                    <span className="text-red-500 text-sm">
+                      {errors.imageUrl}
+                    </span>
+                  )}
                 </div>
-                {errors.imageUrl && (
-                  <span className="text-red-500 text-sm">
-                    {errors.imageUrl}
-                  </span>
-                )}
               </div>
 
-              <div className="flex justify-between mt-6">
+              <div className="flex justify-between">
                 <button
                   onClick={handleSave}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md"
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-500"
                 >
-                  Lưu lại
+                  Lưu
                 </button>
                 <button
                   onClick={handleNext}
-                  className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500"
                 >
-                  Tiếp tục
+                  Tiếp theo
                 </button>
               </div>
             </div>
