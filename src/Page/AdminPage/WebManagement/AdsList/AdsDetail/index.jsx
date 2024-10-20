@@ -6,7 +6,7 @@ import AdminNavbar from '../../../../../Component/HeaderAdmin'
 import Imgtemp from '../../../../../assets/img/Home_img1.png'
 
 const Index = () => {
-  const { adsId } = useParams(); // Lấy adsId từ URL
+  const { adsId } = useParams(); 
   const [adDetail, setAdDetail] = useState(null);
   const [reasonDecline, setReasonDecline] = useState("");
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);
@@ -55,7 +55,7 @@ const Index = () => {
   useEffect(() => {
     const fetchAdDetail = async () => {
       try {
-        const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); // API lấy chi tiết quảng cáo
+        const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); 
         setAdDetail(response.data.data);
       } catch (err) {
         console.error('Error fetching ad details:', err);
@@ -65,7 +65,7 @@ const Index = () => {
     if (adsId) {
       fetchAdDetail();
     }
-  }, [adsId]); // Dependency array chứa adsId để đảm bảo khi adsId thay đổi thì useEffect được gọi lại
+  }, [adsId]);
 
   if (!adDetail) {
     return <div>Không có dữ liệu</div>;
@@ -79,7 +79,7 @@ const Index = () => {
         <div className='flex justify-between'>
           <div className='pl-40'>
             <p className="mb-2"><strong>Title:</strong> {adDetail?.title || 'No Title Available'}</p>
-            <p className="mb-2"><strong>Author ID:</strong> {adDetail?.userId || 'N/A'}</p>
+            <p className="mb-2"><strong>User Name:</strong> {adDetail?.userName || 'N/A'}</p>
             <p className="mb-2">
               <strong>Posted at:</strong> {adDetail?.startedDate ? new Date(adDetail.startedDate).toLocaleDateString('vi-VN') : 'N/A'}
             </p>
