@@ -57,14 +57,13 @@ const FengshuiRecKoiResult = () => {
           <img src={elementColorsP[element]} alt={element} className="inline-block w-8 h-8 ml-2" />
         </h3>
         <div className="mt-2">
-          {variety.filter(koi => koi.patterns.some(pattern => pattern.patternPoint >= 5)).map((koi) => ( // Chỉ hiển thị variety có patternPoint >= 5
+          {variety.filter(koi => koi.patterns.some(pattern => pattern.patternPoint >= 5)).map((koi) => ( 
             <div key={koi.varietyId} className="border p-4 rounded mb-4 bg-gray-100">
               <h4 className="text-lg font-semibold">{koi.varietyName}</h4>
               <p className="mt-2">{koi.description}</p>
               <h5 className="mt-4 font-medium">Các mẫu:</h5>
               <ul className="flex flex-wrap list-none p-0">
                 {koi.patterns
-                  // .filter(pattern => pattern.patternPoint >= 5) 
                   .map((pattern, index) => (
                     <li key={pattern.patternId} className="flex items-center mb-2 mr-4">
                       <span className="ml-2">{pattern.patternName}</span>
@@ -76,7 +75,7 @@ const FengshuiRecKoiResult = () => {
                         />
                       </div>
                       {index < koi.patterns.length - 1 && (
-                        <div className="border-l border-gray-300 h-10 mx-2"></div> // Divider
+                        <div className="border-l border-gray-300 h-10 mx-2"></div> 
                       )}
                     </li>
                   ))}
