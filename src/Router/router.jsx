@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -23,12 +22,14 @@ import AdsList from "../Page/AdminPage/WebManagement/AdsList";
 import AdvertisementDetail from "../Page/AdminPage/WebManagement/AdsList/AdsDetail";
 import AccountList from "../Page/AdminPage/WebManagement/AccountList";
 import AccountDetail from "../Page/AdminPage/WebManagement/AccountList/AccountDetail";
-import BlogList from '../Page/AdminPage/WebManagement/Blog'
+import BlogList from "../Page/AdminPage/WebManagement/Blog";
 import KoiList from "../Page/AdminPage/WebManagement/KoiList";
-import PackageManage from '../Page/AdminPage/WebManagement/Package'
-import PackageDetail from '../Page/AdminPage/WebManagement/Package/PackageDetail'
+import PackageManage from "../Page/AdminPage/WebManagement/Package";
+import PackageDetail from "../Page/AdminPage/WebManagement/Package/PackageDetail";
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
+import ResultPage from "../Page/ResultPage";
+import CreateBlogPage from "../Page/CreateBlogPage";
 
 const AppRouter = () => {
   const storageUser = localStorage.getItem("user");
@@ -46,6 +47,7 @@ const AppRouter = () => {
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
+        <Route path="/blog/create" element={<CreateBlogPage />} />
         <Route path="/ads/product" element={<AdsPage />} />
         <Route path="/ads/create" element={<CreateAdsPages />} />
         <Route path="/ads/create/package" element={<AdsPackagePage />} />
@@ -69,16 +71,19 @@ const AppRouter = () => {
 
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/adslist" element={<AdsList />} />
-        <Route path="/admin/adslist/:adsId" element={<AdvertisementDetail/>} />
+        <Route path="/admin/adslist/:adsId" element={<AdvertisementDetail />} />
         <Route path="/admin/accountlist" element={<AccountList />} />
-        <Route path="/admin/accountlist/:accountId" element={<AccountDetail />} />
+        <Route
+          path="/admin/accountlist/:accountId"
+          element={<AccountDetail />}
+        />
         <Route path="/admin/blog" element={<BlogList />} />
         <Route path="/admin/packages" element={<PackageManage />} />
-        <Route path="/admin/packages/:packageId" element={<PackageDetail/>} />
-        <Route path="/admin/koilist" element={<KoiList/>} />
+        <Route path="/admin/packages/:packageId" element={<PackageDetail />} />
+        <Route path="/admin/koilist" element={<KoiList />} />
 
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
-
+        <Route path="/ads/create/package/result" element={<ResultPage />} />
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
       </Routes>
@@ -87,4 +92,3 @@ const AppRouter = () => {
 };
 
 export default AppRouter;
-
