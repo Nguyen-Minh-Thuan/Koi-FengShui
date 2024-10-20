@@ -66,7 +66,7 @@ const Index = () => {
               <thead>
                 <tr className="bg-gray-200">
                   <th className="p-2">Advertisement title</th>
-                  <th className="p-2">Author ID</th>
+                  <th className="p-2">User Name</th>
                   <th className="p-2">Post at</th>
                   <th className="p-2">Package</th>
                   <th className="p-2">Status</th>
@@ -77,7 +77,7 @@ const Index = () => {
                 {currentAds.map((ad, index) => (
                   <tr key={index}>
                     <td className="p-2">{ad.title}</td>
-                    <td className="p-2">{ad.userId || 'N/A'}</td> {/* Sử dụng email từ user */}
+                    <td className="p-2">{ad.user?.userName || 'N/A'}</td> {/* Sử dụng email từ user */}
                     <td className="p-2">{new Date(ad.startedDate).toLocaleDateString('vi-VN')}</td> {/* Định dạng ngày */}
                     <td className="p-2 text-center">{ad.package || 'N/A'}</td> {/* Tên gói từ package */}
                     <td className="p-2">{ad.status.status1}</td>

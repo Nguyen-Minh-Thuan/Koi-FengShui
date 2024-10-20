@@ -79,7 +79,7 @@ const Index = () => {
         <div className='flex justify-between'>
           <div className='pl-40'>
             <p className="mb-2"><strong>Title:</strong> {adDetail?.title || 'No Title Available'}</p>
-            <p className="mb-2"><strong>Author ID:</strong> {adDetail?.userId || 'N/A'}</p>
+            <p className="mb-2"><strong>User Name:</strong> {adDetail?.userName || 'N/A'}</p>
             <p className="mb-2">
               <strong>Posted at:</strong> {adDetail?.startedDate ? new Date(adDetail.startedDate).toLocaleDateString('vi-VN') : 'N/A'}
             </p>
