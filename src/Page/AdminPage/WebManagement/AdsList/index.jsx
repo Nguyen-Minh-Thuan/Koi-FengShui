@@ -1,4 +1,3 @@
-import React from 'react';
 import search from '../../../../assets/Icon//Search.png'
 import { Link } from 'react-router-dom';
 import AdminNavbar from '../../../../Component/AdminNavbar'
@@ -8,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 
 const Index = () => {
-  const [ads, setAds] = useState([]); //tao list
+  const [ads, setAds] = useState([]); 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowPerPage, setRowPerPage] = useState(5);
 
@@ -17,12 +16,11 @@ const Index = () => {
   const currentAds = ads.slice(startIndex,endIndex);
 
   const fetchAds = async () => {
-    //goi api
     try {
-      const response = await api.get('Advertisement/GetAll'); //goi api
+      const response = await api.get('Advertisement/GetAll'); 
       setAds(response.data.data);
     } catch (err) {
-      console.error('Error fetching ads:', err); // Xử lý lỗi nếu có
+      console.error('Error fetching ads:', err); 
     }
   };
 
@@ -55,19 +53,19 @@ const Index = () => {
               <div className="border-2 border-black px-2 rounded-lg">
                 <input
                   className="focus:border-transparent focus:outline-none py-2 w-72"
-                  placeholder="Nhập từ khóa cần tìm kiếm"
+                  placeholder="Search"
                 />
               </div>
               <Link to="/" className="bg-white focus:border-transparent cursor-pointer py-1 ml-2">
                 <img src={search} className="h-8 w-8" alt="Search" />
               </Link>
             </div>
-
+            
             <table className="min-w-full border-collapse border-4 border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="p-2">Advertisement title</th>
-                  <th className="p-2">Author</th>
+                  <th className="p-2">User Name</th>
                   <th className="p-2">Post at</th>
                   <th className="p-2">Package</th>
                   <th className="p-2">Status</th>
@@ -79,11 +77,11 @@ const Index = () => {
                   <tr key={index}>
                     <td className="p-2">{ad.title}</td>
                     <td className="p-2">{ad.user?.userName || 'N/A'}</td> {/* Sử dụng email từ user */}
-                    <td className="p-2">{new Date(ad.expiredDate).toLocaleDateString('vi-VN')}</td> {/* Định dạng ngày */}
-                    <td className="p-2 text-center">{ad.package?.packageName || 'N/A'}</td> {/* Tên gói từ package */}
-                    <td className="p-2">{ad.status}</td>
+                    <td className="p-2">{new Date(ad.startedDate).toLocaleDateString('vi-VN')}</td> {/* Định dạng ngày */}
+                    <td className="p-2 text-center">{ad.package || 'N/A'}</td> {/* Tên gói từ package */}
+                    <td className="p-2">{ad.status.status1}</td>
                     <td className="p-2">
-                      <Link to="#" className="text-blue-500 hover:underline">Details</Link>
+                      <Link to={`/admin/adslist/${ad.adsId}`} className="text-blue-500 hover:underline">Details</Link>
                     </td>
                   </tr>
                 ))}

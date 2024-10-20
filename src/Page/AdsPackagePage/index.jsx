@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useReducer } from "react";
+import React, { useState, useCallback, useReducer, useEffect } from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,13 +8,7 @@ const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
 const initialState = {
   adType: "",
   startTime: "",
-  duration: null,
   quantity: 0,
-};
-
-const feePerDay = {
-  "Tin thường": 5000,
-  "Tin VIP": 12000,
 };
 
 const formReducer = (state, action) => {
@@ -28,8 +22,26 @@ const formReducer = (state, action) => {
 
 const AdsPackagePage = () => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
+  const [duration, setDuration] = useState(0);
   const [fee, setFee] = useState(0);
+  const [adPackages, setAdPackages] = useState([]);
   const navigate = useNavigate();
+
+  const fetchAdPackages = async () => {
+    try {
+      const response = await fetch(
+        "https://localhost:7275/api/Advertisement/GetPackage"
+      );
+      const data = await response.json();
+      setAdPackages(data.data);
+    } catch (error) {
+      console.error("Error fetching ad packages:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdPackages();
+  }, []);
 
   const handleChange = useCallback(
     ({ target: { name, value, type, files } }) => {
@@ -44,7 +56,11 @@ const AdsPackagePage = () => {
 
   const handleAdTypeChange = (type) => {
     dispatch({ type: "SET_FIELD", field: "adType", value: type });
-    setFee(feePerDay[type]);
+    const selectedPackage = adPackages.find((pkg) => pkg.packageName === type);
+    if (selectedPackage) {
+      setFee(selectedPackage.price);
+      setDuration(selectedPackage.duration);
+    }
   };
 
   const updateStartTime = (date, time) => {
@@ -57,6 +73,7 @@ const AdsPackagePage = () => {
 
   const handleDateChange = (e) =>
     updateStartTime(e.target.value, formData.startTime.split("T")[1]);
+
   const handleTimeChange = (e) =>
     updateStartTime(formData.startTime.split("T")[0], e.target.value);
 
@@ -68,47 +85,57 @@ const AdsPackagePage = () => {
     });
   };
 
-  const calculateTotal = (days) => {
-    const discount = days === 15 ? 0.9 : days === 30 ? 0.8 : 1;
-    return fee * days * formData.quantity * discount;
+  const calculateTotal = () => {
+    const total = fee * formData.quantity;
+    return total;
   };
 
-  const handleSubmit = () => {
-    console.log("Cấu hình tin đăng:", formData);
-    navigate("/ads/create/package/payment");
+  const handleSubmit = async () => {
+    const createAdsData = JSON.parse(localStorage.getItem("createAdsData"));
+
+    const paymentData = {
+      adsId: 0,
+      adsTypeId: createAdsData?.adsTypeId,
+      userId: createAdsData?.userId,
+      packageId: adPackages.find((pkg) => pkg.packageName === formData.adType)
+        ?.packageId,
+      title: createAdsData?.title || "",
+      content: createAdsData?.content || "",
+      elementId: createAdsData?.elementId,
+      imageUrl: createAdsData?.imageUrl || "",
+      quantity: formData.quantity,
+    };
+
+    console.log("Dữ liệu thanh toán:", paymentData);
+
+    try {
+      const apiUrl = `https://localhost:7275/api/Advertisement/CreatePayment`;
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const paymentLink = result.data;
+
+        window.location.href = paymentLink;
+
+        console.log("Dữ liệu đã được gửi thành công:", paymentData);
+      } else {
+        const errorMessage = await response.text();
+        console.error("Gửi dữ liệu thất bại:", errorMessage);
+        alert("Gửi dữ liệu thất bại: " + errorMessage);
+      }
+    } catch (error) {
+      console.error("Lỗi trong quá trình gửi dữ liệu:", error);
+    }
   };
-
-  // const handleSubmit = async () => {
-  //   console.log("Cấu hình tin đăng:", formData);
-
-  //   const formDataToSend = new FormData();
-  //   formDataToSend.append("adType", formData.adType);
-  //   formDataToSend.append("startTime", formData.startTime);
-  //   formDataToSend.append("duration", formData.duration);
-  //   formDataToSend.append("quantity", formData.quantity);
-
-  //   try {
-  //     const response = await axios.post("", formDataToSend, {
-  //       //Them URL api
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-
-  //     console.log("Phản hồi từ API:", response.data);
-
-  //     navigate("/ads/create/package/payment");
-  //   } catch (error) {
-  //     console.error("Có lỗi xảy ra khi gửi dữ liệu:", error);
-  //     if (error.response) {
-  //       console.error("Dữ liệu lỗi từ server:", error.response.data);
-  //     } else if (error.request) {
-  //       console.error("Không nhận được phản hồi từ server:", error.request);
-  //     } else {
-  //       console.error("Lỗi trong quá trình thiết lập yêu cầu:", error.message);
-  //     }
-  //   }
-  // };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -120,21 +147,22 @@ const AdsPackagePage = () => {
               Cấu hình tin đăng
             </h2>
             <div className="grid grid-cols-2 gap-4 mb-4">
-              {["Tin thường", "Tin VIP"].map((type) => (
+              {adPackages.map((pkg) => (
                 <div
-                  key={type}
+                  key={pkg.packageId}
                   className={`p-4 border-2 ${
-                    formData.adType === type
+                    formData.adType === pkg.packageName
                       ? "border-blue-500 bg-blue-50"
                       : "border-gray-300"
                   } rounded-lg cursor-pointer hover:shadow-md transition-shadow duration-200`}
-                  onClick={() => handleAdTypeChange(type)}
+                  onClick={() => handleAdTypeChange(pkg.packageName)}
                 >
                   <h3 className="text-base font-semibold text-gray-700 mb-1">
-                    {type}
+                    {pkg.packageName}
                   </h3>
                   <p className="text-sm text-gray-500">
-                    Giá: {feePerDay[type].toLocaleString()} đ/ngày
+                    Thời gian: {pkg.duration} ngày - Giá:{" "}
+                    {pkg.price.toLocaleString()}VNĐ
                   </p>
                 </div>
               ))}
@@ -161,32 +189,6 @@ const AdsPackagePage = () => {
                     </option>
                   ))}
                 </select>
-              </div>
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                {[5, 15, 30].map((days) => (
-                  <div
-                    key={days}
-                    className={`p-4 border-2 ${
-                      formData.duration === days
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-300"
-                    } rounded-lg cursor-pointer hover:shadow-md transition-shadow duration-200`}
-                    onClick={() =>
-                      dispatch({
-                        type: "SET_FIELD",
-                        field: "duration",
-                        value: days,
-                      })
-                    }
-                  >
-                    <h3 className="text-base font-semibold text-gray-700 mb-1">
-                      {days} ngày
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {calculateTotal(days).toLocaleString()} đ
-                    </p>
-                  </div>
-                ))}
               </div>
               <div className="mb-4">
                 <label className="block mb-1 font-semibold text-sm text-gray-700">
@@ -222,7 +224,7 @@ const AdsPackagePage = () => {
               <div className="flex justify-between font-semibold text-lg">
                 <span className="text-gray-800">Tổng tiền</span>
                 <span className="text-gray-900">
-                  {calculateTotal(formData.duration || 0).toLocaleString()} đ
+                  {calculateTotal().toLocaleString() || 0} đ
                 </span>
               </div>
             </div>
@@ -233,7 +235,6 @@ const AdsPackagePage = () => {
                 Quay lại
               </button>
             </Link>
-
             <button
               onClick={handleSubmit}
               className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-500 transition-colors duration-200"

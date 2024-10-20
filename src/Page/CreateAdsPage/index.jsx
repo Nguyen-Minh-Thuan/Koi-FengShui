@@ -1,69 +1,88 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
-import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const nguHanhOptions = [
-  { value: "", label: "--Mệnh--" },
-  { value: "kim", label: "Kim" },
-  { value: "moc", label: "Mộc" },
-  { value: "thuy", label: "Thủy" },
-  { value: "hoa", label: "Hỏa" },
-  { value: "tho", label: "Thổ" },
-];
+const firebaseConfig = {
+  apiKey: "AIzaSyCUbHsFkFAA3cxKZh0oLNk0qrKu-IbK0q4",
+  authDomain: "koi-fengshui.firebaseapp.com",
+  projectId: "koi-fengshui",
+  storageBucket: "koi-fengshui.appspot.com",
+  messagingSenderId: "127460409250",
+  appId: "1:127460409250:web:db111b8e3f9723e1647cfb",
+};
 
-const FormField = ({
-  label,
-  type = "text",
-  name,
-  value,
-  onChange,
-  placeholder,
-  errorMessage,
-}) => (
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-black">{label}</label>
-    {type === "textarea" ? (
-      <textarea
-        name={name}
-        value={value}
-        onChange={onChange}
-        className={`w-full p-2 border ${
-          errorMessage ? "border-red-500" : "border-gray-300"
-        } rounded-md`}
-        placeholder={placeholder}
-        rows="4"
-      />
-    ) : (
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className={`w-full p-2 border ${
-          errorMessage ? "border-red-500" : "border-gray-300"
-        } rounded-md`}
-        placeholder={placeholder}
-      />
-    )}
-    {errorMessage && (
-      <span className="text-red-500 text-sm">{errorMessage}</span>
-    )}
-  </div>
-);
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 export default function CreateAdsPage() {
   const [formData, setFormData] = useState({
+    userID: "",
     title: "",
-    productType: "",
-    menhNguHanh: "",
-    description: "",
-    image: null,
+    adsTypeId: "",
+    elementId: "",
+    content: "",
+    imageUrl: null,
   });
 
   const [errors, setErrors] = useState({});
+  const [nguHanhOptions, setNguHanhOptions] = useState([]);
+  const [productTypeOptions, setProductTypeOptions] = useState([]);
+  const [imageURL, setImageURL] = useState(null);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.userId) {
+      setFormData((prev) => ({ ...prev, userID: user.userId }));
+    }
+
+    const fetchNguHanhOptions = async () => {
+      try {
+        const response = await fetch(
+          "https://localhost:7275/api/Element/GetElement"
+        );
+        const getData = await response.json();
+        setNguHanhOptions(getData.data);
+      } catch (error) {
+        console.error("Error fetching ngu hanh options:", error);
+      }
+    };
+
+    const fetchProductTypeOptions = async () => {
+      try {
+        const response = await fetch(
+          "https://localhost:7275/api/Advertisement/GetAll/"
+        );
+        const getData = await response.json();
+
+        const uniqueTypes = {};
+        getData.data.forEach((item) => {
+          const typeName = item.adsType.typeName;
+          if (!uniqueTypes[typeName]) {
+            uniqueTypes[typeName] = item.adsType.adsTypeId;
+          }
+        });
+
+        const types = Object.entries(uniqueTypes).map(([name, id]) => ({
+          typeName: name,
+          adsTypeId: id,
+        }));
+
+        setProductTypeOptions(types);
+      } catch (error) {
+        console.error("Error fetching product type options:", error);
+      }
+    };
+
+    fetchNguHanhOptions();
+    fetchProductTypeOptions();
+  }, []);
 
   const handleChange = useCallback((e) => {
     const { name, value, type, files } = e.target;
@@ -74,87 +93,176 @@ export default function CreateAdsPage() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   }, []);
 
+  const handleQuillChange = (value) => {
+    setFormData((prev) => ({ ...prev, content: value }));
+    setErrors((prev) => ({ ...prev, content: "" }));
+  };
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title) newErrors.title = "Vui lòng điền tiêu đề.";
-    if (!formData.productType)
-      newErrors.productType = "Vui lòng điền loại sản phẩm.";
-    if (!formData.menhNguHanh)
-      newErrors.menhNguHanh = "Vui lòng chọn mệnh ngũ hành.";
-    if (!formData.description) newErrors.description = "Vui lòng nhập mô tả.";
-    if (!formData.image) newErrors.image = "Vui lòng tải hình ảnh.";
+    if (!formData.adsTypeId)
+      newErrors.adsTypeId = "Vui lòng chọn loại sản phẩm.";
+    if (!formData.elementId)
+      newErrors.elementId = "Vui lòng chọn mệnh ngũ hành.";
+    if (!formData.content) newErrors.content = "Vui lòng nhập mô tả.";
+    if (!formData.image && !formData.imageUrl)
+      newErrors.imageUrl = "Vui lòng tải hình ảnh.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = (e) => {
-    if (!validateForm()) {
-      e.preventDefault();
-      return;
+  const uploadImageToFirebase = async (imageFile) => {
+    const storageRef = ref(
+      storage,
+      `images/${encodeURIComponent(imageFile.name)}`
+    );
+    try {
+      await uploadBytes(storageRef, imageFile);
+      const downloadURL = await getDownloadURL(storageRef);
+      return {
+        name: imageFile.name,
+        url: downloadURL,
+      };
+    } catch (error) {
+      console.error("Lỗi khi tải ảnh lên Firebase:", error);
+      throw error;
     }
-    console.log("Thông tin quảng cáo:", formData);
-    navigate("/ads/create/package");
   };
 
-  // const handleNext = async (e) => {
-  //   if (!validateForm()) {
-  //     e.preventDefault();
-  //     return;
-  //   }
+  const handleNext = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  //   console.log("Thông tin quảng cáo:", formData);
+    try {
+      const uploadedImage = await uploadImageToFirebase(formData.image);
+      const imageUrl = uploadedImage.url;
+      setImageURL(imageUrl);
+      setFormData((prev) => ({ ...prev, imageUrl }));
 
-  //   const formDataToSend = new FormData();
-  //   formDataToSend.append("title", formData.title);
-  //   formDataToSend.append("productType", formData.productType);
-  //   formDataToSend.append("menhNguHanh", formData.menhNguHanh);
-  //   formDataToSend.append("description", formData.description);
-  //   if (formData.image) {
-  //     formDataToSend.append("image", formData.image);
-  //   }
+      const { image, ...sendData } = formData;
 
-  //   try {
-  //     const response = await axios.post("", formDataToSend, {
-  //       //them URL api
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
+      const createAdsData = {
+        userId: sendData.userID,
+        adsTypeId: Number(sendData.adsTypeId),
+        title: sendData.title,
+        content: sendData.content,
+        elementId: parseInt(sendData.elementId),
+        imageUrl: imageUrl,
+      };
 
-  //     console.log("Phản hồi từ API:", response.data);
+      console.log("Thông tin quảng cáo:", createAdsData);
+      localStorage.setItem("createAdsData", JSON.stringify(createAdsData));
+      navigate("/ads/create/package");
+    } catch (error) {
+      console.error("Error uploading image to Firebase:", error);
+      alert("Có lỗi xảy ra khi tải lên hình ảnh. Vui lòng kiểm tra lại.");
+    }
+  };
 
-  //     navigate("/ads/create/package");
-  //   } catch (error) {
-  //     console.error("Có lỗi xảy ra khi gửi dữ liệu:", error);
-  //     if (error.response) {
-  //       console.error("Dữ liệu lỗi từ server:", error.response.data);
-  //     } else if (error.request) {
-  //       console.error("Không nhận được phản hồi từ server:", error.request);
-  //     } else {
-  //       console.error("Lỗi trong quá trình thiết lập yêu cầu:", error.message);
-  //     }
-  //   }
-  // };
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  const renderImagePreview = () =>
-    formData.image ? (
-      <img
-        src={URL.createObjectURL(formData.image)}
-        alt="Uploaded preview"
-        className="w-full h-full object-cover rounded-lg"
-      />
-    ) : (
-      <>
+    try {
+      const uploadedImage = await uploadImageToFirebase(formData.image);
+      const imageUrl = uploadedImage.url;
+      setImageURL(imageUrl);
+      setFormData((prev) => ({ ...prev, imageUrl }));
+
+      const { image, ...sendData } = formData;
+
+      const apiData = {
+        userId: sendData.userID || 0,
+        adsTypeId: parseInt(sendData.adsTypeId) || 0,
+        title: sendData.title || "",
+        content: sendData.content || "",
+        elementId: parseInt(sendData.elementId) || 0,
+        imageUrl: imageUrl || "",
+      };
+
+      console.log("Dữ liệu gửi lên API:", apiData);
+
+      const response = await fetch(
+        "https://localhost:7275/api/Advertisement/CreateDraftedAd",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(apiData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Thông tin quảng cáo đã được lưu thành công:", apiData);
+        navigate("/");
+      } else {
+        const errorMessage = await response.text();
+        console.error("Lỗi khi lưu quảng cáo:", errorMessage);
+        alert("Có lỗi xảy ra khi lưu quảng cáo. Vui lòng kiểm tra lại.");
+      }
+    } catch (error) {
+      console.error(
+        "Error uploading image to Firebase or sending data to API:",
+        error
+      );
+      alert(
+        "Có lỗi xảy ra khi tải lên hình ảnh hoặc gửi dữ liệu. Vui lòng kiểm tra lại."
+      );
+    }
+  };
+
+  const renderImagePreview = () => {
+    if (formData.image && formData.image instanceof File) {
+      return (
         <img
-          src="https://img.icons8.com/color/200/file.png"
-          alt="Upload icon"
-          className="h-16 w-16"
+          src={URL.createObjectURL(formData.image)}
+          alt="Uploaded preview"
+          className="w-full h-full object-cover rounded-lg"
         />
-        <span className="mt-2 text-base text-gray-600">
-          Kéo và Thả, Tải lên hoặc Dán hình ảnh
-        </span>
-      </>
-    );
+      );
+    } else if (formData.imageUrl) {
+      return (
+        <img
+          src={formData.imageUrl}
+          alt="Uploaded preview"
+          className="w-full h-full object-cover rounded-lg"
+        />
+      );
+    } else {
+      return (
+        <>
+          <img
+            src="https://img.icons8.com/color/200/file.png"
+            alt="Upload icon"
+            className="h-16 w-16"
+          />
+          <span className="mt-2 text-base text-gray-600">
+            Kéo và Thả, Tải lên hoặc Dán hình ảnh
+          </span>
+        </>
+      );
+    }
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ color: [] }, { background: [] }],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -166,84 +274,136 @@ export default function CreateAdsPage() {
               <h2 className="text-xl font-bold mb-6 text-center">
                 Thông tin quảng cáo
               </h2>
-              <FormField
-                label="Tiêu đề"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Nhập tiêu đề"
-                errorMessage={errors.title}
-              />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <FormField
-                  label="Loại sản phẩm"
-                  name="productType"
-                  value={formData.productType}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black">
+                  Tiêu đề
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
                   onChange={handleChange}
-                  placeholder="Nhập loại sản phẩm"
-                  errorMessage={errors.productType}
+                  className={`w-full p-2 border ${
+                    errors.title ? "border-red-500" : "border-gray-300"
+                  } rounded-md`}
+                  placeholder="Nhập tiêu đề"
                 />
+                {errors.title && (
+                  <span className="text-red-500 text-sm">{errors.title}</span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-medium text-black">
+                    Loại sản phẩm
+                  </label>
+                  <select
+                    name="adsTypeId"
+                    value={formData.adsTypeId}
+                    onChange={handleChange}
+                    className={`w-full p-2 border ${
+                      errors.adsTypeId ? "border-red-500" : "border-gray-300"
+                    } rounded-md`}
+                  >
+                    <option value="">--Chọn loại sản phẩm--</option>
+                    {productTypeOptions.map((option) => (
+                      <option key={option.adsTypeId} value={option.adsTypeId}>
+                        {option.typeName}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.adsTypeId && (
+                    <span className="text-red-500 text-sm">
+                      {errors.adsTypeId}
+                    </span>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-black">
                     Mệnh ngũ hành
                   </label>
                   <select
-                    name="menhNguHanh"
-                    value={formData.menhNguHanh}
+                    name="elementId"
+                    value={formData.elementId}
                     onChange={handleChange}
                     className={`w-full p-2 border ${
-                      errors.menhNguHanh ? "border-red-500" : "border-gray-300"
+                      errors.elementId ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
                   >
+                    <option value="">--Chọn mệnh ngũ hành--</option>
                     {nguHanhOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
+                      <option key={option.elementId} value={option.elementId}>
+                        {option.elementName}
                       </option>
                     ))}
                   </select>
-                  {errors.menhNguHanh && (
+                  {errors.elementId && (
                     <span className="text-red-500 text-sm">
-                      {errors.menhNguHanh}
+                      {errors.elementId}
                     </span>
                   )}
                 </div>
               </div>
-              <FormField
-                label="Mô tả"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Nhập mô tả"
-                type="textarea"
-                errorMessage={errors.description}
-              />
-            </div>
-            <div className="bg-white p-6 mt-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-bold mb-4 text-center">
-                Hình ảnh sản phẩm
-              </h2>
-              <p className="text-sm text-gray-500 mb-4 text-center">
-                Kích thước 1 ảnh tối đa 5MB
-              </p>
-              <div className="flex items-center justify-center w-full">
-                <label className="relative flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 bg-gray-50 text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100">
-                  {renderImagePreview()}
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black">
+                  Mô tả
+                </label>
+                <ReactQuill
+                  name="content"
+                  value={formData.content}
+                  onChange={handleQuillChange}
+                  modules={modules}
+                  className={`${
+                    errors.content ? "border-red-500" : "border-gray-300"
+                  } rounded-md`}
+                  theme="snow"
+                  placeholder="Nhập mô tả quảng cáo"
+                />
+                {errors.content && (
+                  <span className="text-red-500 text-sm">{errors.content}</span>
+                )}
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black">
+                  Hình ảnh đại diện
+                </label>
+                <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
                   <input
                     type="file"
                     name="image"
-                    accept="image/*"
                     onChange={handleChange}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    accept="image/*"
+                    className="hidden"
+                    id="file-input"
                   />
-                </label>
+                  <label
+                    htmlFor="file-input"
+                    className="cursor-pointer flex flex-col items-center justify-center"
+                  >
+                    {renderImagePreview()}
+                  </label>
+                  {errors.imageUrl && (
+                    <span className="text-red-500 text-sm">
+                      {errors.imageUrl}
+                    </span>
+                  )}
+                </div>
               </div>
-              {errors.image && (
-                <span className="text-red-500 text-sm">{errors.image}</span>
-              )}
-              <div className="flex justify-end mt-6">
+
+              <div className="flex justify-between">
+                <button
+                  onClick={handleSave}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-500"
+                >
+                  Lưu
+                </button>
                 <button
                   onClick={handleNext}
-                  className="bg-black text-white font-bold py-2 px-6 rounded-md hover:bg-gray-800"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500"
                 >
                   Tiếp theo
                 </button>

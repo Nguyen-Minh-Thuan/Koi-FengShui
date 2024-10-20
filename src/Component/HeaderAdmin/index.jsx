@@ -8,7 +8,7 @@ const AdminHeader = () => {
     <div className="relative">
       <div className="bg-white border-b-2 w-full py-2 flex justify-between px-10 shadow-md">
         <div className="text-2xl flex px-6 justify-between items-center w-[50%]">
-          <Link to="/" className="font-bold w-[50%]">
+          <Link to="/admin" className="font-bold w-[50%]">
             Feng Shui Koi
           </Link>
           <Link to="/" className="w-[50%]">
