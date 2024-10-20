@@ -6,6 +6,7 @@ import AdsIcon from "../../assets/Icon/ads.png";
 import AccountIcon from "../../assets/Icon/profile.png";
 import ChartIcon from "../../assets/Icon/line-graph.png";
 import PackageIcon from "../../assets/Icon/package.png";
+import realTime from "../../assets/Icon/real-time.png";
 import NotificationIcon from "../../assets/Icon/Notification_icon.png";
 import Koi from "../../assets/Icon/koi-fish.png"
 
@@ -60,14 +61,14 @@ const AdminNavbar = () => {
         <h3 className="text-gray-400 mb-2 text-2xl">Statistic</h3>
         <ul className='font-semibold'>
           <li className="mb-4">
-            <Link to='/admin' className="flex items-center ">
+            <Link to='/admin/koilist' className="flex items-center ">
               <img src={ChartIcon} className="mr-4 h-8 w-8"></img>
               Dashboard
             </Link>
           </li>
           <li className="mb-4">
-            <Link to='/admin' className="flex items-center ">
-              <span className="w-3 h-3 mr-4"></span>
+            <Link to='/admin/koilist' className="flex items-center ">
+              <img className="mr-4 h-8 w-8" src={realTime}></img>
               Real Time Stats
             </Link>
           </li>

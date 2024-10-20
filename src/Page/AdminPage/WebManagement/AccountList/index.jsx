@@ -72,7 +72,7 @@ const AccountList = () => {
                     <td className='p-2'>
                       {account.roleId === 1 ? "Admin" : (account.roleId === 2 ? "Staff" : "User")}
                     </td>
-                    <td className="p-2">{account.isActive === true ? <span>Active</span> : <span>Unavailable</span>}</td>
+                    <td className="p-2">{account.isActive === true ? <span>Active</span> : <span>Inactive</span>}</td>
                     <td className="p-2 ">{account.bio}</td>
                     <td className="p-2">
                       <Link to={`/admin/accountlist/${account.userId}`}className="text-blue-500 hover:underline">Details</Link>

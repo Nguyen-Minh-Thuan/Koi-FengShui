@@ -4,6 +4,7 @@ import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
 import koiImg from  '../../../../assets/img/Home_banner.jpg';
 import api from '../../../../Config/axios';
+import { Link } from 'react-router-dom';
 
 function Index() {
   const [kois, setKois] = useState([]);
@@ -66,9 +67,8 @@ function Index() {
                       <p>No Pattern</p>
                     )}
                   </div>
-                  <div className='flex justify-between mt-4'>
-                    <button className='bg-green-500 px-2 py-2 text-white rounded-lg hover:bg-green-600'>Add Pattern</button>
-                    <button className='bg-red-500 px-2 py-2 text-white rounded-lg hover:bg-red-600'>Delete</button>
+                  <div className='mt-4 text-right'>
+                    <Link to={`/admin/koilist/${koi.varietyId}`} className='bg-blue-500 px-2 py-2 text-white rounded-lg hover:bg-blue-600'>View Pattern Details</Link>
                   </div>
                 </div>
               ))}

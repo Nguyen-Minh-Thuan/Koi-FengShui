@@ -25,6 +25,7 @@ import AccountList from "../Page/AdminPage/WebManagement/AccountList";
 import AccountDetail from "../Page/AdminPage/WebManagement/AccountList/AccountDetail";
 import BlogList from '../Page/AdminPage/WebManagement/Blog'
 import KoiList from "../Page/AdminPage/WebManagement/KoiList";
+import KoiPatternList from "../Page/AdminPage/WebManagement/KoiList/KoiPatternList";
 import PackageManage from '../Page/AdminPage/WebManagement/Package'
 import PackageDetail from '../Page/AdminPage/WebManagement/Package/PackageDetail'
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
@@ -76,6 +77,7 @@ const AppRouter = () => {
         <Route path="/admin/packages" element={<PackageManage />} />
         <Route path="/admin/packages/:packageId" element={<PackageDetail/>} />
         <Route path="/admin/koilist" element={<KoiList/>} />
+        <Route path="/admin/koilist/:koiPatternId" element={<KoiPatternList/>} />
 
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
 
