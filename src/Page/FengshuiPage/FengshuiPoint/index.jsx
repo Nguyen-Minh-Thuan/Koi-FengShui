@@ -22,7 +22,7 @@ const FengshuiPoint = () => {
   const [quantity, setQuantity] = useState('');
   const [birthDate, setBirthDate] = useState(null);
   const [fishPatterns, setFishPatterns] = useState([]);
-  const [selectedPatternList, setSelectedPatternList] = useState([]); 
+  const [selectedPatternList, setSelectedPatternList] = useState([]);
   const [errors, setErrors] = useState({ fishType: '', quantity: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
@@ -92,7 +92,7 @@ const FengshuiPoint = () => {
       [id]: value
     }));
   };
-  
+
 
   const handleFishVarietyChange = async (selectedOption) => {
     if (selectedOption) {
@@ -116,7 +116,7 @@ const FengshuiPoint = () => {
 
   const handleAddPattern = () => {
     let hasError = false;
-    const newErrors = { fishType: '', quantity: ''};
+    const newErrors = { fishType: '', quantity: '' };
 
     if (!formData.fishType) {
       newErrors.fishType = 'Please select a fish type.';
@@ -128,7 +128,7 @@ const FengshuiPoint = () => {
       hasError = true;
     }
 
-    if (quantity<=0) {
+    if (quantity <= 0) {
       newErrors.quantity = 'Please select a quantity.';
       hasError = true;
     }
@@ -145,6 +145,7 @@ const FengshuiPoint = () => {
           patternId: selectedPattern.patternId,
           name: selectedPattern.patternName,
           quantity: formData.quantity,
+          imageUrl: selectedPattern.imageUrl 
         }
       ]);
     }
@@ -163,24 +164,25 @@ const FengshuiPoint = () => {
     const validQuantity = Number.isFinite(formData.quantity) ? formData.quantity : quantity;
 
     const selectedPatterns = selectedPatternList.map(pattern => ({
-        patternId: pattern.patternId,
-        quantity: validQuantity 
+      patternId: pattern.patternId,
+      quantity: validQuantity
     }));
     console.log(selectedPatterns);
 
     const result = await sendPointingData(formattedBirthday, gender, pondShape, pondDir, selectedPatterns);
 
     if (result && result.status) {
-      navigate('/fengshui/point/result', { 
-        state: { 
-          koiPoint: result.data.koiPoint, 
-          totalPoint: result.data.totalPoint, 
-          element: result.data.element, 
+      navigate('/fengshui/point/result', {
+        state: {
+          koiPoint: result.data.koiPoint,
+          totalPoint: result.data.totalPoint,
+          element: result.data.element,
           direction: result.data.direction,
           totalAmount: result.data.totalAmount,
           recDir: result.data.recDir,
           comment: result.data.comment
-        } });
+        }
+      });
     }
   };
 
@@ -294,10 +296,10 @@ const FengshuiPoint = () => {
               >
                 &times;
               </button>
-              <img 
-                src={`pattern.imageUrl`} 
-                alt={pattern.name} 
-                className="w-20 h-32 mb-2 rounded-lg border-2 border-blue-500 cursor-pointer" 
+              <img
+                src={pattern.imageUrl}
+                alt={pattern.name}
+                className="w-20 h-32 mb-2 rounded-lg border-2 border-blue-500 cursor-pointer"
                 onClick={() => openImageModal(pattern.imageUrl)}
               />
               <h3 className="text-md font-bold">{pattern.name}</h3>
@@ -414,7 +416,7 @@ const FengshuiPoint = () => {
           <button
             type="button"
             className="ml-2 mt-[32px] bg-fuchsia-500 text-white h-[38px] px-4 rounded hover:bg-fuchsia-600 transition-colors flex items-center justify-center"
-            onClick={handleAddPattern} 
+            onClick={handleAddPattern}
           >
             Thêm
           </button>
@@ -448,7 +450,7 @@ const FengshuiPoint = () => {
                 style: { backgroundColor: 'white', height: '38px' },
               }}
               inputProps={{
-                max: new Date().toISOString().split('T')[0] 
+                max: new Date().toISOString().split('T')[0]
               }}
               className="w-full"
             />
@@ -487,7 +489,7 @@ const FengshuiPoint = () => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center modal-overlay" onClick={handleOutsideClick}>
           <div className="bg-white p-4 rounded-lg relative">
-            <button 
+            <button
               className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700"
               onClick={closeModal}
             >
