@@ -61,7 +61,7 @@ const AdminNavbar = () => {
         <h3 className="text-gray-400 mb-2 text-2xl">Statistic</h3>
         <ul className='font-semibold'>
           <li className="mb-4">
-            <Link to='/admin/koilist' className="flex items-center ">
+            <Link to='/admin/dashboard' className="flex items-center ">
               <img src={ChartIcon} className="mr-4 h-8 w-8"></img>
               Dashboard
             </Link>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import api from '../../../../../Config/axios';
 import AdminHeader from '../../../../../Component/HeaderAdmin';
+import { toast,ToastContainer } from 'react-toastify';
 
 const Index = () => {
   const { packageId } = useParams();
@@ -27,9 +28,9 @@ const Index = () => {
   const deletePackages = async () => {
     try {
       const response = await api.delete(`Package/DeleteKoi/${packageId}`);
-      if (response.status === 200) {
-        alert(`Delete successful!`);
-        navigate('/admin/packages'); // Chuyển hướng sau khi xóa thành công
+      if (response.status === 200) {        
+        navigate('/admin/packages'); 
+        toast.success(`Success message: ${response.data}`);
       }
     } catch (error) {
       console.log(error);
@@ -47,7 +48,7 @@ const Index = () => {
 
       const response = await api.put(`Package/UpdatePackage/${packageId}`, packageUpdate);
       if (response.status === 200) {
-        alert(`Update package successful!`);
+        toast.success(`Success message: Update package successful`);
         closeUpdatePackagePopup();
       }
     } catch (error) {
@@ -72,6 +73,7 @@ const Index = () => {
   return (
     <div>
       <AdminHeader />
+      <ToastContainer/>
       <div className='p-8 my-8 mx-32 shadow-xl border-gray-200 rounded-lg border-2 h-fit'>
         <h1 className='text-center py-6 w-full text-5xl font-semibold h-fit'>Package Information</h1>
         <div className='flex justify-between text-xl'>

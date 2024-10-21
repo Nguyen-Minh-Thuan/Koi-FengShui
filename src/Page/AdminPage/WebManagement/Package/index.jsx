@@ -4,6 +4,7 @@ import { useState, useEffect} from 'react';
 import { Navigate } from 'react-router-dom'
 import api from '../../../../Config/axios';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Index = () => {
   const [packages, setPackages] = useState([]);
@@ -33,7 +34,7 @@ const Index = () => {
 
       const response = await api.post('/Package/AddNewPackage', newPackage);
       if (response.status === 200) {
-        alert('Add new package successful !!');
+        toast.success(`Success message: Add package successful`);
         closeAddPackagePopup();
         fetchPackage();
       }
@@ -60,6 +61,7 @@ const Index = () => {
   return (
     <>
       <AdminHeader/>
+      <ToastContainer/>
       <div className='flex'>
         <AdminNavbar/>        
         <div className='flex-1 p-8'>

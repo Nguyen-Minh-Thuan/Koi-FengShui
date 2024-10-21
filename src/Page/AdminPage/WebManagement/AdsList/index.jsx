@@ -4,6 +4,7 @@ import AdminNavbar from '../../../../Component/AdminNavbar'
 import AdminHeader from '../../../../Component/HeaderAdmin'
 import api from '../../../../Config/axios'
 import { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 
 const Index = () => {
@@ -45,6 +46,7 @@ const Index = () => {
   return (
     <>
       <AdminHeader />
+      <ToastContainer/>
       <div className='flex'>
         <AdminNavbar />
         <div className='flex-1'>

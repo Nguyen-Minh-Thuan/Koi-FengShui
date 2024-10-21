@@ -4,6 +4,7 @@ import api from '../../../../../Config/axios';
 import { Hidden } from '@mui/material';
 import AdminNavbar from '../../../../../Component/HeaderAdmin'
 import Imgtemp from '../../../../../assets/img/Home_img1.png'
+import { toast, ToastContainer } from 'react-toastify';
 
 const Index = () => {
   const { adsId } = useParams(); 
@@ -14,8 +15,9 @@ const Index = () => {
   const ApproveAds = async () =>{
     try {
       const response = await api.post(`Admin/ApproveAdvertisement/${adsId}`);
-      if(response.status === 200)
-        alert("Advertisement Approved successful !!");
+      if(response.status === 200){
+        toast.success(`Success mesage: ${response.data}`);
+      }
     } catch (error) {
       console.log(error);
       alert(`Advertisement Approved Fail: ${error.response?.data || error.message}`);
@@ -38,11 +40,9 @@ const Index = () => {
           'Content-Type': 'application/json'
         }
       });
-      if (response.status === 200) {
-        alert("Advertisement declined successfully.");
-      } else {
-        console.log('Server response:', response);
-        alert("An error occurred while declining the advertisement.");
+      
+      if(response.status === 200){
+        toast.success(`Success mesage: ${response.data}`);
       }
     } catch (error) {
       console.error('Error declining ad:', error.response?.data || error.message);
@@ -74,6 +74,7 @@ const Index = () => {
   return (
     <>
       <AdminNavbar/>
+      <ToastContainer/>
       <div className="p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4">
         <h1 className="text-2xl font-bold mb-4 flex justify-center">Advertisement Details</h1>
         <div className='flex justify-between'>
