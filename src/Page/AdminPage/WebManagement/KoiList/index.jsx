@@ -1,15 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
 import koiImg from  '../../../../assets/img/Home_banner.jpg';
 import api from '../../../../Config/axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Index() {
   const [kois, setKois] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [varietyName, setVarietyName] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImgUrl] = useState("");
+  const [addPopupVisible, setAddPopupVisible] = useState(false);
+
+  const handleAddVarietyKoi = async () => {
+    if (!varietyName || !description || !imageUrl) {
+      toast.error('Vui lòng điền đầy đủ thông tin.');
+      return;
+    }
+
+    try {
+      const newKoi = {
+        varietyName,
+        description,
+        imageUrl,
+      };
+
+      const response = await api.post(`Koi/AddNewKoi`, newKoi);
+      // Kiểm tra status là 200
+      if (response.status === 200) {
+        toast.success(`Thêm Koi mới thành công!`);
+        fetchKoi(); 
+        closeAddPopupVisible();
+      }
+    } catch (error) {
+      console.log(error.response);
+      toast.error(`Có lỗi xảy ra: ${error.response?.data || 'Thông tin không đầy đủ'}`);
+    }  
+  };
+
+  const openAddPopupVisible = () => {
+    setAddPopupVisible(true);
+  }
+
+  const closeAddPopupVisible = () => {    
+    setDescription("");
+    setVarietyName("");
+    setImgUrl("");
+    setAddPopupVisible(false);
+  }
 
   const fetchKoi = async () => {
     try {
@@ -34,10 +75,11 @@ function Index() {
   return (
     <div className='bg-violet-100 min-h-screen'>
       <AdminHeader />
+      <ToastContainer/>
       <div className='flex'>
         <AdminNavbar />
         <div className='flex-1 p-6'>
-          <button className='bg-white rounded-xl pr-4 ml-3 shadow-lg font-semibold flex items-center text-xl'>
+          <button className='bg-white rounded-xl pr-4 ml-3 shadow-lg font-semibold flex items-center text-xl' onClick={openAddPopupVisible}>
             <span className='m-3 text-3xl'>+</span>
             Create New Variety Koi
           </button>
@@ -78,6 +120,36 @@ function Index() {
           )}
         </div>
       </div>
+
+      {addPopupVisible && (
+        <div className='fixed flex inset-0 items-center justify-center bg-opacity-50 bg-black'>
+          <div className='bg-white shadow-md p-6 rounded-lg h-fit w-fit'>
+            <h1 className="text-xl font-semibold text-center">Thêm Koi Mới</h1>
+            <input
+              className="h-14 w-full border-2 border-black rounded p-2 mt-6"
+              value={varietyName}
+              onChange={(event) => setVarietyName(event.target.value)}
+              placeholder="Variety Name"
+            />
+            <textarea
+              className="h-14 w-full border-2 border-black rounded p-2 mt-6"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="Description"
+            />
+            <input 
+              className="h-14 w-full border-2 border-black rounded p-2 mt-6" 
+              value={imageUrl}
+              onChange={(event) => setImgUrl(event.target.value)}
+              placeholder="Img url"
+            />
+            <div className='flex justify-center mt-6'>
+              <button className='bg-green-500 p-2 mx-4 rounded-lg text-white hover:bg-green-600' onClick={handleAddVarietyKoi}>Add</button>
+              <button className='bg-orange-500 p-2 rounded-lg text-white hover:bg-orange-600 mx-4' onClick={closeAddPopupVisible}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

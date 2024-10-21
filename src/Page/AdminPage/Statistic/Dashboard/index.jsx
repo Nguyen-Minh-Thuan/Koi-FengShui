@@ -10,7 +10,7 @@ const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June'],
   datasets: [
     {
-      label: 'Sales',
+      label: 'Ads',
       data: [65, 59, 80, 81, 56, 55],
       borderColor: 'rgba(75,192,192,1)',
       backgroundColor: 'rgba(75,192,192,0.2)',
@@ -37,12 +37,14 @@ const index = () => {
       <AdminHeader />
       <div className='flex'>
         <AdminNavbar />
-        <div className='p-6'>
-          <h2 className="text-2xl font-semibold mb-4">Advertisement</h2>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
-            <Line data={data} options={options} />
-          </div>
+        <div className='flex-1'>
+          <div className='m-4'>
+            <h2 className="text-2xl font-semibold mb-4">Advertisement</h2>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
+              <Line data={data} options={options} />
+            </div>
+          </div>          
         </div>
       </div>
     </div>
