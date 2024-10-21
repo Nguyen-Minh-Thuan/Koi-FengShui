@@ -87,21 +87,25 @@ const AdsPage = () => {
         </select>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8">
-        {filteredAds.map(ad => (
-          <div key={ad.adsId} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" style={{ maxWidth: '260px' }}>
-            <Link to={{
-              pathname: `/ads/product/${ad.adsId}`,
-            }}>
-              <AdsCard 
-                image={ad.image}
-                title={ad.title}
-                content={ad.content}
-              />
-            </Link>
-          </div>
-        ))}
-      </div>
+      {filteredAds.length === 0 ? (
+        <p className="text-center text-xl">Không có sản phẩm nào</p>
+      ) : (
+        <div className="flex flex-wrap justify-center gap-8">
+          {filteredAds.map(ad => (
+            <div key={ad.adsId} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" style={{ maxWidth: '260px' }}>
+              <Link to={{
+                pathname: `/ads/product/${ad.adsId}`,
+              }}>
+                <AdsCard 
+                  image={ad.image}
+                  title={ad.title}
+                  content={ad.content}
+                />
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
     <Footer/>
     </>
