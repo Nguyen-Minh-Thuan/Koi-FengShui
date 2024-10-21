@@ -69,7 +69,7 @@ const AdsPage = () => {
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
           >
-            <option value="Tất cả">Loại cá</option>
+            <option value="Tất cả">Loại sản phẩm</option>
             {fishTypes.map(type => (
               <option key={type.adsTypeId} value={type.typeName}>{type.typeName}</option>
             ))}
@@ -97,7 +97,7 @@ const AdsPage = () => {
                 pathname: `/ads/product/${ad.adsId}`,
               }}>
                 <AdsCard 
-                  image={ad.image}
+                  imageUrl={ad.imageUrl}
                   title={ad.title}
                   content={ad.content}
                 />
