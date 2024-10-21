@@ -57,24 +57,17 @@ export default function CreateAdsPage() {
     const fetchProductTypeOptions = async () => {
       try {
         const response = await fetch(
-          "https://localhost:7275/api/Advertisement/GetAll/"
+          "https://localhost:7275/api/Advertisement/GetType"
         );
         const getData = await response.json();
 
-        const uniqueTypes = {};
-        getData.data.forEach((item) => {
-          const typeName = item.adsType.typeName;
-          if (!uniqueTypes[typeName]) {
-            uniqueTypes[typeName] = item.adsType.adsTypeId;
-          }
-        });
-
-        const types = Object.entries(uniqueTypes).map(([name, id]) => ({
-          typeName: name,
-          adsTypeId: id,
-        }));
-
-        setProductTypeOptions(types);
+        if (getData.status && getData.data) {
+          const types = getData.data.map((item) => ({
+            adsTypeId: item.adsTypeId,
+            typeName: item.typeName,
+          }));
+          setProductTypeOptions(types);
+        }
       } catch (error) {
         console.error("Error fetching product type options:", error);
       }
