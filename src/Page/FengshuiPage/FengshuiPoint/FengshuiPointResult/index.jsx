@@ -8,13 +8,15 @@ const FengshuiPointResult = () => {
   const location = useLocation();
   const { koiPoint, totalPoint, element, direction, comment, totalAmount, recDir } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction: "", comment: "", totalAmount: "", recDir: [] };
   const [adsData, setAdsData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   useEffect(() => {
     if (element.elementId) {
       fetch(`https://localhost:7275/api/Advertisement/GetRecAds?Elementid=${element.elementId}`)
         .then(response => response.json())
         .then(data => {
-          console.log('API response:', data); // Log the response to check its structure
+          console.log('API response:', data); 
           if (Array.isArray(data.data)) {
             setAdsData(data.data);
           } else {
@@ -60,6 +62,22 @@ const FengshuiPointResult = () => {
   const hoa_hop = sortedColors.filter(color => color.values < maxValue && color.values > 0)
   const che_khac = sortedColors.filter(color => color.values < 0 && color.values >= -2)
   const bi_khac = sortedColors.filter(color => color.values < -2)
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage('');
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+      closeModal();
+    }
+  };
 
   return (
     <>
@@ -114,7 +132,8 @@ const FengshuiPointResult = () => {
                       <img
                         src={koi.imageUrl || 'default_image_url'}
                         alt={koi.patternName}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover cursor-pointer"
+                        onClick={() => handleImageClick(koi.imageUrl || 'default_image_url')}
                       />
                     </div>
                     <div className="p-4 flex flex-col justify-between">
@@ -228,23 +247,40 @@ const FengshuiPointResult = () => {
           </div>
         </div>
 
-
         <div>
           <h1 className="text-2xl font-bold text-center mb-6">CÁC LOẠI CÁ KOI NÊN NUÔI</h1>
           <div className="flex flex-wrap justify-center">
-            {adsData.map((ad, index) => (
-              <AdsCard
-                key={index}
-                imageUrl={ad.imageUrl}
-                title={ad.title}
-                content={ad.content}
-                link={ad.link}
-              />
-            ))}
+            {adsData.length > 0 ? (
+              adsData.map((ad, index) => (
+                <AdsCard
+                  key={index}
+                  imageUrl={ad.imageUrl}
+                  title={ad.title}
+                  content={ad.content}
+                  link={ad.link}
+                />
+              ))
+            ) : (
+              <p className="text-center">Không có quảng cáo nào Phù hợp</p>
+            )}
           </div>
         </div>
       </div>
       <Footer />
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center modal-overlay" onClick={handleOutsideClick}>
+          <div className="bg-white p-4 rounded-lg relative">
+            <button 
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+            <img src={selectedImage} alt="Enlarged" className="max-w-[300px] max-h-[500px]" />
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -24,6 +24,8 @@ const FengshuiPoint = () => {
   const [fishPatterns, setFishPatterns] = useState([]);
   const [selectedPatternList, setSelectedPatternList] = useState([]); 
   const [errors, setErrors] = useState({ fishType: '', quantity: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   const toggleFishVariety = (varietyId) => {
     setSelectedFishVarieties(prevSelected => {
@@ -255,6 +257,21 @@ const FengshuiPoint = () => {
     }
   }
 
+  const openImageModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center text-white text-center p-4" style={{ backgroundImage: "url('path/to/your/background-image.jpg')" }}>
       <h1 className="text-4xl font-bold mb-4">TRA CỨU ĐỘ TƯỢNG THÍCH</h1>
@@ -273,13 +290,18 @@ const FengshuiPoint = () => {
             <div key={index} className="bg-white bg-opacity-20 p-2 rounded-lg flex flex-col items-center relative">
               <button
                 onClick={() => handleRemovePattern(index)}
-                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-red-700"
               >
-                x
+                &times;
               </button>
-              <img src={`pattern.imageUrl`} alt={pattern.name} className="w-20 h-32 mb-2 rounded-lg border-2 border-blue-500" />
+              <img 
+                src={`pattern.imageUrl`} 
+                alt={pattern.name} 
+                className="w-20 h-32 mb-2 rounded-lg border-2 border-blue-500 cursor-pointer" 
+                onClick={() => openImageModal(pattern.imageUrl)}
+              />
               <h3 className="text-md font-bold">{pattern.name}</h3>
-              <p>Số lượng: {pattern.quantity}</p>
+              <p>Số lượng: {quantity}</p>
             </div>
           ))}
         </div>
@@ -411,7 +433,6 @@ const FengshuiPoint = () => {
               <option value="">Chọn giới tính</option>
               <option value="male">Nam</option>
               <option value="female">Nữ</option>
-              <option value="other">Khác</option>
             </select>
             {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender}</p>}
           </div>
@@ -425,6 +446,9 @@ const FengshuiPoint = () => {
               onChange={(e) => handleDateChange(new Date(e.target.value))}
               InputProps={{
                 style: { backgroundColor: 'white', height: '38px' },
+              }}
+              inputProps={{
+                max: new Date().toISOString().split('T')[0] 
               }}
               className="w-full"
             />
@@ -460,6 +484,19 @@ const FengshuiPoint = () => {
         </button>
       </form>
 
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center modal-overlay" onClick={handleOutsideClick}>
+          <div className="bg-white p-4 rounded-lg relative">
+            <button 
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+            <img src={selectedImage} alt="Enlarged" className="max-w-[300px] max-h-[500px]" />
+          </div>
+        </div>
+      )}
 
     </div>
   );

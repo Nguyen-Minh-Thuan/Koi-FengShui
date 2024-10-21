@@ -5,7 +5,7 @@ import Footer from '../../../../Component/Footer';
 
 const FengshuiPondResult = () => {
   const location = useLocation(); 
-  const { direction, pondShape } = location.state || { direction: {}, pondShape: {} };
+  const { direction, pondShape, birthdate, gender } = location.state || { direction: {}, pondShape: {}, birthdate: '', gender: '' };
 
   return (
     <>
@@ -21,10 +21,10 @@ const FengshuiPondResult = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-gray-700 text-lg">Giới tính: <strong>Nam</strong></p>
-            <p className="text-gray-700 text-lg">Ngày sinh: <strong>13/10/1993</strong></p>
+            <p className="text-gray-700 text-lg">Giới tính: <strong>{gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : 'Không xác định'}</strong></p>
+            <p className="text-gray-700 text-lg">Ngày sinh: <strong>{birthdate || "Không xác định"}</strong></p>
             <p className="text-gray-700 text-lg">Mệnh: <strong>{pondShape.element1 || "Không xác định"}</strong></p>
-            <p className="text-gray-700 text-lg">Cung mệnh: <strong>{direction.kuaName}</strong></p>
+            <p className="text-gray-700 text-lg">Cung phi: <strong>Cung {direction.kuaName}</strong></p>
           </div>
         </div>
 
