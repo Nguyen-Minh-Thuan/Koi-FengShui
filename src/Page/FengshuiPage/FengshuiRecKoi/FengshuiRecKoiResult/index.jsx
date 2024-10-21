@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../../../../Component/NavBar';
 import Footer from '../../../../Component/Footer';
@@ -29,11 +29,30 @@ const FengshuiRecKoiResult = () => {
     "Thổ": "bg-yellow-600" 
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage('');
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+      closeModal();
+    }
+  };
+
   return (
     <>
       <NavBar/>
       <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold">Kết quả phong thủy</h1>
+        <h1 className="text-2xl font-bold text-center">KẾT QUẢ TRA CỨU CÁ KOI</h1>
         
         <table className="min-w-full mt-4 border">
           <thead>
@@ -63,28 +82,42 @@ const FengshuiRecKoiResult = () => {
               <p className="mt-2">{koi.description}</p>
               <h5 className="mt-4 font-medium">Các mẫu:</h5>
               <ul className="flex flex-wrap list-none p-0">
-                {koi.patterns
-                  .map((pattern, index) => (
-                    <li key={pattern.patternId} className="flex items-center mb-2 mr-4">
-                      <span className="ml-2">{pattern.patternName}</span>
-                      <div className="relative group mx-2">
-                        <img 
-                          src={pattern.imageUrl || 'https://www.grandkoi.com/wp-content/uploads/2021/04/6647-2-600x900.png'} 
-                          alt={pattern.patternName}
-                          className="w-16 h-16 object-cover rounded transition-transform duration-300 ease-in-out group-hover:scale-125"
-                        />
-                      </div>
-                      {index < koi.patterns.length - 1 && (
-                        <div className="border-l border-gray-300 h-10 mx-2"></div> 
-                      )}
-                    </li>
-                  ))}
+                {koi.patterns.map((pattern, index) => (
+                  <li key={pattern.patternId} className="flex items-center mb-2 mr-4">
+                    <span className="ml-2">{pattern.patternName}</span>
+                    <div className="relative group mx-2">
+                      <img 
+                        src={pattern.imageUrl || 'https://www.grandkoi.com/wp-content/uploads/2021/04/6647-2-600x900.png'} 
+                        alt={pattern.patternName}
+                        className="w-16 h-16 object-cover rounded transition-transform duration-300 ease-in-out group-hover:scale-125 cursor-pointer"
+                        onClick={() => handleImageClick(pattern.imageUrl || 'https://www.grandkoi.com/wp-content/uploads/2021/04/6647-2-600x900.png')}
+                      />
+                    </div>
+                    {index < koi.patterns.length - 1 && (
+                      <div className="border-l border-gray-300 h-10 mx-2"></div> 
+                    )}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
         </div>
       </div>
       <Footer/>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center modal-overlay" onClick={handleOutsideClick}>
+          <div className="bg-white p-4 rounded-lg relative">
+            <button 
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+            <img src={selectedImage} alt="Enlarged" className="max-w-[300px] max-h-[500px]" />
+          </div>
+        </div>
+      )}
     </>
   );
 };

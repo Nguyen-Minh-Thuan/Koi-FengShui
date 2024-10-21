@@ -65,14 +65,21 @@ const FengshuiRecKoi = () => {
               <option value="">--Chọn giới tính--</option>
               <option value="male">Nam</option>
               <option value="female">Nữ</option>
-              <option value="other">Khác</option>
             </select>
             {errors.gender && <span className="text-red-500 text-sm">{errors.gender}</span>} 
           </div>
 
           <div className="w-[48%] flex flex-col">
             <label htmlFor="birthdate" className="block text-left mb-2">Ngày sinh<span className="text-red-500">*</span></label>
-            <input type="date" id="birthdate" className="w-full p-2 rounded bg-white text-black text-center" placeholder="dd/mm/yyyy" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} />
+            <input 
+              type="date" 
+              id="birthdate" 
+              className="w-full p-2 rounded bg-white text-black text-center" 
+              placeholder="dd/mm/yyyy" 
+              value={birthdate} 
+              onChange={(e) => setBirthdate(e.target.value)} 
+              max={new Date().toISOString().split('T')[0]} 
+            />
             {errors.birthdate && <span className="text-red-500 text-sm">{errors.birthdate}</span>} 
           </div>
         </div>
