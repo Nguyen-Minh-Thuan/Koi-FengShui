@@ -67,7 +67,7 @@ const AdminNavbar = () => {
             </Link>
           </li>
           <li className="mb-4">
-            <Link to='/admin/koilist' className="flex items-center ">
+            <Link to='/admin/realtime' className="flex items-center ">
               <img className="mr-4 h-8 w-8" src={realTime}></img>
               Real Time Stats
             </Link>

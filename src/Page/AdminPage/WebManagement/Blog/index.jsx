@@ -58,7 +58,7 @@ const Index = () => {
       <AdminHeader />
       <div className='flex'>
         <AdminNavbar />
-        <div className='flex-1 bg-blue-100 p-6'>
+        <div className='flex-1 bg-violet-100 p-6'>
           <div className='grid grid-cols-3 gap-6'>
             {blogPosts.map((blog) => (
               <div key={blog.id} className='bg-white shadow-lg rounded-lg overflow-hidden'>

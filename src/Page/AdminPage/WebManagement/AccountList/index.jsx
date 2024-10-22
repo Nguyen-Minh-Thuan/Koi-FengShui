@@ -1,5 +1,7 @@
 import AdminNavbar from '../../../../Component/AdminNavbar'
 import AdminHeader from '../../../../Component/HeaderAdmin'
+import search from '../../../../assets/Icon//Search.png'
+
 import { useState, useEffect } from 'react';
 import api from '../../../../Config/axios'
 import { Link } from 'react-router-dom';
@@ -17,7 +19,7 @@ const AccountList = () => {
 
   const fetchAccounts = async () => {
     try {
-      const response = await api.get('User');
+      const response = await api.get('User/GetUserByPage?pageIndex=0');
       setAccounts(response.data.data);
     } catch (error) {
       console.error("loi roi: ", error);
@@ -47,8 +49,21 @@ const AccountList = () => {
       <AdminHeader />
       <div className='flex'>
         <AdminNavbar />
-        <div className='flex-1'>
-          <div className='relative w-full h-[630px] flex flex-col px-[15%] py-[3%]'>
+        <div className='flex-1 p-6 bg-violet-100 min-h-screen'>
+        <div className='bg-white shadow-lg p-8'>
+          <h1 className='text-center font-semibold text-2xl'> Account List</h1>
+          <div className='relative w-full h-min flex flex-col px-[5%] py-[3%]'>
+            <div className='flex items-start mb-4'>
+                <div className="border-2 border-black px-2 rounded-lg">
+                  <input
+                    className="focus:border-transparent focus:outline-none py-2 w-72"
+                    placeholder="Search"
+                  />
+                </div>
+                <Link to="/" className="bg-white focus:border-transparent cursor-pointer py-1 ml-2">
+                  <img src={search} className="h-8 w-8" alt="Search" />
+                </Link>
+              </div>
             <table className="min-w-full border-collapse border-4 border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
@@ -94,6 +109,7 @@ const AccountList = () => {
               </span>
               <button onClick={handlePrevPage} className={`ml-2 px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === 1}>⪡</button>
               <button onClick={handleNextPage} className={`ml-2 px-4 py-2 ${currentPage === Math.ceil(account.length / rowPerPage) ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === Math.ceil(account.length / rowPerPage)}>⪢</button>
+            </div>
             </div>
           </div>
         </div>

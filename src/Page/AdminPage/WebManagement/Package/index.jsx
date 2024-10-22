@@ -62,37 +62,39 @@ const Index = () => {
     <>
       <AdminHeader/>
       <ToastContainer/>
-      <div className='flex'>
+      <div className='flex bg-violet-100'>
         <AdminNavbar/>        
-        <div className='flex-1 p-8'>
-        <button className='bg-white rounded-xl pr-4 ml-4 border-gray-200 border-2 mt-4 hover:bg-gray-100 shadow-lg font-semibold flex items-center text-xl' onClick={openAddPackagePopup}>
+        <div className='flex-1 p-8 min-h-screen'>
+        <button className='bg-white rounded-xl pr-4 ml-4 border-gray-200 border-2 mt-3 hover:bg-gray-100 shadow-lg font-semibold flex items-center text-xl' onClick={openAddPackagePopup}>
           <span className='m-3 text-3xl'>+</span>
           Add new package
         </button>
-        <h1 className='text-center text-3xl font-semibold'> Package List detail </h1>
-          <div className='items-center relative w-full h-[630px] px-[15%] py-[3%]'>
-            <table className='min-w-full border-collapse border-4 border-gray-300'>
-              <thead className=''>
-                <tr className='bg-gray-200'>
-                  <th> Package Name </th>
-                  <th> Duration </th>
-                  <th> price </th>
-                  <th> Action</th>
-                </tr>  
-              </thead>
-              <tbody className='border-black text-center'>
-                {packages.map((pack, index) =>(
-                <tr key={index}>
-                  <td>{pack.packageName}</td>
-                  <td>{pack.duration} days</td>
-                  <td>{pack.price}</td>
-                  <td>
-                    <Link to={`/admin/packages/${pack.packageId}`} className='text-blue-700 hover:underline'>Detail</Link>
-                  </td>
-                </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className='h-min border-2 my-6 bg-white p-12'>
+          <h1 className='text-center text-3xl font-semibold'> Package List detail </h1>
+            <div className='items-center relative w-full h-min my-6'>
+              <table className='min-w-full border-collapse border-4 border-gray-300'>
+                <thead className=''>
+                  <tr className='bg-gray-200'>
+                    <th> Package Name </th>
+                    <th> Duration </th>
+                    <th> price </th>
+                    <th> Action</th>
+                  </tr>  
+                </thead>
+                <tbody className='border-black text-center'>
+                  {packages.map((pack, index) =>(
+                  <tr key={index}>
+                    <td>{pack.packageName}</td>
+                    <td>{pack.duration} days</td>
+                    <td>{pack.price}</td>
+                    <td>
+                      <Link to={`/admin/packages/${pack.packageId}`} className='text-blue-700 hover:underline'>Detail</Link>
+                    </td>
+                  </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

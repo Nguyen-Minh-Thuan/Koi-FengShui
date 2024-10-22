@@ -49,8 +49,10 @@ const Index = () => {
       <ToastContainer/>
       <div className='flex'>
         <AdminNavbar />
-        <div className='flex-1'>
-          <div className='relative w-full h-[630px] flex flex-col px-[15%] py-[3%]'>
+        <div className='flex-1 p-6 bg-violet-100 min-h-screen'>
+        <div className='bg-white shadow-lg p-8'>
+          <h1 className='text-center font-semibold text-2xl'> Advertisement List</h1>
+          <div className='relative w-full h-min flex flex-col px-[5%] py-[3%]'>
             <div className='flex items-start mb-4'>
               <div className="border-2 border-black px-2 rounded-lg">
                 <input
@@ -101,7 +103,8 @@ const Index = () => {
               <button onClick={handlePrevPage} className={`ml-2 px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === 1}>⪡</button>
               <button onClick={handleNextPage} className={`ml-2 px-4 py-2 ${currentPage === Math.ceil(ads.length / rowPerPage) ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={currentPage === Math.ceil(ads.length / rowPerPage)}>⪢</button>
             </div>
-          </div>
+          </div>                    
+        </div>
         </div>
       </div>
     </>
