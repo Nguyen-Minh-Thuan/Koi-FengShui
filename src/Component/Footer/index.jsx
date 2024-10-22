@@ -68,7 +68,12 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/admin" className="hover:underline">
-                  Trợ giúp
+                  Admin Page
+                </Link>
+              </li>
+              <li>
+                <Link to="/staff" className="hover:underline">
+                  Staff Page
                 </Link>
               </li>
             </ul>

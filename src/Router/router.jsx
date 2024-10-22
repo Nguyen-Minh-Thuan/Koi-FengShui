@@ -32,6 +32,7 @@ import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPou
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
 import ResultPage from "../Page/ResultPage";
 import CreateBlogPage from "../Page/CreateBlogPage";
+import StaffPage from "../Page/StaffPage";
 
 const AppRouter = () => {
   const storageUser = localStorage.getItem("user");
@@ -89,6 +90,7 @@ const AppRouter = () => {
 
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
         <Route path="/ads/create/package/result" element={<ResultPage />} />
+        <Route path="/staff" element={<StaffPage />} />
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
       </Routes>
