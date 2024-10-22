@@ -1,68 +1,60 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
-import api from '../../../../Config/axios';
-import { toast, ToastContainer } from 'react-toastify';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'; // Biểu đồ Recharts
-import { Line } from 'antd'; // Biểu đồ Ant Design
+import { ToastContainer } from 'react-toastify';
+import { Line } from '@ant-design/charts'; // Sử dụng Line cho biểu đồ theo thời gian
 
-function Index() {
-  const [kois, setKois] = useState([]);
-  const [ads, setAds] = useState([]); // Quảng cáo
-  const [users, setUsers] = useState([]); // Người dùng
-  const [loading, setLoading] = useState(true);
+const Index = () => {
+  const [chartData, setChartData] = useState([]);
 
-  const fetchKoi = async () => {
-    try {
-      const response = await api.get('FengShui/GetKois');
-      setKois(response.data.data);
-    } catch (error) {
-      console.log(error);
-      toast.error('Có lỗi xảy ra khi tải dữ liệu.');
-    } finally {
-      setLoading(false);
+  // Dữ liệu mẫu
+  const fetchData = () => {
+    // Giả lập dữ liệu, có thể thay thế bằng API để lấy dữ liệu thật
+    const data = [];
+    const currentTime = new Date();
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        time: new Date(currentTime.getTime() - i * 60000).toLocaleTimeString(), // Thời gian hiện tại trừ đi số phút
+        queries: Math.floor(Math.random() * 100), // Số lượt tra cứu ngẫu nhiên
+        ads: Math.floor(Math.random() * 50), // Số quảng cáo ngẫu nhiên
+      });
     }
-  };
-
-  const fetchAds = async () => {
-    try {
-      const response = await api.get('Advertisement/GetAll');
-      setAds(response.data.data);
-    } catch (error) {
-      toast.error('Có lỗi khi tải quảng cáo');
-    }
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const response = await api.get('FengShui/GetUsers');
-      setUsers(response.data.data);
-    } catch (error) {
-      toast.error('Có lỗi khi tải dữ liệu người dùng');
-    }
+    setChartData(data.reverse()); // Đảo ngược dữ liệu để hiển thị đúng thứ tự thời gian
   };
 
   useEffect(() => {
-    fetchKoi();
-    fetchAds();
-    fetchUsers();
+    fetchData();
+    const interval = setInterval(fetchData, 60000); // Cập nhật dữ liệu mỗi phút
+    return () => clearInterval(interval); // Dọn dẹp interval khi component bị gỡ bỏ
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  const chartData = [
-    { name: 'Jan', ads: 30, users: 45 },
-    { name: 'Feb', ads: 20, users: 35 },
-    { name: 'Mar', ads: 50, users: 60 },
-  ];
-
-  const lineChartData = [
-    { name: 'Jan', activeAds: 20, inactiveAds: 10 },
-    { name: 'Feb', activeAds: 15, inactiveAds: 5 },
-    { name: 'Mar', activeAds: 25, inactiveAds: 15 },
-  ];
+  const config = {
+    data: chartData,
+    xField: 'time',
+    yField: 'queries',
+    seriesField: 'ads',
+    xAxis: {
+      tickCount: 5,
+    },
+    yAxis: {
+      label: {
+        formatter: (v) => `${v}`, // Có thể thay đổi định dạng nếu cần
+      },
+    },
+    point: {
+      size: 5,
+      shape: 'diamond',
+    },
+    label: {
+      style: {
+        fill: '#aaa',
+      },
+    },
+    tooltip: {
+      shared: true,
+      showMarkers: false,
+    },
+  };
 
   return (
     <div className='bg-violet-100 min-h-screen'>
@@ -71,68 +63,41 @@ function Index() {
       <div className='flex'>
         <AdminNavbar />
         <div className='flex-1 p-6'>
+          {/* Section: Biểu đồ thống kê theo thời gian */}
+          <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
+            <h2 className='text-xl font-semibold'>Thống kê Realtime: Tra Cứu Mệnh và Quảng Cáo</h2>
+            <Line {...config} />
+          </div>
 
-          {/* Section: Tổng quan */}
+          {/* Các phần còn lại của trang */}
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6'>
             <div className='bg-white p-6 rounded-lg shadow-lg'>
               <h2 className='text-xl font-semibold'>Tổng số Quảng Cáo</h2>
-              <p className='text-3xl font-bold'>{ads.length}</p>
+              <p className='text-3xl font-bold'>30</p> {/* Số liệu mẫu */}
             </div>
             <div className='bg-white p-6 rounded-lg shadow-lg'>
               <h2 className='text-xl font-semibold'>Tổng số Người Dùng</h2>
-              <p className='text-3xl font-bold'>{users.length}</p>
+              <p className='text-3xl font-bold'>45</p> {/* Số liệu mẫu */}
             </div>
             <div className='bg-white p-6 rounded-lg shadow-lg'>
               <h2 className='text-xl font-semibold'>Tổng số Koi</h2>
-              <p className='text-3xl font-bold'>{kois.length}</p>
+              <p className='text-3xl font-bold'>20</p> {/* Số liệu mẫu */}
             </div>
-          </div>
-
-          {/* Section: Biểu đồ Recharts */}
-          <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
-            <h2 className='text-xl font-semibold'>Thống kê Quảng Cáo và Người Dùng</h2>
-            <BarChart width={600} height={300} data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="ads" fill="#8884d8" />
-              <Bar dataKey="users" fill="#82ca9d" />
-            </BarChart>
-          </div>
-
-          {/* Section: Biểu đồ Ant Design */}
-          <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
-            <h2 className='text-xl font-semibold'>So Sánh Quảng Cáo Hoạt Động và Không Hoạt Động</h2>
-            <Line
-              data={lineChartData}
-              xField="name"
-              yField={['activeAds', 'inactiveAds']}
-              seriesField="type"
-              title="Quảng Cáo Hoạt Động vs Không Hoạt Động"
-              color={['#8884d8', '#82ca9d']}
-              point={{ size: 5, shape: 'diamond' }}
-            />
           </div>
 
           {/* Section: Danh sách Quảng Cáo */}
           <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
             <h2 className='text-xl font-semibold'>Các quảng cáo nổi bật</h2>
-            {ads.length > 0 ? (
-              <ul>
-                {ads.map(ad => (
-                  <li key={ad.id} className='p-2 border-b'>{ad.title} - {ad.status}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>Không có quảng cáo.</p>
-            )}
+            <ul>
+              <li className='p-2 border-b'>Quảng cáo 1 - Hoạt động</li>
+              <li className='p-2 border-b'>Quảng cáo 2 - Ngừng hoạt động</li>
+              <li className='p-2 border-b'>Quảng cáo 3 - Hoạt động</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Index;
