@@ -55,7 +55,7 @@ const LoginForm = () => {
       if (response.ok) {
         const data = await response.json(); 
         localStorage.setItem('user', JSON.stringify(data.user));
-
+        localStorage.setItem('token', JSON.stringify(data.token));
         if (data.user.role === 1) {
           navigate('/admin/manage'); 
         } else if (data.user.role === 2) {
