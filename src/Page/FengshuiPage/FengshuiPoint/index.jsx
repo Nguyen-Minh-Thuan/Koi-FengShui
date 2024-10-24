@@ -276,7 +276,7 @@ const FengshuiPoint = () => {
 
   return (
     <div className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center text-white text-center p-4" style={{ backgroundImage: "url('path/to/your/background-image.jpg')" }}>
-      <h1 className="text-4xl font-bold mb-4">TRA CỨU ĐỘ TƯỢNG THÍCH</h1>
+      <h1 className="text-4xl font-bold mb-4">TRA CỨU ĐỘ TƯƠNG THÍCH</h1>
       <p className="max-w-2xl mb-8">
         Mỗi con người sinh ra đều có vận mệnh khác nhau. Để chọn lựa được giống cá và hướng
         hồ phù hợp hãy điền thông tin vào bảng dưới đây. Fengshui Koi sẽ giúp bạn giải mã.
