@@ -49,6 +49,7 @@ const UserAdsManageDetail = ({ ad, onClose }) => {
                     <div className="text-gray-800">
                         <h2 className="text-xl font-bold mb-4">Thông tin chi tiết</h2>
                         <ul className="list-disc list-inside">
+                            <li>Trạng thái: <strong>{ad.status.status1 === 'Drafted' ? 'Bản nháp' : ad.status.status1}</strong></li>
                             <li>Ngày đăng: <strong>{ad.startedDate}</strong></li>
                             <li>Ngày hết hạn: <strong>{ad.expiredDate}</strong></li>
                             <li>Gói đăng ký: <strong>{ad.packageId}</strong></li>
@@ -58,7 +59,9 @@ const UserAdsManageDetail = ({ ad, onClose }) => {
                     </div>
                     <div className="flex justify-end space-x-4 mt-4">
                         <button className="bg-red-500 text-white px-4 py-2 rounded">Xóa bài</button>
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded">Gia hạn</button>
+                        {ad.status.status1 !== 'draft' && (
+                            <button className="bg-blue-500 text-white px-4 py-2 rounded">Thanh toán và đăng tin</button>
+                        )}
                     </div>
                 </div>
             </div>

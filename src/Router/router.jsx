@@ -69,21 +69,21 @@ const AppRouter = () => {
           element={
             <ProtectedRoute
               element={<UserProfilePage />}
-              allowedRoles={[3]} 
+              allowedRoles={[3]}
               redirectPath="/"
             />
           }
         />
 
-        <Route 
-        path="/user/ads/list" 
-        element={
-          <ProtectedRoute
-            element={<UserAdsList />}
-            allowedRoles={[3]}
-            redirectPath="/"
-          />
-        }
+        <Route
+          path="/user/ads/list"
+          element={
+            <ProtectedRoute
+              element={<UserAdsList />}
+              allowedRoles={[3]}
+              redirectPath="/"
+            />
+          }
         />
 
         <Route
@@ -102,7 +102,7 @@ const AppRouter = () => {
           element={
             <ProtectedRoute
               element={<AdminPage />}
-              allowedRoles={[1]} 
+              allowedRoles={[1]}
               redirectPath="/"
             />
           }
@@ -228,14 +228,34 @@ const AppRouter = () => {
           }
         />
 
-        
+        <Route
+          path="/ads/create"
+          element={
+            <ProtectedRoute
+              element={<CreateAdsPages />}
+              allowedRoles={[3]}
+              redirectPath="/login"
+            />
+          }
+        />
+        <Route
+          path="/ads/create/package"
+          element={
+            <ProtectedRoute
+              element={<AdsPackagePage />}
+              allowedRoles={[3]}
+              redirectPath="/logi"
+            />
+          }
+        />
+
+
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
         <Route path="/blog/create" element={<CreateBlogPage />} />
         <Route path="/ads/product" element={<AdsPage />} />
-        <Route path="/ads/create" element={<CreateAdsPages />} />
-        <Route path="/ads/create/package" element={<AdsPackagePage />} />
+
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />

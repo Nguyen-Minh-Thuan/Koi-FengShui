@@ -10,6 +10,7 @@ const AdsPage = () => {
   const [selectedElement, setSelectedElement] = useState('Tất cả')
   const [elements, setElements] = useState([]) 
   const [fishTypes, setFishTypes] = useState([]) 
+  const [searchItem, setSearchItem] = useState('')
 
   useEffect(() => {
     const fetchAdsData = async () => {
@@ -51,8 +52,9 @@ const AdsPage = () => {
   }, [])
 
   const filteredAds = adsData.filter(ad => {
-    return (selectedType === 'Tất cả' || ad.typeName === selectedType) &&
-           (selectedElement === 'Tất cả' || ad.element1 === selectedElement);
+    return (selectedType === 'Tất cả' || ad.adsTypeId === selectedType) &&
+           (selectedElement === 'Tất cả' || ad.element1 === selectedElement) &&
+           (ad.title.toLowerCase().includes(searchItem.toLowerCase()));
   });
 
   return (
@@ -63,7 +65,13 @@ const AdsPage = () => {
       
       <div className="flex flex-wrap justify-center gap-6 mb-12">
         <div className="flex items-center">
-          <span className="mr-3">Lọc theo:</span>
+        <input 
+          type="text" 
+          className="p-2 border rounded mr-4" 
+          placeholder="Tìm kiếm theo tiêu đề" 
+          value={searchItem} 
+          onChange={(e) => setSearchItem(e.target.value)}
+        />
           <select 
             className="p-2 border rounded"
             value={selectedType}
@@ -71,10 +79,11 @@ const AdsPage = () => {
           >
             <option value="Tất cả">Loại sản phẩm</option>
             {fishTypes.map(type => (
-              <option key={type.adsTypeId} value={type.typeName}>{type.typeName}</option>
+              <option key={type.adsTypeId} value={type.adsTypeId}>{type.typeName}</option>
             ))}
           </select>
         </div>
+
         <select 
           className="p-2 border rounded"
           value={selectedElement}
@@ -85,6 +94,7 @@ const AdsPage = () => {
             <option key={element.elementId} value={element.element1}>{element.element1}</option>
           ))}
         </select>
+        
       </div>
 
       {filteredAds.length === 0 ? (
