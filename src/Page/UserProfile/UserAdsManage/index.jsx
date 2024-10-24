@@ -64,7 +64,7 @@ const UserAdsList = () => {
     const rows = adsData.map((ad) => ({
         id: ad.adsId,
         title: ad.title,
-        status: ad.status.status1,
+        status: ad.status.status1 === 'Drafted' ? 'Bản nháp' : ad.status.status1,
         packageName: ad.package ? ad.package.packageName : 'N/A',
         startedDate: format(new Date(ad.startedDate), 'dd/MM/yyyy'),
         expiredDate: format(new Date(ad.expiredDate), 'dd/MM/yyyy'),

@@ -323,12 +323,12 @@ export default function CreateAdsPage() {
                     onChange={handleChange}
                     className={`w-full p-2 border ${
                       errors.elementId ? "border-red-500" : "border-gray-300"
-                    } rounded-md`}
+                    } rounded-md text-black`} 
                   >
                     <option value="">--Chọn mệnh ngũ hành--</option>
                     {nguHanhOptions.map((option) => (
-                      <option key={option.elementId} value={option.elementId}>
-                        {option.elementName}
+                      <option key={option.elementId} value={option.elementId} >
+                        {option.element1}
                       </option>
                     ))}
                   </select>

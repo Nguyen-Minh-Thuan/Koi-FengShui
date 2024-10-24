@@ -297,7 +297,7 @@ const FengshuiPoint = () => {
                 &times;
               </button>
               <img
-                src={pattern.imageUrl}
+                src={pattern.imageUrl} 
                 alt={pattern.name}
                 className="w-20 h-32 mb-2 rounded-lg border-2 border-blue-500 cursor-pointer"
                 onClick={() => openImageModal(pattern.imageUrl)}

@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const UserSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [memberName, setMemberName] = useState('');
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('user');
+    if (storedUserData) {
+      const parsedData = JSON.parse(storedUserData);
+      const userId = parsedData.userId;
+
+      fetch(`https://localhost:7275/api/User/${userId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          setMemberName(data.data.userName); 
+        })
+        .catch(error => {
+          console.error("Error fetching user data:", error);
+        });
+    }
+  }, []);
 
   const menuItems = [
-    { path: '/user/profile', text: 'User Profile' },
+    { path: '/user/profile', text: 'Hồ sơ người dùng' },
     { path: '/user/ads/list', text: 'Danh sách tin' },
     { path: '/user/password/change', text: 'Đổi mật khẩu' },
   ];
@@ -25,7 +48,7 @@ const UserSidebar = () => {
             className="rounded-full"
           />
         </div>
-        <p className="font-bold text-black">Member's name</p>
+        <p className="font-bold text-black">{memberName || "Member's name"}</p>
       </div>
       <ul className="space-y-2 text-black">
         {menuItems.map((item) => (

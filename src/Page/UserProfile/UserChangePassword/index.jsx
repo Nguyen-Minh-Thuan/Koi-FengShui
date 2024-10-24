@@ -7,8 +7,8 @@ import {
     Grid,
     Button,
     Container,
-    Snackbar, // Import Snackbar
-    Alert, // Import Alert
+    Snackbar, 
+    Alert, 
 } from "@mui/material";
 import NavBar from "../../../Component/NavBar";
 import Footer from "../../../Component/Footer";
@@ -56,15 +56,27 @@ const UserChangePassword = () => {
         if (hasError) return;
 
         try {
-            const response = await axios.put("https://localhost:7275/api/User/UpdatePassword", {
-                userId: user.userId,
-                oldPassword: oldPassword,
-                newPassword: newPassword
+            const response = await fetch("https://localhost:7275/api/User/UpdatePassword", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user.userId,
+                    oldPassword: oldPassword,
+                    newPassword: newPassword
+                }),
             });
-            console.log("Password updated successfully", response.data);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log("Password updated successfully", data);
             setAlert({ visible: true, message: 'Thay đổi mật khẩu thành công', type: 'success' });
         } catch (error) {
-            if (error.response && error.response.status === 400) {
+            if (error.message === 'Network response was not ok') {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
                     incorrectOldPassword: 'Mật khẩu cũ không chính xác',
@@ -89,7 +101,7 @@ const UserChangePassword = () => {
                     open={alert.visible}
                     autoHideDuration={6000}
                     onClose={handleClose}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Positioning the Snackbar
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
                 >
                     <Alert onClose={handleClose} severity={alert.type} variant="filled" sx={{ width: '100%' }}>
                         {alert.message}

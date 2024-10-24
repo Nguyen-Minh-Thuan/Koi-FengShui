@@ -6,13 +6,19 @@ import Login from "../../assets/Icon/Login.png";
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
+  const [userName, setUserName] = useState(''); 
   const [menuOpen, setMenuOpen] = useState(false); 
   const menuRef = useRef(null); 
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user'); 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser)); 
+    const user = localStorage.getItem('user'); 
+    if (user) {
+      const userId = JSON.parse(user);
+      setUser(userId);
+      fetch(`https://localhost:7275/api/User/${userId.userId}`)
+        .then(response => response.json())
+        .then(data => setUserName(data.data.userName))
+        .catch(error => console.error('Error fetching userName:', error));
     }
   }, []);
 
@@ -72,12 +78,12 @@ const NavBar = () => {
                       <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
                         <Link to="/user/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Hồ sơ cá nhân</Link>
                         <Link to="/user/ads/list" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Quảng cáo của tôi</Link>
-                        <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
+                        <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Đăng xuất</button>
                       </div>
                     )}
                   </div>
                   <Link>
-                  <span>{user.userName}</span> 
+                  <span>{userName}</span> 
                   </Link>
                 </>
               ) : (
