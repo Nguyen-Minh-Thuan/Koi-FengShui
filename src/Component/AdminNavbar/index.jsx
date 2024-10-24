@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from "../../assets/Logo/FengShuiKoi_Logo.jpg";
 import BlogIcon from "../../assets/Icon/blog_icon.png";
 import AdsIcon from "../../assets/Icon/ads.png";
 import AccountIcon from "../../assets/Icon/profile.png";
@@ -16,10 +15,7 @@ const AdminNavbar = () => {
 
   return (
     <div className="w-64  bg-white p-6 shadow-2xl">
-      <div className="flex items-center mb-8">
-        <img className="w-10 h-10" src={logo}></img>
-        <span className="ml-4 text-xl font-semibold">FengShuiKoi</span>
-      </div>
+     
 
       <div className="mb-8">
         <h3 className="text-gray-400 mb-2 text-2xl">Web Management</h3>

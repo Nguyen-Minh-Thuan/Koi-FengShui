@@ -33,20 +33,202 @@ import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRe
 import ResultPage from "../Page/ResultPage";
 import CreateBlogPage from "../Page/CreateBlogPage";
 import StaffPage from "../Page/StaffPage";
+import UserChangePassword from "../Page/UserProfile/UserChangePassword";
+
+const getCurrentUser = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return { roleId: user.roleId, isLoggedIn: true };
+  }
+  return { roleId: null, isLoggedIn: false };
+};
+
+const ProtectedRoute = ({ element, allowedRoles, redirectPath }) => {
+  const { roleId, isLoggedIn } = getCurrentUser();
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!allowedRoles.includes(roleId)) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return element;
+};
 
 const AppRouter = () => {
-  const storageUser = localStorage.getItem("user");
-  const user = storageUser ? JSON.parse(storageUser) : null;
-  const role = user ? user.role : null;
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AdsCard />} />
 
-        <Route path="/user/profile" element={<UserProfilePage />} />
-        <Route path="/user/ads/list" element={<UserAdsList />} />
+        <Route
+          path="/user/profile"
+          element={
+            <ProtectedRoute
+              element={<UserProfilePage />}
+              allowedRoles={[3]} 
+              redirectPath="/"
+            />
+          }
+        />
+
+        <Route 
+        path="/user/ads/list" 
+        element={
+          <ProtectedRoute
+            element={<UserAdsList />}
+            allowedRoles={[3]}
+            redirectPath="/"
+          />
+        }
+        />
+
+        <Route
+          path="/user/password/change"
+          element={
+            <ProtectedRoute
+              element={<UserChangePassword />}
+              allowedRoles={[3]}
+              redirectPath="/"
+            />
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute
+              element={<AdminPage />}
+              allowedRoles={[1]} 
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/manage"
+          element={
+            <ProtectedRoute
+              element={<AdminPage />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/adslist"
+          element={
+            <ProtectedRoute
+              element={<AdsList />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/adslist/:adsId"
+          element={
+            <ProtectedRoute
+              element={<AdvertisementDetail />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/accountlist"
+          element={
+            <ProtectedRoute
+              element={<AccountList />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/accountlist/:accountId"
+          element={
+            <ProtectedRoute
+              element={<AccountDetail />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/blog"
+          element={
+            <ProtectedRoute
+              element={<BlogList />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/packages"
+          element={
+            <ProtectedRoute
+              element={<PackageManage />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/packages/:packageId"
+          element={
+            <ProtectedRoute
+              element={<PackageDetail />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/koilist"
+          element={
+            <ProtectedRoute
+              element={<KoiList />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/koilist/:koiPatternId"
+          element={
+            <ProtectedRoute
+              element={<KoiPatternList />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute
+              element={<Dashboard />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/admin/realtime"
+          element={
+            <ProtectedRoute
+              element={<RealtimeStats />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+
+        
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
@@ -57,37 +239,9 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />
-        <Route
-          path="/fengshui/point/result"
-          element={<FengshuiPointResult />}
-        />
+        <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
         <Route path="/fengshui/pond/result" element={<FengshuiPondResult />} />
-        <Route
-          path="/fengshui/reckoi/result"
-          element={<FengshuiRecKoiResult />}
-        />
-        <Route
-          path="/admin/manage"
-          element={role === 1 ? <AdminPage /> : <AccessDenied />}
-        />
-        <Route path="/ads/create/package/payment" element={<PaymentPage />} />
-
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/adslist" element={<AdsList />} />
-        <Route path="/admin/adslist/:adsId" element={<AdvertisementDetail />} />
-        <Route path="/admin/accountlist" element={<AccountList />} />
-        <Route
-          path="/admin/accountlist/:accountId"
-          element={<AccountDetail />}
-        />
-        <Route path="/admin/blog" element={<BlogList />} />
-        <Route path="/admin/packages" element={<PackageManage />} />
-        <Route path="/admin/packages/:packageId" element={<PackageDetail/>} />
-        <Route path="/admin/koilist" element={<KoiList/>} />
-        <Route path="/admin/koilist/:koiPatternId" element={<KoiPatternList/>} />
-        <Route path="/admin/dashboard" element={<Dashboard/>} />
-        <Route path="/admin/realtime" element={<RealtimeStats/>} />
-
+        <Route path="/fengshui/reckoi/result" element={<FengshuiRecKoiResult />} />
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
         <Route path="/ads/create/package/result" element={<ResultPage />} />
         <Route path="/staff" element={<StaffPage />} />
