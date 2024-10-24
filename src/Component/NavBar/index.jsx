@@ -15,9 +15,12 @@ const NavBar = () => {
     if (user) {
       const userId = JSON.parse(user);
       setUser(userId);
-      fetch(`https://localhost:7275/api/User/${userId.userId}`)
+      fetch(`https://localhost:7275/api/User/GetUserById?id=${userId.userId}`)
         .then(response => response.json())
-        .then(data => setUserName(data.data.userName))
+        .then(data => setUserName(data.data.userName), 
+      
+      )
+        
         .catch(error => console.error('Error fetching userName:', error));
     }
   }, []);

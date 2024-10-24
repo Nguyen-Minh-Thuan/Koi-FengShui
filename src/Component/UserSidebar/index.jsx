@@ -12,7 +12,7 @@ const UserSidebar = () => {
       const parsedData = JSON.parse(storedUserData);
       const userId = parsedData.userId;
 
-      fetch(`https://localhost:7275/api/User/${userId}`)
+      fetch(`https://localhost:7275/api/User/GetUserById?id=${userId}`)
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
