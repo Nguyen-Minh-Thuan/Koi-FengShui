@@ -24,6 +24,7 @@ import AccountDetail from "../Page/AdminPage/WebManagement/AccountList/AccountDe
 import BlogList from "../Page/AdminPage/WebManagement/Blog";
 import KoiList from "../Page/AdminPage/WebManagement/KoiList";
 import KoiPatternList from "../Page/AdminPage/WebManagement/KoiList/KoiPatternList";
+import KoiPatternDetails from "../Page/AdminPage/WebManagement/KoiList/KoiPatternDetails";
 import Dashboard from "../Page/AdminPage/Statistic/Dashboard";
 import RealtimeStats from "../Page/AdminPage/Statistic/Real_time_Stats";
 import PackageManage from '../Page/AdminPage/WebManagement/Package'
@@ -198,10 +199,20 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/admin/koilist/:koiPatternId"
+          path="/admin/koilist/:koiVarietyId"
           element={
             <ProtectedRoute
               element={<KoiPatternList />}
+              allowedRoles={[1]}
+              redirectPath="/"
+            />
+          }
+        />
+         <Route
+          path="/admin/koilist/:koiVarietyId/:koiPatternId"
+          element={
+            <ProtectedRoute
+              element={<KoiPatternDetails />}
               allowedRoles={[1]}
               redirectPath="/"
             />
@@ -244,7 +255,7 @@ const AppRouter = () => {
             <ProtectedRoute
               element={<AdsPackagePage />}
               allowedRoles={[3]}
-              redirectPath="/logi"
+              redirectPath="/login"
             />
           }
         />
