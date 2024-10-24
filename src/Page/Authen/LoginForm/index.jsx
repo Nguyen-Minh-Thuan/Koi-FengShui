@@ -1,7 +1,7 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import NavBar from '../../../Component/NavBar';
 import Footer from '../../../Component/Footer';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import Snackbar from '@mui/material/Snackbar'; 
 import Alert from '@mui/material/Alert';
 
@@ -12,6 +12,9 @@ const LoginForm = () => {
   const [message, setMessage] = useState(''); 
   const [usernameError, setUsernameError] = useState(''); 
   const [passwordError, setPasswordError] = useState(''); 
+  const location = useLocation();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const navigate = useNavigate(); 
   const handleLogin = async (e) => {
@@ -74,6 +77,17 @@ const LoginForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (location.state && location.state.message) {
+      setSnackbarMessage(location.state.message);
+      setSnackbarOpen(true);
+    }
+  }, [location.state]);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -123,15 +137,14 @@ const LoginForm = () => {
       </div>
       <Footer />
       <Snackbar
-        open={open}
+        open={snackbarOpen}
         autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }} 
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
         style={{ marginTop: '100px' }}
       >
-      
-        <Alert onClose={handleClose} variant="filled" severity="error" sx={{ width: '100%' }}>
-          {message}
+        <Alert onClose={handleSnackbarClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </>

@@ -23,7 +23,7 @@ const UserProfile = () => {
       const userId = parsedData.userId;
       setUserId(userId);
 
-      fetch(`https://localhost:7275/api/User/${userId}`)
+      fetch(`https://localhost:7275/api/User/GetUserById?id=${userId}`)
         .then(response => response.json())
         .then(data => {
           setUserData({
