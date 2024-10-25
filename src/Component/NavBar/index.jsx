@@ -50,7 +50,7 @@ const NavBar = () => {
 
   return (
     <nav>
-      <div className="border-b-2 bg-white w-full fixed ">
+      <div className="border-b-2 bg-white w-full fixed z-10">
         <div className=" -ml-28">
           <div className="pt-4 flex items-start justify-around ">
             <div className="flex items-start">

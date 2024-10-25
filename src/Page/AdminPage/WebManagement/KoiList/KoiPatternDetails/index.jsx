@@ -29,7 +29,7 @@ const Index = () => {
         toast.error("Failed to load Koi pattern details");
       }
     } catch (error) {
-      toast.error("An error occurred while fetching the Koi pattern details");
+      toast.error("Koi pattern is not exist!!");
       console.error(error);
     } finally {
       setLoading(false);
@@ -46,7 +46,7 @@ const Index = () => {
 
       if (response.status === 200) {
         toast.success('Koi pattern updated successfully!');
-        fetchKoiPatternDetail();
+        fetchKoiPatternDetail();        
       } else {
         toast.error('Failed to update the Koi pattern.');
       }
@@ -63,8 +63,7 @@ const Index = () => {
 
   const deleteKoiPattern = async () => {
     try {
-      const response = await api.delete(`Pattern/Delete/${koiPatternId}`);
-      
+      const response = await api.delete(`Pattern/Detele/${koiPatternId}`);      
       if (response.status === 200) {
         toast.success('Koi pattern deleted successfully!');
         navigate(`/admin/koilist/${varietyId}`);
@@ -72,15 +71,22 @@ const Index = () => {
         toast.error('Failed to delete the Koi pattern.');
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        toast.error('Pattern not found. Please check the ID.');
+      if (error.response) {
+        // Nếu có phản hồi từ server
+        if (error.response.status === 404) {
+          toast.error(`Error: ${error.response.status} ${error.response.data}`);
+        } else {
+          toast.error('An error occurred during deletion.');
+        }
       } else {
-        toast.error('An error occurred during deletion.');
+        // Không có phản hồi từ server
+        toast.error('An error occurred. Please try again later.');
       }
       console.error(error);
     }
     setDeletePopupVisible(false);
   };
+  
 
   useEffect(() => {
     fetchKoiPatternDetail();
@@ -89,7 +95,7 @@ const Index = () => {
   return (
     <>
       <AdminHeader/>
-      <div className="container mx-auto px-32 py-16 bg-violet-100">
+      <div className="container mx-auto px-32 py-16 min-h-screen bg-violet-100">
         <ToastContainer />
         {loading ? (
           <div>Loading...</div>
