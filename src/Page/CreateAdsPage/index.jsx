@@ -33,6 +33,7 @@ export default function CreateAdsPage() {
   const [nguHanhOptions, setNguHanhOptions] = useState([]);
   const [productTypeOptions, setProductTypeOptions] = useState([]);
   const [imageURL, setImageURL] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -126,6 +127,7 @@ export default function CreateAdsPage() {
   const handleNext = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setLoading(true);
 
     try {
       const uploadedImage = await uploadImageToFirebase(formData.image);
@@ -150,12 +152,15 @@ export default function CreateAdsPage() {
     } catch (error) {
       console.error("Error uploading image to Firebase:", error);
       alert("Có lỗi xảy ra khi tải lên hình ảnh. Vui lòng kiểm tra lại.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setLoading(true);
 
     try {
       const uploadedImage = await uploadImageToFirebase(formData.image);
@@ -203,6 +208,8 @@ export default function CreateAdsPage() {
       alert(
         "Có lỗi xảy ra khi tải lên hình ảnh hoặc gửi dữ liệu. Vui lòng kiểm tra lại."
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -256,6 +263,32 @@ export default function CreateAdsPage() {
       ["clean"],
     ],
   };
+
+  function LoadingPopup() {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+          <div className="loader mb-4" />
+          <span className="text-lg font-medium text-gray-700">
+            Đang xử lý...
+          </span>
+        </div>
+        <style>{`
+          .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+          }
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -323,11 +356,11 @@ export default function CreateAdsPage() {
                     onChange={handleChange}
                     className={`w-full p-2 border ${
                       errors.elementId ? "border-red-500" : "border-gray-300"
-                    } rounded-md text-black`} 
+                    } rounded-md text-black`}
                   >
                     <option value="">--Chọn mệnh ngũ hành--</option>
                     {nguHanhOptions.map((option) => (
-                      <option key={option.elementId} value={option.elementId} >
+                      <option key={option.elementId} value={option.elementId}>
                         {option.element1}
                       </option>
                     ))}
@@ -406,6 +439,7 @@ export default function CreateAdsPage() {
         </div>
       </main>
       <Footer />
+      {loading && <LoadingPopup />}
     </div>
   );
 }
