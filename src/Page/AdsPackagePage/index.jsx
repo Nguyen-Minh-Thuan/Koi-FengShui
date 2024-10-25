@@ -26,6 +26,7 @@ const AdsPackagePage = () => {
   const [fee, setFee] = useState(0);
   const [adPackages, setAdPackages] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const fetchAdPackages = async () => {
     try {
@@ -43,17 +44,6 @@ const AdsPackagePage = () => {
     fetchAdPackages();
   }, []);
 
-  const handleChange = useCallback(
-    ({ target: { name, value, type, files } }) => {
-      dispatch({
-        type: "SET_FIELD",
-        field: name,
-        value: type === "file" ? files[0] : value,
-      });
-    },
-    []
-  );
-
   const handleAdTypeChange = (type) => {
     dispatch({ type: "SET_FIELD", field: "adType", value: type });
     const selectedPackage = adPackages.find((pkg) => pkg.packageName === type);
@@ -62,20 +52,6 @@ const AdsPackagePage = () => {
       setDuration(selectedPackage.duration);
     }
   };
-
-  const updateStartTime = (date, time) => {
-    dispatch({
-      type: "SET_FIELD",
-      field: "startTime",
-      value: `${date}T${time}`,
-    });
-  };
-
-  const handleDateChange = (e) =>
-    updateStartTime(e.target.value, formData.startTime.split("T")[1]);
-
-  const handleTimeChange = (e) =>
-    updateStartTime(formData.startTime.split("T")[0], e.target.value);
 
   const handleQuantityChange = (e) => {
     dispatch({
@@ -91,6 +67,7 @@ const AdsPackagePage = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const createAdsData = JSON.parse(localStorage.getItem("createAdsData"));
 
     const paymentData = {
@@ -134,8 +111,36 @@ const AdsPackagePage = () => {
       }
     } catch (error) {
       console.error("Lỗi trong quá trình gửi dữ liệu:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  function LoadingPopup() {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+        <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col items-center">
+          <div className="loader mb-4" />
+          <span className="text-lg font-medium text-gray-700">
+            Đang xử lý...
+          </span>
+        </div>
+        <style>{`
+          .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+          }
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -168,28 +173,6 @@ const AdsPackagePage = () => {
               ))}
             </div>
             <div className="mb-6">
-              <label className="block mb-2 font-semibold text-lg text-gray-700">
-                Chọn thời gian tin đăng
-              </label>
-              <div className="flex items-center mb-4">
-                <input
-                  type="date"
-                  className="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={handleDateChange}
-                  name="startTime"
-                />
-                <select
-                  onChange={handleTimeChange}
-                  className="ml-4 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Chọn giờ</option>
-                  {hours.map((hour) => (
-                    <option key={hour} value={hour}>
-                      {hour}
-                    </option>
-                  ))}
-                </select>
-              </div>
               <div className="mb-4">
                 <label className="block mb-1 font-semibold text-sm text-gray-700">
                   Số lượng
@@ -245,6 +228,7 @@ const AdsPackagePage = () => {
         </div>
       </main>
       <Footer />
+      {loading && <LoadingPopup />}
     </div>
   );
 };
