@@ -18,7 +18,7 @@ const Index = () => {
 
   const fetchAds = async () => {
     try {
-      const response = await api.get('Advertisement/GetAll'); 
+      const response = await api.get('Advertisement/GetPendingAds'); 
       setAds(response.data.data);
     } catch (err) {
       console.error('Error fetching ads:', err); 
