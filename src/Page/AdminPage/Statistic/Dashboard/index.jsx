@@ -21,7 +21,7 @@ function Index() {
       setKois(response.data.data);
     } catch (error) {
       console.log(error);
-      setError('Có lỗi xảy ra khi tải dữ liệu.');
+      toast.success("Error !!")
     } finally {
       setLoading(false);
     }
@@ -32,7 +32,8 @@ function Index() {
       const response = await api.get('Advertisement/GetAll');  // Thay đổi endpoint nếu cần
       setAds(response.data.data);
     } catch (error) {
-      setError('Có lỗi khi tải quảng cáo');
+      toast.success("Error !!")
+      console.log(error);
     }
   };
 
@@ -41,7 +42,8 @@ function Index() {
       const response = await api.get('FengShui/GetUsers');  // Thay đổi endpoint nếu cần
       setUsers(response.data.data);
     } catch (error) {
-      setError('Có lỗi khi tải dữ liệu người dùng');
+      toast.success("Loading User error !!")
+      console.log(error);
     }
   };
 
