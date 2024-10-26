@@ -178,7 +178,10 @@ const FengshuiPoint = () => {
           direction: result.data.direction,
           totalAmount: result.data.totalAmount,
           recDir: result.data.recDir,
-          comment: result.data.comment
+          comment: result.data.comment,
+          bonusQuantity: result.data.bonusQuantity,
+          bonusPond: result.data.bonusPond,
+          bonusDirection: result.data.bonusDirection
         }
       });
     }

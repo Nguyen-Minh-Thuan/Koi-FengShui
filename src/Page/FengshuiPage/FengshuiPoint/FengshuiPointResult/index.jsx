@@ -6,7 +6,7 @@ import AdsCard from '../../../../Component/AdsCard';
 
 const FengshuiPointResult = () => {
   const location = useLocation();
-  const { koiPoint, totalPoint, element, direction, comment, totalAmount, recDir } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction: "", comment: "", totalAmount: "", recDir: [] };
+  const { koiPoint, totalPoint, element, direction, comment, totalAmount, recDir, bonusQuantity, bonusPond, bonusDirection } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction: "", comment: "", totalAmount: "", recDir: [], bonusQuantity: 0, bonusPond: 0, bonusDirection: 0 };
   const [adsData, setAdsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
@@ -112,15 +112,15 @@ const FengshuiPointResult = () => {
           </div>
         </div>
 
-        <p className="mb-6">Hướng đặt bể cá bạn chọn là: <span className="font-semibold">{direction}</span></p>
+        <p className="mb-6">Hướng đặt bể cá bạn chọn là: <span className="font-semibold">{direction} (Điểm: {bonusDirection}/10)</span></p>
         <p className="mb-6">
           Hướng đặt bể cá hợp với mệnh của bạn là: {' '}
           <span className="font-semibold">
-            {recDir && recDir.length > 0 ? recDir.join(', ') : 'Chưa xác định'}
+            {recDir && recDir.length > 0 ? recDir.join(', ') : 'Chưa xác định'} 
           </span>
         </p>
 
-        <p className="mb-6">Tổng số lượng cá bạn chọn là: <span className="font-semibold">{totalAmount} </span></p>
+        <p className="mb-6">Tổng số lượng cá bạn chọn là: <span className="font-semibold">{totalAmount}  (Điểm: {bonusQuantity}/10)</span></p>
 
         <div className="flex flex-wrap mb-6">
           <div className="w-2/3 pr-4">
