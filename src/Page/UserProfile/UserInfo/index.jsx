@@ -96,10 +96,6 @@ const UserProfile = () => {
       .then(data => {
         console.log("User updated successfully:", data);
         setAlert({ visible: true, message: 'Thông tin người dùng đã được cập nhật thành công', type: 'success' });
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       })
       .catch(error => {
         console.error("Error updating user:", error);

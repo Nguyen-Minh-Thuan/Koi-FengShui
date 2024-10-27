@@ -39,13 +39,7 @@ const AdsDetailPage = () => {
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">{ad.title}</h1>
           <p className="text-gray-600 mb-4">{ad.content}</p>
-          <ul className="list-disc list-inside text-gray-600 mb-4">
-            <li>Giá trị đơn hàng từ 1 triệu 5 tặng kèm 1 chai vi sinh (không hợp nhất với combo khác).</li>
-            <li>Mua 10 tặng 1, tặng kèm 1 chai vi sinh cao cấp 800ml.</li>
-            <li>Miễn phí ship từ trại ra các bến xe tại Hà Nội.</li>
-          </ul>
-          <p className="text-gray-600">Liên hệ: 0987654321</p>
-          <p className="text-gray-600 mb-4">Mail: example@gmail.com</p>
+         
           <div className="space-x-2">
             <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Loại: {ad.adsType.typeName}</span>
             <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
