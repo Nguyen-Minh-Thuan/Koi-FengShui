@@ -168,7 +168,7 @@ function Index() {
   const fetchWeeklyFengshuiStats = async () => {
     try {
       const responses = await Promise.all(
-        [...Array(7).keys()].map((index) => api.get(`Admin/MonthlyFengshui?skip=${-index}`))
+        [...Array(7).keys()].map((index) => api.get(`Admin/DailyFengshui?skip=${-index}`))
       );
       const stats = responses.map(response => response.data.data);
       
