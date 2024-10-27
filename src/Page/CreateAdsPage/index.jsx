@@ -171,22 +171,25 @@ export default function CreateAdsPage() {
       const { image, ...sendData } = formData;
 
       const apiData = {
-        userId: sendData.userID || 0,
-        adsTypeId: parseInt(sendData.adsTypeId) || 0,
-        title: sendData.title || "",
-        content: sendData.content || "",
-        elementId: parseInt(sendData.elementId) || 0,
-        imageUrl: imageUrl || "",
+        userId: sendData.userID,
+        adsTypeId: Number(sendData.adsTypeId),
+        title: sendData.title,
+        content: sendData.content,
+        elementId: parseInt(sendData.elementId),
+        imageUrl: imageUrl,
       };
 
       console.log("Dữ liệu gửi lên API:", apiData);
 
+      let token = localStorage.getItem("token"); 
+      token = token.replace(/^"|"$/g, '');
       const response = await fetch(
         "https://localhost:7275/api/Advertisement/CreateDraftedAd",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, 
           },
           body: JSON.stringify(apiData),
         }
