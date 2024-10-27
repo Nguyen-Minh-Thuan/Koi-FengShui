@@ -20,7 +20,7 @@ const Index = () => {
       }
     } catch (error) {
       console.log(error);
-      alert(`Advertisement Approved Fail: ${error.response?.data || error.message}`);
+      toast.error(`Advertisement Approved Fail: ${error.response?.data || error.message}`);
     }
   }
 

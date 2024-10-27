@@ -27,7 +27,7 @@ const Index = () => {
 
   const deletePackages = async () => {
     try {
-      const response = await api.delete(`Package/DeleteKoi/${packageId}`);
+      const response = await api.delete(`Package/DeletePackage/${packageId}`);
       if (response.status === 200) {        
         navigate('/admin/packages'); 
         toast.success(`Success message: ${response.data}`);
@@ -41,9 +41,9 @@ const Index = () => {
   const handleUpdatePackage = async () => {
     try {
       const packageUpdate = {
-        packageName, 
-        price: parseFloat(packagePrice), 
+        packageName,         
         duration: parseInt(duration),
+        price: parseFloat(packagePrice) 
       };
 
       const response = await api.put(`Package/UpdatePackage/${packageId}`, packageUpdate);
@@ -53,7 +53,7 @@ const Index = () => {
       }
     } catch (error) {
       console.log(error.response?.data);
-      alert(`Fail message: ${error.response?.data}`);
+      toast.error(`Fail message: ${error.response?.status}`);
     }
   };
 
