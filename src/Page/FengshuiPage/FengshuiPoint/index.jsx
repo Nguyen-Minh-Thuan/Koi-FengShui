@@ -144,7 +144,7 @@ const FengshuiPoint = () => {
         {
           patternId: selectedPattern.patternId,
           name: selectedPattern.patternName,
-          quantity: formData.quantity,
+          quantity: parseInt(quantity, 10), 
           imageUrl: selectedPattern.imageUrl 
         }
       ]);
@@ -160,13 +160,11 @@ const FengshuiPoint = () => {
     const { pondShape, pondDir } = formData;
     const formattedBirthday = birthDate ? `${birthDate.getMonth() + 1}/${birthDate.getDate()}/${birthDate.getFullYear()}` : '';
 
-    // Ensure quantity is a valid number
-    const validQuantity = Number.isFinite(formData.quantity) ? formData.quantity : quantity;
-
     const selectedPatterns = selectedPatternList.map(pattern => ({
       patternId: pattern.patternId,
-      quantity: validQuantity
+      quantity: pattern.quantity 
     }));
+
     console.log(selectedPatterns);
 
     const result = await sendPointingData(formattedBirthday, gender, pondShape, pondDir, selectedPatterns);
@@ -180,7 +178,10 @@ const FengshuiPoint = () => {
           direction: result.data.direction,
           totalAmount: result.data.totalAmount,
           recDir: result.data.recDir,
-          comment: result.data.comment
+          comment: result.data.comment,
+          bonusQuantity: result.data.bonusQuantity,
+          bonusPond: result.data.bonusPond,
+          bonusDirection: result.data.bonusDirection
         }
       });
     }
@@ -189,6 +190,7 @@ const FengshuiPoint = () => {
   const apiUrl = 'https://localhost:7275/api/FengShui/Pointing';
 
   async function sendPointingData(birthday, gender, shapeId, dirId, selectedPatterns) {
+  
     const newErrors = {
       birthDate: '',
       gender: '',
@@ -244,7 +246,7 @@ const FengshuiPoint = () => {
           'Content-Type': 'application/json',
           'accept': 'text/plain'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(selectedPatterns)
       });
 
       if (!response.ok) {
@@ -252,7 +254,6 @@ const FengshuiPoint = () => {
       }
 
       const result = await response.json();
-      console.log(result);
       return result;
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -303,7 +304,9 @@ const FengshuiPoint = () => {
                 onClick={() => openImageModal(pattern.imageUrl)}
               />
               <h3 className="text-md font-bold">{pattern.name}</h3>
-              <p>Số lượng: {quantity}</p>
+              <span className="w-full p-2 rounded text-white text-center">
+                Số lượng: {pattern.quantity}
+              </span>
             </div>
           ))}
         </div>
@@ -399,7 +402,7 @@ const FengshuiPoint = () => {
           </div>
 
           <div className="w-1/3 pl-2">
-            <label htmlFor="quantity" className="block text-left mb-2">Số lượng *</label>
+            <label htmlFor="quantity" className="block text-left mb-2">Số lưng *</label>
             <select
               id="quantity"
               value={quantity}
