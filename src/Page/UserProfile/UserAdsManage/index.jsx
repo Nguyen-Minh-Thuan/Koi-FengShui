@@ -41,9 +41,9 @@ const UserAdsList = () => {
     };
 
     const columns = [
-        { field: 'title', headerName: 'Tiêu đề', width: 150 },
-        { field: 'status', headerName: 'Trạng thái', width: 150 },
-        { field: 'packageName', headerName: 'Gói', width: 150 },
+        { field: 'title', headerName: 'Tiêu đề', width: 200 },
+        { field: 'status', headerName: 'Trạng thái', width: 100 },
+        { field: 'packageName', headerName: 'Gói', width: 100 },
         { field: 'startedDate', headerName: 'Thời gian đăng', width: 150 },
         { field: 'expiredDate', headerName: 'Thời gian hết hạn', width: 150 },
         {
@@ -64,10 +64,18 @@ const UserAdsList = () => {
     const rows = adsData.map((ad) => ({
         id: ad.adsId,
         title: ad.title,
-        status: ad.status.status1 === 'Drafted' ? 'Bản nháp' : ad.status.status1,
-        packageName: ad.package ? ad.package.packageName : 'N/A',
-        startedDate: format(new Date(ad.startedDate), 'dd/MM/yyyy'),
-        expiredDate: format(new Date(ad.expiredDate), 'dd/MM/yyyy'),
+        status: ad.status.status1 === 'Drafted' ? 'Bản nháp' :
+                ad.status.status1 === 'Pending' ? 'Chờ duyệt' :
+                ad.status.status1 === 'Deploying' ? 'Đang quảng cáo' :
+                ad.status.status1 === 'Sold Out' ? 'Đã bán' :
+                ad.status.status1 === 'Expired' ? 'Hết hạn' :
+                ad.status.status1,
+        packageName: ad.package ? 
+                 (ad.package.packageName === 'Normal Package' ? 'Gói thường' :
+                  ad.package.packageName === 'Exclusive Package' ? 'Gói Đặc biệt' :
+                  ad.package.packageName) : 'Chưa chọn gói',
+        startedDate: ad.startedDate ? format(new Date(ad.startedDate), 'dd/MM/yyyy') : 'Chưa bắt đầu',
+        expiredDate: ad.expiredDate ? format(new Date(ad.expiredDate), 'dd/MM/yyyy') : 'Chưa bắt đầu',
         originalAd: ad, 
     }));
 
