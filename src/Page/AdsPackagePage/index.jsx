@@ -86,6 +86,8 @@ const AdsPackagePage = () => {
     console.log("Dữ liệu thanh toán:", paymentData);
 
     try {
+      let token = localStorage.getItem("token"); 
+      token = token.replace(/^"|"$/g, '');
       const apiUrl = `https://localhost:7275/api/Advertisement/CreatePayment`;
 
       const response = await fetch(apiUrl, {
@@ -93,6 +95,7 @@ const AdsPackagePage = () => {
         headers: {
           accept: "*/*",
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, 
         },
         body: JSON.stringify(paymentData),
       });
