@@ -1,7 +1,6 @@
 import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
 import { useState, useEffect} from 'react';
-import { Navigate } from 'react-router-dom'
 import api from '../../../../Config/axios';
 import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -28,11 +27,11 @@ const Index = () => {
     try {
       const newPackage = {
         packageName,
-        price: parseFloat(packagePrice),
         duration: parseInt(duration),
+        price: parseFloat(packagePrice),
       };
 
-      const response = await api.post('/Package/AddNewPackage', newPackage);
+      const response = await api.post(`Package/AddNewPackage`,newPackage);
       if (response.status === 200) {
         toast.success(`Success message: Add package successful`);
         closeAddPackagePopup();
@@ -40,7 +39,7 @@ const Index = () => {
       }
     } catch (error) {
       console.log(error.response?.data);
-      alert(`Error: ${error.response?.data}`);
+      toast.error(`Error: ${error.response?.status}`);
     }
   };
 

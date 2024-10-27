@@ -12,36 +12,41 @@ function Index() {
   const [ads, setAds] = useState([]);  // Quảng cáo
   const [users, setUsers] = useState([]);  // Người dùng
   const [loading, setLoading] = useState(true);
+  const [monthlyUser, setMonthlyUser] = useState(0);
 
 
 
   const fetchKoi = async () => {
     try {
-      const response = await api.get('FengShui/GetKois');
+      const response = await api.get('Koi/GetAllKois');
       setKois(response.data.data);
     } catch (error) {
       console.log(error);
-      setError('Có lỗi xảy ra khi tải dữ liệu.');
+      toast.success("Error !!")
     } finally {
       setLoading(false);
     }
   };
 
+  const fetchMonthlyUser = async () => setMonthlyUser((await api.get(`MonthlyUser?skip=0`)).data.data);
+
   const fetchAds = async () => {
     try {
-      const response = await api.get('Advertisement/GetAll');  // Thay đổi endpoint nếu cần
+      const response = await api.get('Advertisement/GetAll'); 
       setAds(response.data.data);
     } catch (error) {
-      setError('Có lỗi khi tải quảng cáo');
+      toast.success("Error !!")
+      console.log(error);
     }
   };
 
   const fetchUsers = async () => {
     try {
-      const response = await api.get('FengShui/GetUsers');  // Thay đổi endpoint nếu cần
+      const response = await api.get('User/GetUserByPage?pageIndex=0');  
       setUsers(response.data.data);
     } catch (error) {
-      setError('Có lỗi khi tải dữ liệu người dùng');
+      toast.success("Loading User error !!")
+      console.log(error);
     }
   };
 
@@ -105,7 +110,7 @@ function Index() {
             {ads.length > 0 ? (
               <ul>
                 {ads.map(ad => (
-                  <li key={ad.id} className='p-2 border-b'>{ad.title} - {ad.status}</li>
+                  <li key={ad.adsId} className='p-2 border-b'>{ad.title} - {ad.status.status1} {monthlyUser}</li>
                 ))}
               </ul>
             ) : (

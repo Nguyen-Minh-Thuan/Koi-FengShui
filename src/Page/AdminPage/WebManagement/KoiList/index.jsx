@@ -31,13 +31,13 @@ function Index() {
       const response = await api.post(`Koi/AddNewKoi`, newKoi);
       // Kiểm tra status là 200
       if (response.status === 200) {
-        toast.success(`Thêm Koi mới thành công!`);
+        toast.success(`Add new variety Koi successful!`);
         fetchKoi(); 
         closeAddPopupVisible();
       }
     } catch (error) {
       console.log(error.response);
-      toast.error(`Có lỗi xảy ra: ${error.response?.data || 'Thông tin không đầy đủ'}`);
+      toast.error(`Error: ${error.response?.data}`);
     }  
   };
 
@@ -54,11 +54,11 @@ function Index() {
 
   const fetchKoi = async () => {
     try {
-      const response = await api.get('FengShui/GetKois');
+      const response = await api.get('Koi/GetAllKois');
       setKois(response.data.data);
     } catch (error) {
       console.log(error);
-      setError('Có lỗi xảy ra khi tải dữ liệu.');
+      setError('Loading error!');
     } finally {
       setLoading(false);
     }

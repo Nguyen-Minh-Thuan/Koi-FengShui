@@ -14,7 +14,7 @@ const AdminNavbar = () => {
   // const [StatisticListOpen, setStatisticList] = useState(false);
 
   return (
-    <div className="w-64  bg-white p-6 shadow-2xl">
+    <div className="w-64 min-h-screen bg-white p-6 shadow-2xl">
      
 
       <div className="mb-8">

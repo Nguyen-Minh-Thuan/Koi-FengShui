@@ -1,87 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
-import { useState, useEffect } from 'react';
 import api from '../../../../Config/axios';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
-const Index = () => {
-  const [blogList, setBlogList] = useState([]);
+const BlogPage = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // const fetchBlogs = async () => {
-  //   try {
-  //     const response = await api.get("user");
-  //     setBlogList(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching blogs: ", error);
-  //   }
-  // };
+  const fetchBlogs = async () => {
+    try {
+      const response = await api.get('/Blog/GetAll');
+      setBlogs(response.data.data);
+    } catch (error) {
+      console.error("Error fetching blogs: ", error);
+      setError("Error loading blogs");
+      toast.error("Error loading blogs");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchBlogs();
-  // }, []);
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Những lưu ý khi nuôi nhiều cá Koi cùng một hồ',
-      excerpt: 'Khi nuôi nhiều cá Koi trong cùng một hồ, bạn cần lưu ý những điểm sau...',
-      date: '10/10/2024',
-      image: 'https://koiservice.vn/wp-content/uploads/2023/06/ca-koi-chagoi-huong-dan-chon-ca-va-noi-mua-uy-tin-1.png',
-    },
-    {
-      id: 2,
-      title: 'Những quy tắc vàng khi thả cá Koi vào hồ mới',
-      excerpt: 'Trước khi thả cá Koi vào ao mới, hồ nên được chạy máy bơm...',
-      date: '15/10/2024',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ynbkcVvSVocADhUhwHc-_c_YioGh88V7nQ&s',
-    },
-    {
-      id: 2,
-      title: 'Những quy tắc vàng khi thả cá Koi vào hồ mới',
-      excerpt: 'Trước khi thả cá Koi vào ao mới, hồ nên được chạy máy bơm...',
-      date: '15/10/2024',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ynbkcVvSVocADhUhwHc-_c_YioGh88V7nQ&s',
-    },
-    {
-      id: 2,
-      title: 'Những quy tắc vàng khi thả cá Koi vào hồ mới',
-      excerpt: 'Trước khi thả cá Koi vào ao mới, hồ nên được chạy máy bơm...',
-      date: '15/10/2024',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ynbkcVvSVocADhUhwHc-_c_YioGh88V7nQ&s',
-    },
-    // Thêm các bài viết khác
-  ];
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
+    <div className='bg-violet-100 min-h-screen'>
       <AdminHeader />
+      <ToastContainer />
       <div className='flex'>
         <AdminNavbar />
-        <div className='flex-1 bg-violet-100 p-6'>
-          <div className='grid grid-cols-3 gap-6'>
-            {blogPosts.map((blog) => (
-              <div key={blog.id} className='bg-white shadow-lg rounded-lg overflow-hidden'>
-                <img className='w-full h-48 object-cover' src={blog.image} alt={blog.title} />
-                <div className='p-4'>
-                  <h3 className='text-lg font-bold text-gray-700'>{blog.title}</h3>
-                  <p className='text-sm text-gray-500 mt-2'>{blog.excerpt}</p>
-                  <div className='flex justify-between items-center mt-4'>
-                    <Link to='/' className='text-blue-500 text-sm'>Read More</Link>
-                    <div>
-                      <button className='bg-blue-500 text-white ml-2 px-3 py-1 rounded'>Edit</button>
-                      <button className='bg-blue-500 text-white ml-2 px-3 py-1 rounded'>delete</button>
-                    </div>                    
-                    
+        <div className='flex-1 p-6'>
+          <button className='bg-white rounded-xl pr-4 ml-3 shadow-lg font-semibold flex items-center text-xl'>
+            <span className='m-3 text-3xl'>+</span>
+            Create New Blog Post
+          </button>
+
+          {blogs.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+              {blogs.map((blog) => (
+                <div key={blog.blogId} className="bg-white shadow-lg rounded-lg p-4 m-2">
+                  <img
+                    className="w-full h-48 object-cover"
+                    src={blog.imageUrl}
+                    alt={blog.title}
+                  />
+                  <h3 className="text-lg font-bold mt-2">{blog.title}</h3>
+                  <p className="text-sm mt-2">{blog.content.substring(0, 50)}...</p>
+                  <div className="mt-4 text-right">
+                    <Link to={`/admin/blog/${blog.blogId}`} className='bg-blue-500 px-2 py-2 text-white rounded-lg hover:bg-blue-600'>View Details</Link>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p>No blogs available.</p>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default Index;
+export default BlogPage;
