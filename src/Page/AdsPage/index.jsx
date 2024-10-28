@@ -15,7 +15,7 @@ const AdsPage = () => {
   useEffect(() => {
     const fetchAdsData = async () => {
       try {
-        const response = await fetch('https://localhost:7275/api/Advertisement/GetAll')
+        const response = await fetch('https://localhost:7275/api/Advertisement/GetAllDeploying')
         const getData = await response.json()
         const ads = getData.data
         setAdsData(ads) 
@@ -31,6 +31,7 @@ const AdsPage = () => {
       try {
         const response = await fetch('https://localhost:7275/api/Element/GetElement')
         const getData = await response.json()
+        console.log("menh",getData)
         setElements(getData.data)
       } catch (error) {
         console.error('Error fetching elements:', error)
@@ -41,6 +42,7 @@ const AdsPage = () => {
       try {
         const response = await fetch('https://localhost:7275/api/Advertisement/GetType')
         const getData = await response.json()
+        console.log("loai",getData)
         setFishTypes(getData.data)
       } catch (error) {
         console.error('Error fetching fish types:', error)
@@ -52,9 +54,11 @@ const AdsPage = () => {
   }, [])
 
   const filteredAds = adsData.filter(ad => {
-    return (selectedType === 'Tất cả' || ad.adsTypeId === selectedType) &&
-           (selectedElement === 'Tất cả' || ad.element1 === selectedElement) &&
-           (ad.title.toLowerCase().includes(searchItem.toLowerCase()));
+    const matchesType = selectedType === 'Tất cả' || ad.adsTypeId === Number(selectedType);
+    const matchesElement = selectedElement === 'Tất cả' || ad.elementId === Number(selectedElement); 
+    const matchesTitle = ad.title.toLowerCase().includes(searchItem.toLowerCase());
+
+    return matchesType && matchesElement && matchesTitle;
   });
 
   return (
@@ -91,7 +95,7 @@ const AdsPage = () => {
         >
           <option value="Tất cả">Mệnh</option>
           {elements.map(element => (
-            <option key={element.elementId} value={element.element1}>{element.element1}</option>
+            <option key={element.elementId} value={element.elementId}>{element.element1}</option>
           ))}
         </select>
         

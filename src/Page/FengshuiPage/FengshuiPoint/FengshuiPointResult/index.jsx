@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import NavBar from '../../../../Component/NavBar';
 import Footer from '../../../../Component/Footer';
 import AdsCard from '../../../../Component/AdsCard';
 
 const FengshuiPointResult = () => {
   const location = useLocation();
-  const { koiPoint, totalPoint, element, direction, comment, totalAmount, recDir, bonusQuantity, bonusPond, bonusDirection } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction: "", comment: "", totalAmount: "", recDir: [], bonusQuantity: 0, bonusPond: 0, bonusDirection: 0 };
+  const { koiPoint, totalPoint, element, direction, comment, totalAmount, recDir, bonusQuantity, bonusPond, bonusDirection, shape } = location.state || { koiPoint: [], totalPoint: 0, element: [], direction: "", comment: "", totalAmount: "", recDir: [], bonusQuantity: 0, bonusPond: 0, bonusDirection: 0, shape: "" };
   const [adsData, setAdsData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
@@ -119,7 +119,12 @@ const FengshuiPointResult = () => {
             {recDir && recDir.length > 0 ? recDir.join(', ') : 'Chưa xác định'} 
           </span>
         </p>
-
+        <p className="mb-6">
+          Hình dạng hồ cá bạn đã chọn: {' '}
+          <span className="font-semibold">
+            {shape} (Điểm: {bonusPond}/10)
+          </span>
+        </p>
         <p className="mb-6">Tổng số lượng cá bạn chọn là: <span className="font-semibold">{totalAmount}  (Điểm: {bonusQuantity}/10)</span></p>
 
         <div className="flex flex-wrap mb-6">
@@ -252,13 +257,14 @@ const FengshuiPointResult = () => {
           <div className="flex flex-wrap justify-center">
             {adsData.length > 0 ? (
               adsData.map((ad, index) => (
-                <AdsCard
-                  key={index}
-                  imageUrl={ad.imageUrl}
-                  title={ad.title}
-                  content={ad.content}
-                  link={ad.link}
-                />
+                <Link to={`/ads/product/${ad.adsId}`} key={index}>
+                  <AdsCard
+                    imageUrl={ad.imageUrl}
+                    title={ad.title}
+                    content={ad.content}
+                    link={ad.link}
+                  />
+                </Link>
               ))
             ) : (
               <p className="text-center">Không có quảng cáo nào Phù hợp</p>

@@ -181,7 +181,8 @@ const FengshuiPoint = () => {
           comment: result.data.comment,
           bonusQuantity: result.data.bonusQuantity,
           bonusPond: result.data.bonusPond,
-          bonusDirection: result.data.bonusDirection
+          bonusDirection: result.data.bonusDirection,
+          shape:result.data.shape
         }
       });
     }
