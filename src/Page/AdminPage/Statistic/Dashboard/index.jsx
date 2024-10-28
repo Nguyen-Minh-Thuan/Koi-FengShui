@@ -97,9 +97,12 @@ function Index() {
   const fetchAds = async () => {
     try {
       const response = await api.get('Advertisement/GetAll'); 
-      setAds(response.data.data);
+      if(response.status === 200){
+        setAds(response.data.data);
+        toast.success("Fetch all ads successful")
+      }            
     } catch (error) {
-      toast.success("Error !!");
+      toast.error("Error !!");
       console.log(error);
     }
   };

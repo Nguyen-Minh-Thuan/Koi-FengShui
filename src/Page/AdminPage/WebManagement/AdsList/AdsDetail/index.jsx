@@ -11,6 +11,7 @@ const Index = () => {
   const [adDetail, setAdDetail] = useState(null);
   const [reasonDecline, setReasonDecline] = useState("");
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(false);
 
   const ApproveAds = async () =>{
     try {
@@ -57,6 +58,8 @@ const Index = () => {
       try {
         const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); 
         setAdDetail(response.data.data);
+        if((response.data.data.status?.status1) === 'Pending' ? setButtonVisible(true) : setButtonVisible(false));
+        console.log(buttonVisible);
       } catch (err) {
         console.error('Error fetching ad details:', err);
       }
@@ -95,7 +98,7 @@ const Index = () => {
         </div>
         
        
-        {/* Bạn có thể thêm nhiều thông tin hơn nếu cần */}
+        {buttonVisible &&
         <div className='flex justify-center'>
           <Link to=''>
             <button className='bg-red-500 p-2 mx-8 rounded-lg text-white hover:bg-red-600' onClick={openDeclinePopup}>Decline</button>
@@ -104,6 +107,7 @@ const Index = () => {
             <button className='bg-green-500 p-2 mx-12 rounded-lg text-white hover:bg-green-600 ' onClick={ApproveAds}>Approve</button>
           </Link>
         </div>
+        }
       </div>      
 
       <div className='p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4'>
