@@ -26,20 +26,7 @@ const StaffSidebar = ({ activeTab, setActiveTab }) => {
           </button>
         </li>
       </ul>
-      <div className="mt-6">
-        {activeTab === 'advertisements' && (
-          <div>
-            <h4 className="text-lg font-semibold">Advertisement Content</h4>
-            <p>This is the content for the Advertisement tab.</p>
-          </div>
-        )}
-        {activeTab === 'blogs' && (
-          <div>
-            <h4 className="text-lg font-semibold">Blog Content</h4>
-            <p>This is the content for the Blog tab.</p>
-          </div>
-        )}
-      </div>
+     
     </aside>
   );
 };
