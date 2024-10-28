@@ -36,7 +36,6 @@ import CreateBlogPage from "../Page/CreateBlogPage";
 import StaffPage from "../Page/StaffPage";
 import UserChangePassword from "../Page/UserProfile/UserChangePassword";
 import StaffAdsDetail from "../Page/StaffPage/StaffAdsDetail";
-import StaffBlog from "../Page/StaffPage/StaffBlog";
 
 const getCurrentUser = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -289,7 +288,7 @@ const AppRouter = () => {
             />
           }
         />
-        <Route
+        {/* <Route
           path="/staff/bloglist"
           element={
             <ProtectedRoute
@@ -298,7 +297,7 @@ const AppRouter = () => {
               redirectPath="/"
             />
           }
-        />
+        /> */}
 
         <Route
           path="/staff/adslist/:adsId"
