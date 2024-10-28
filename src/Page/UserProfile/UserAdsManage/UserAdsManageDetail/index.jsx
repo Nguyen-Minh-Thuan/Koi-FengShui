@@ -128,8 +128,8 @@ const UserAdsManageDetail = ({ ad, onClose }) => {
                         <h2 className="text-xl font-bold mb-4">Thông tin chi tiết</h2>
                         <ul className="list-disc list-inside">
                             <li>Trạng thái: <strong>{statusLabel}</strong></li>
-                            <li>Ngày đăng: <strong>{formatDate(ad.startedDate)}</strong></li>
-                            <li>Ngày hết hạn: <strong>{formatDate(ad.expiredDate)}</strong></li>
+                            <li>Ngày đăng: <strong>{ad.startedDate ? formatDate(ad.startedDate) : 'Chưa bắt đầu'}</strong></li>
+                            <li>Ngày hết hạn: <strong>{ad.expiredDate ? formatDate(ad.expiredDate) : 'Chưa bắt đầu'}</strong></li>
                             <li>Gói đăng ký: <strong>{packageType}</strong></li>
                             <li>Số ngày đăng: <strong>{ad.duration ? `${ad.duration} ngày` : 'Chưa xác định'}</strong></li>
                             <li>Tổng tiền đã trả: <strong>{totalPrice}</strong></li>
