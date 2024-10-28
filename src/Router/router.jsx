@@ -35,6 +35,8 @@ import ResultPage from "../Page/ResultPage";
 import CreateBlogPage from "../Page/CreateBlogPage";
 import StaffPage from "../Page/StaffPage";
 import UserChangePassword from "../Page/UserProfile/UserChangePassword";
+import StaffAdsDetail from "../Page/StaffPage/StaffAdsDetail";
+import StaffBlog from "../Page/StaffPage/StaffBlog";
 
 const getCurrentUser = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -208,7 +210,7 @@ const AppRouter = () => {
             />
           }
         />
-         <Route
+        <Route
           path="/admin/koilist/:koiVarietyId/:koiPatternId"
           element={
             <ProtectedRoute
@@ -275,9 +277,39 @@ const AppRouter = () => {
         <Route path="/fengshui/reckoi/result" element={<FengshuiRecKoiResult />} />
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
         <Route path="/ads/create/package/result" element={<ResultPage />} />
-        <Route path="/staff" element={<StaffPage />} />
         {/* <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} /> */}
+        <Route
+          path="/staff/adslist"
+          element={
+            <ProtectedRoute
+              element={<StaffPage />}
+              allowedRoles={[2]}
+              redirectPath="/"
+            />
+          }
+        />
+        <Route
+          path="/staff/bloglist"
+          element={
+            <ProtectedRoute
+              element={<StaffBlog />}
+              allowedRoles={[2]}
+              redirectPath="/"
+            />
+          }
+        />
+
+        <Route
+          path="/staff/adslist/:adsId"
+          element={
+            <ProtectedRoute
+              element={<StaffAdsDetail />}
+              allowedRoles={[2]}
+              redirectPath="/"
+            />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -46,11 +46,11 @@ const Footer = () => {
                   About
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/blog/create" className="hover:underline">
                   Tạo Blog
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div>
@@ -66,7 +66,7 @@ const Footer = () => {
                   Hỗ trợ
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/admin" className="hover:underline">
                   Admin Page
                 </Link>
@@ -75,7 +75,7 @@ const Footer = () => {
                 <Link to="/staff" className="hover:underline">
                   Staff Page
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

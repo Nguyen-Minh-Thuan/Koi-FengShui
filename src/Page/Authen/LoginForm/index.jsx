@@ -56,10 +56,10 @@ const LoginForm = () => {
         const data = await response.json(); 
         localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('token', JSON.stringify(data.token));
-        if (data.user.role === 1) {
+        if (data.user.roleId === 1) {
           navigate('/admin'); 
-        } else if (data.user.role === 2) {
-          navigate('/staff/manage'); 
+        } else if (data.user.roleId === 2) {
+          navigate('/staff'); 
         } else {
           navigate('/');
         }
