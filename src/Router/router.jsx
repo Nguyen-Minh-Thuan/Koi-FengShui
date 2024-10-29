@@ -27,8 +27,8 @@ import KoiPatternList from "../Page/AdminPage/WebManagement/KoiList/KoiPatternLi
 import KoiPatternDetails from "../Page/AdminPage/WebManagement/KoiList/KoiPatternDetails";
 import Dashboard from "../Page/AdminPage/Statistic/Dashboard";
 import RealtimeStats from "../Page/AdminPage/Statistic/Real_time_Stats";
-import PackageManage from '../Page/AdminPage/WebManagement/Package'
-import PackageDetail from '../Page/AdminPage/WebManagement/Package/PackageDetail'
+import PackageManage from "../Page/AdminPage/WebManagement/Package";
+import PackageDetail from "../Page/AdminPage/WebManagement/Package/PackageDetail";
 import FengshuiPondResult from "../Page/FengshuiPage/FenshuiGenerate/FengshuiPoundResult";
 import FengshuiRecKoiResult from "../Page/FengshuiPage/FengshuiRecKoi/FengshuiRecKoiResult";
 import ResultPage from "../Page/ResultPage";
@@ -36,9 +36,10 @@ import CreateBlogPage from "../Page/CreateBlogPage";
 import StaffPage from "../Page/StaffPage";
 import UserChangePassword from "../Page/UserProfile/UserChangePassword";
 import StaffAdsDetail from "../Page/StaffPage/StaffAdsDetail";
+import StaffBlogsDetail from "../Page/StaffPage/StaffBlogsDetail";
 
 const getCurrentUser = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
   if (user) {
     return { roleId: user.roleId, isLoggedIn: true };
   }
@@ -261,7 +262,6 @@ const AppRouter = () => {
           }
         />
 
-
         <Route path="/ads/product/:id" element={<AdsDetailPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/detail/:id" element={<BlogDetailPage />} />
@@ -271,9 +271,15 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/fengshui" element={<FengshuiPage />} />
-        <Route path="/fengshui/point/result" element={<FengshuiPointResult />} />
+        <Route
+          path="/fengshui/point/result"
+          element={<FengshuiPointResult />}
+        />
         <Route path="/fengshui/pond/result" element={<FengshuiPondResult />} />
-        <Route path="/fengshui/reckoi/result" element={<FengshuiRecKoiResult />} />
+        <Route
+          path="/fengshui/reckoi/result"
+          element={<FengshuiRecKoiResult />}
+        />
         <Route path="/ads/create/package/payment" element={<PaymentPage />} />
         <Route path="/ads/create/package/result" element={<ResultPage />} />
         {/* <Route path="/about" element={<About />} />
@@ -288,16 +294,16 @@ const AppRouter = () => {
             />
           }
         />
-        {/* <Route
-          path="/staff/bloglist"
+        <Route
+          path="/staff/bloglist/:id"
           element={
             <ProtectedRoute
-              element={<StaffBlog />}
+              element={<StaffBlogsDetail />}
               allowedRoles={[2]}
               redirectPath="/"
             />
           }
-        /> */}
+        />
 
         <Route
           path="/staff/adslist/:adsId"

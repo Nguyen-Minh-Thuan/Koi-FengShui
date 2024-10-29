@@ -106,8 +106,14 @@ const BlogPage = () => {
                   <h3 className="text-lg font-semibold text-gray-800">
                     {blog.title}
                   </h3>
-                  <p className="text-gray-600 mb-4">
-                    {blog.content.replace(/<[^>]+>/g, "").slice(0, 100)}...
+                  <p
+                    className="text-gray-600 mb-4"
+                    dangerouslySetInnerHTML={{ __html: blog.content }.slice(
+                      0,
+                      100
+                    )}
+                  >
+                    ...
                   </p>
                   <Link
                     to={`/blog/detail/${blog.blogId}`}
