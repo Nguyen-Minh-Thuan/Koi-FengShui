@@ -15,7 +15,7 @@ const Index = () => {
 
   const ApproveAds = async () =>{
     try {
-      const response = await api.post(`Admin/ApproveAdvertisement/${adsId}`);
+      const response = await api.post(`Advertisement/GetAdsById?id=${adsId}`);
       if(response.status === 200){
         toast.success(`Success mesage: ${response.data}`);
       }
@@ -83,7 +83,7 @@ const Index = () => {
         <div className='flex justify-between'>
           <div className='pl-40'>
             <p className="mb-2"><strong>Title:</strong> {adDetail?.title || 'No Title Available'}</p>
-            <p className="mb-2"><strong>User Name:</strong> {adDetail?.userName || 'N/A'}</p>
+            <p className="mb-2"><strong>User Name:</strong> {adDetail?.user?.userName || 'N/A'}</p>
             <p className="mb-2">
               <strong>Posted at:</strong> {adDetail?.startedDate ? new Date(adDetail.startedDate).toLocaleDateString('vi-VN') : 'N/A'}
             </p>
@@ -112,7 +112,7 @@ const Index = () => {
 
       <div className='p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4'>
         <h1 className='font-bold text-2xl text-center'>{adDetail.title}</h1>
-        <img className='rounded-lg my-4 px-[10%] h-[500px]' src={Imgtemp}></img>
+        <img className='rounded-lg my-4 px-[10%] h-[500px]' src={adDetail.imageUrl}></img>
         <div>{adDetail.content}</div>
       </div>
 

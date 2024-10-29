@@ -106,7 +106,7 @@ function Index() {
                         ))}
                       </ul>
                     ) : (
-                      <p>No Pattern</p>
+                      <p></p>
                     )}
                   </div>
                   <div className='mt-4 text-right'>

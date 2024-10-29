@@ -10,8 +10,8 @@ const Index = () => {
   const [koiPattern, setKoiPattern] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  const [updatePopupVisible, setUpdatePopupVisible] = useState(false);
-  const [deletePopupVisible, setDeletePopupVisible] = useState(false);
+  const [updatePatternPopupVisible, setUpdatePatternPopupVisible] = useState(false);
+  const [deletePatternPopupVisible, setDeletePatternPopupVisible] = useState(false);
   const [addColorPopupVisible, setAddColorPopupVisible] = useState(false);
   const [updateColorPopupVisible, setUpdateColorPopupVisible] = useState(false);
   const [deleteColorPopupVisible, setDeleteColorPopupVisible] = useState(false);
@@ -20,8 +20,9 @@ const Index = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [varietyId, setVarietyId] = useState(0);
   const [colorId, setColorId] = useState(0);
+  const [pColorId, setpColorId] = useState(0);
 
-  const [newColorValue, setNewColorValue] = useState(0.1); 
+  const [newColorValue, setNewColorValue] = useState(0); 
   const [selectedColorId, setSelectedColorId] = useState(0);
   const [colorList, setColorList] = useState([]);
   const [availableColors, setAvailableColors] = useState([]);
@@ -75,19 +76,15 @@ const Index = () => {
         toast.error('Failed to update the Koi pattern.');
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        toast.error('Pattern not found. Please check the ID.');
-      } else {
-        toast.error('An error occurred during update.');
-      }
+      toast.error(`An error occurred during update. ${error.response.data}`);
       console.error(error);
     }
-    setUpdatePopupVisible(false);
+    setUpdatePatternPopupVisible(false);
   };
 
   const deleteKoiPattern = async () => {
     try {
-      const response = await api.delete(`Pattern/Delete/${koiPatternId}`);      
+      const response = await api.delete(`Pattern/Detele/${koiPatternId}`);      
       if (response.status === 200) {
         toast.success('Koi pattern deleted successfully!');
         navigate(`/admin/koilist/${varietyId}`);
@@ -95,18 +92,10 @@ const Index = () => {
         toast.error('Failed to delete the Koi pattern.');
       }
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          toast.error(`Error: ${error.response.status} ${error.response.data}`);
-        } else {
-          toast.error('An error occurred during deletion.');
-        }
-      } else {
-        toast.error('An error occurred. Please try again later.');
-      }
+      toast.error(`Eror: ${error.response.data}`)
       console.error(error);
     }
-    setDeletePopupVisible(false);
+    setDeletePatternPopupVisible(false);
   };
 
   const openAddColorPopup = () => {
@@ -131,13 +120,13 @@ const Index = () => {
 
   const addColorPattern = async () => {
     try {
-      const newcolor = {
+      const newcolor = [{
         colorid: selectedColorId,
         value: newColorValue
-      }
+      }]
       console.log(newcolor, koiPatternId);
       const response = await api.post(`PatternColor/InputPatternColor?id=${koiPatternId}`, newcolor);
-  
+
       if (response.status === 200) {
         toast.success('Color added successfully!');
         fetchKoiPatternDetail(); 
@@ -152,9 +141,9 @@ const Index = () => {
   };
   
 
-  const deleteColor = async (colorid) => {
+  const deleteColor = async () => {
     try {
-      const response = await api.delete(`PatternColor/DeletePatternColor?id=${colorid}`);
+      const response = await api.delete(`PatternColor/DeletePatternColor?id=${pColorId}`);
       if (response.status === 200) {
         toast.success('Color deleted successfully!');
         fetchKoiPatternDetail();
@@ -170,21 +159,22 @@ const Index = () => {
 
   const updateColor = async () => {
     try {
-      const response = await api.put(`PatternColor/UpdatePatternColor?PatternId=${koiPatternId}&PatternColorId=${colorId}`, {
-        colorId: colorId,
-        value: newColorValue,
+      const colorUpdating = {
+        colorid: colorId,
+        value: newColorValue
+      }
+      const response = await api.put(`PatternColor/UpdatePatternColor?PatternId=${koiPatternId}&PatternColorId=${pColorId}`, colorUpdating, {
+        headers: { 'Content-Type': 'application/json' }
       });
       if (response.status === 200) {
         toast.success('Color updated successfully!');
         fetchKoiPatternDetail();
-      } else {
-        toast.error('Failed to update color.');
       }
     } catch (error) {
-      toast.error('An error occurred while updating the color.');
+      toast.error(`An error occurred while updating the color. ${error.response.status}`);
       console.error(error);
     }
-    setUpdateColorPopupVisible(false);
+    closeUpdateColorPopup();
   };
 
   useEffect(() => {
@@ -210,20 +200,20 @@ const Index = () => {
             <h2 className="text-xl font-semibold mb-2">Pattern Colors:</h2>
             <ul className='p-6 rounded-lg bg-slate-100 '>
               {colorList.map((colorItem) => (
-                <li key={colorItem.pcolorId} className="mb-2 flex justify-between w-[30%] ">
+                <li key={colorItem.colorId} className="mb-2 flex justify-between w-[47%] ">
                   <div>
-                    <strong>Color:</strong> {colorItem.color.name} - <strong>Values:</strong> {colorItem.values}
+                    <strong>Color:</strong> {colorItem.color.name} - <strong>Values:</strong> {colorItem.values} {colorItem.pcolorId}
                   </div>
-                  <div>
+                  <div className='flex'>
                     <button
-                      className="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600"
-                      onClick={openUpdateColorPopup}
+                      className="bg-blue-500 text-white px-2 py-1 rounded mr-2 hover:bg-blue-600 w-fit"
+                      onClick={() => {setpColorId(colorItem.pcolorId); setColorId(colorItem.colorId); openUpdateColorPopup()}}
                     >
                       Update Color Value
                     </button>
                     <button
                       className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                      onClick={() => setDeleteColorPopupVisible(true)}
+                      onClick={() => {setpColorId(colorItem.pcolorId);setDeleteColorPopupVisible(true)}}
                     >
                       Delete Color
                     </button>
@@ -238,24 +228,22 @@ const Index = () => {
               </button>
             </ul>
 
-            {/* Update and Delete Buttons */}
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end mt-4 ">
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-600 transition"
-                onClick={() => setUpdatePopupVisible(true)}
+                onClick={() => setUpdatePatternPopupVisible(true)}
               >
                 Update
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                onClick={() => setDeletePopupVisible(true)}
+                onClick={() => setDeletePatternPopupVisible(true)}
               >
                 Delete
               </button>              
             </div>
 
-            {/* Update Popup Modal */}
-            {updatePopupVisible && (
+            {updatePatternPopupVisible && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded shadow-lg">
                   <h2 className="text-lg font-semibold">Update Koi Pattern</h2>
@@ -276,22 +264,21 @@ const Index = () => {
                   <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={updateKoiPattern}>
                     Confirm Update
                   </button>
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setUpdatePopupVisible(false)}>
+                  <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setUpdatePatternPopupVisible(false)}>
                     Cancel
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Delete Popup Modal */}
-            {deletePopupVisible && (
+            {deletePatternPopupVisible && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded shadow-lg">
                   <h2 className="text-lg font-semibold">Are you sure you want to delete this Koi pattern?</h2>
                   <button className="bg-red-500 text-white px-4 py-2 rounded mr-2" onClick={deleteKoiPattern}>
                     Yes, Delete
                   </button>
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setDeletePopupVisible(false)}>
+                  <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setDeletePatternPopupVisible(false)}>
                     Cancel
                   </button>
                 </div>
@@ -302,8 +289,6 @@ const Index = () => {
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-white p-4 rounded shadow-lg">
                 <h2 className="text-lg font-semibold my-4">Select New Color</h2>
-                
-                {/* Dropdown cho màu sắc */}
                 <select
                   onChange={(e) => {
                     const colorId = parseInt(e.target.value, 10);
@@ -319,7 +304,6 @@ const Index = () => {
                   ))}
                 </select>
 
-                {/* Dropdown cho giá trị màu sắc */}
                 <select
                   onChange={(e) => {
                     const value = parseFloat(e.target.value);
@@ -372,7 +356,12 @@ const Index = () => {
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded shadow-lg">
                   <h2 className="text-lg font-semibold">Update Color Value</h2>
-                  <select onChange={(event) => setNewColorValue(parseFloat(event.target.value, 10))} className="border p-2 mb-2 w-full">
+                  <select className="border p-2 mb-2 w-full" onChange={(event) =>{ 
+                      const value = parseFloat(event.target.value);
+                      console.log('New Color Value:', value); 
+                      setNewColorValue(value);
+                      }} 
+                    >
                     <h3>{selectedColorId}</h3>
                     <option value={0.1}> 0.1 </option>
                     <option value={0.2}> 0.2 </option>
@@ -385,7 +374,7 @@ const Index = () => {
                     <option value={0.9}> 0.9 </option>
                     <option value={1}> 1 </option>
                   </select>
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={() => updateColor(selectedColorId)}>
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={() => updateColor(pColorId)}>
                     Confirm Update
                   </button>
                   <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setUpdateColorPopupVisible(false)}>
@@ -400,7 +389,7 @@ const Index = () => {
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded shadow-lg">
                   <h2 className="text-lg font-semibold">Are you sure you want to delete this color?</h2>
-                  <button className="bg-red-500 text-white px-4 py-2 rounded mr-2" onClick={() => deleteColor(selectedColorId)}>
+                  <button className="bg-red-500 text-white px-4 py-2 rounded mr-2" onClick={() => deleteColor(pColorId)}>
                     Yes, Delete
                   </button>
                   <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setDeleteColorPopupVisible(false)}>

@@ -36,6 +36,8 @@ const Index = () => {
     }
   }
 
+  
+
   const handleChangeRole = (event) => {
     setRole(parseInt(event.target.value, 10));
   }
@@ -50,19 +52,20 @@ const Index = () => {
     }
   };
 
-  // Hàm delete user
-  const handleDeleteUser = async () => {
-    try {
-      const response = await api.delete(`User/${accountId}`);
-      if (response.status === 200) {
-        toast.success('User deleted successfully.');
-        navigate('/admin/accountlist'); 
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(`Error deleting user: ${error.response?.data}`);
+const handleDeleteUser = async () => {
+  try {
+    const response = await api.delete(`User/${accountId}`);
+    if (response.status === 200 || response.status === 204) {
+      navigate('/admin/accountlist'); 
+      toast.success('User deleted successfully.');      
     }
-  };
+  } catch (error) {
+    console.log(error);
+    toast.error(`Error deleting user: ${error.response?.data}`);
+  }
+  closeDeleteConfirmPopup();
+};
+
 
   // Mở popup xác nhận xóa
   const openDeleteConfirmPopup = () => {

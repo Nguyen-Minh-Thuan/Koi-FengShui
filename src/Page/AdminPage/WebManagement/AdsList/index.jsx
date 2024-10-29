@@ -117,7 +117,7 @@ const Index = () => {
                       <td className="p-2">{ad.title}</td>
                       <td className="p-2">{ad.user?.userName || 'N/A'}</td>
                       <td className="p-2">{new Date(ad.startedDate).toLocaleDateString('vi-VN')}</td>
-                      <td className="p-2 text-center">{ad.package || 'N/A'}</td>
+                      <td className="p-2 text-center">{ad.package?.packageName || 'N/A'}</td>
                       <td className="p-2">{ad.status.status1}</td>
                       <td className="p-2">
                         <Link to={`/admin/adslist/${ad.adsId}`} className="text-blue-500 hover:underline">Details</Link>
@@ -157,7 +157,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* All Ads Section */}
           <div className='bg-white shadow-lg p-8'>
             <h1 className='text-center font-semibold text-2xl'>All Advertisements</h1>
             <div className='relative w-full h-min flex flex-col px-[5%] py-[3%]'>
@@ -178,7 +177,7 @@ const Index = () => {
                       <td className="p-2">{ad.title}</td>
                       <td className="p-2">{ad.user?.userName || 'N/A'}</td>
                       <td className="p-2">{new Date(ad.startedDate).toLocaleDateString('vi-VN')}</td>
-                      <td className="p-2 text-center">{ad.package || 'N/A'}</td>
+                      <td className="p-2 text-center">{ad.package?.packageName || 'N/A'}</td>
                       <td className="p-2">{ad.status.status1}</td>
                       <td className="p-2">
                         <Link to={`/admin/adslist/${ad.adsId}`} className="text-blue-500 hover:underline">Details</Link>

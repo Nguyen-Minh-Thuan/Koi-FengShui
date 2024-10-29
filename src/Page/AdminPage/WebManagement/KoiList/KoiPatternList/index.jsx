@@ -113,7 +113,7 @@ const Index = () => {
 
   useEffect(() => {
     if (koiVarietyId) fetchKoiVariety();
-  }, [koiVarietyId]);
+  }, []);
   
 
   if (loading) {
@@ -126,15 +126,15 @@ const Index = () => {
       <ToastContainer/>
       <div className='flex'>
         <div className='flex-1 p-6'>
-          <div className='w-full flex justify-between'>
-            <h1 className='bg-white rounded-lg w-[80%] p-4 ml-3 my-4  text-2xl shadow-lg flex'>Decription: {varietyDescription}</h1>        
+          <div className='w-full flex '>
+            <h1 className='bg-white rounded-lg p-4 ml-3 my-4 mr-10  text-2xl shadow-lg flex'>Variety Name: {varietyName}</h1>        
             <div className='items-center flex'>
               <button onClick={openUpdateVarietyPopup}><img className='h-12 p-2 rounded-lg shadow-lg bg-white' src={editIcon}></img></button>
               <button onClick={openDeleteVarietyPopup}><img className='h-12 p-2 rounded-lg shadow-lg ml-8 bg-white' src={deleteIcon}></img></button>
             </div>
             
           </div>          
-          <h1 className='bg-white rounded-lg w-fit p-4 ml-3 my-4 text-2xl shadow-lg flex'>Variety Name: {varietyName}</h1>
+          <h1 className='bg-white rounded-lg w-fit p-4 ml-3 my-4 text-2xl shadow-lg flex'>Decription: {varietyDescription}</h1>
           <button className='bg-white rounded-xl pr-4 ml-3 shadow-lg font-semibold flex items-center text-xl' onClick={openAddPatternPopup}>
             <span className='m-3 text-3xl'>+</span>
             Create New Pattern Koi
