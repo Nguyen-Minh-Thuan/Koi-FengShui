@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -55,6 +56,14 @@ const BlogPage = () => {
     setFilteredBlogs(filtered);
   }, [searchTerm, selectedElementId, blogs]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <>
       <NavBar />
@@ -106,12 +115,13 @@ const BlogPage = () => {
                   <h3 className="text-lg font-semibold text-gray-800">
                     {blog.title}
                   </h3>
-                  <p
-                    className="text-gray-600 mb-4"
-                    dangerouslySetInnerHTML={{
-                      __html: blog.content.slice(0, 100) + "...",
-                    }}
-                  ></p>
+                  <p className="text-gray-600 mb-4">
+                    {blog.content.replace(/<[^>]+>/g, "").slice(0, 100)}...
+                  </p>
+                  <h6 className="text-gray-500 text-xs mb-2 flex items-center">
+                    <AccessTimeIcon className="mr-2 text-xs" style={{ fontSize: '0.75rem' }} />
+                    Ngày đăng {formatDate(blog.createdDate)}
+                  </h6>
                   <Link
                     to={`/blog/detail/${blog.blogId}`}
                     className="text-blue-500 hover:underline"

@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
 import AdsCard from "../../Component/AdsCard";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+
 
 const BlogDetailPage = () => {
   const { id } = useParams();
@@ -11,6 +13,14 @@ const BlogDetailPage = () => {
   const [error, setError] = useState("");
   const [elements, setElements] = useState([]);
   const [adsData, setAdsData] = useState([]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
   const fetchElements = async () => {
     try {
@@ -116,6 +126,10 @@ const BlogDetailPage = () => {
     <>
       <NavBar />
       <div className="container mx-auto py-8 px-4">
+        <h6 className="text-black text-xs mb-2 flex items-center">
+          <AccessTimeIcon className="mr-2 text-xs" style={{ fontSize: '0.75rem' }} />
+          Ngày đăng {formatDate(blog.createdDate)}
+        </h6>
         {blog ? (
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="relative">
@@ -131,19 +145,18 @@ const BlogDetailPage = () => {
             <div className="p-6">
               {blog && blog.elementId && (
                 <div
-                  className={`mb-4 p-2 border-l-4 font-semibold ${
-                    getElementName(blog.elementId) === "Kim"
-                      ? "bg-gray-100 border-gray-500 text-gray-700"
-                      : getElementName(blog.elementId) === "Mộc"
+                  className={`mb-4 p-2 border-l-4 font-semibold ${getElementName(blog.elementId) === "Kim"
+                    ? "bg-gray-100 border-gray-500 text-gray-700"
+                    : getElementName(blog.elementId) === "Mộc"
                       ? "bg-green-100 border-green-500 text-green-700"
                       : getElementName(blog.elementId) === "Thủy"
-                      ? "bg-blue-100 border-blue-500 text-blue-700"
-                      : getElementName(blog.elementId) === "Hỏa"
-                      ? "bg-red-100 border-red-500 text-red-700"
-                      : getElementName(blog.elementId) === "Thổ"
-                      ? "bg-yellow-100 border-yellow-600 text-yellow-700"
-                      : ""
-                  }`}
+                        ? "bg-blue-100 border-blue-500 text-blue-700"
+                        : getElementName(blog.elementId) === "Hỏa"
+                          ? "bg-red-100 border-red-500 text-red-700"
+                          : getElementName(blog.elementId) === "Thổ"
+                            ? "bg-yellow-100 border-yellow-600 text-yellow-700"
+                            : ""
+                    }`}
                 >
                   Mệnh: {getElementName(blog.elementId)}
                 </div>
@@ -167,6 +180,7 @@ const BlogDetailPage = () => {
                         title={ad.title}
                         content={ad.content}
                         link={ad.link}
+                        startedDate={ad.startedDate}
                       />
                     ))
                   ) : (

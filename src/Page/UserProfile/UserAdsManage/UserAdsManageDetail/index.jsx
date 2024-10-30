@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import ChoosePackagePage from './Payment';
@@ -26,13 +26,25 @@ const formatCurrency = (amount) => {
 
 const UserAdsManageDetail = ({ ad, onClose }) => {
     const [showPackagePopup, setShowPackagePopup] = useState(false);
+    const [packages, setPackages] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchPackageData = async () => {
+            try {
+                const response = await fetch('https://localhost:7275/api/Advertisement/GetPackage');
+                const packageData = await response.json();
+                setPackages(packageData.data);
+            } catch (error) {
+                console.error('Error fetching package data:', error);
+            }
+        };
+        fetchPackageData();
+    }, []);
 
     if (!ad) return null;
 
-    const packageType = ad.packageId === 1 ? 'Gói thường' 
-                      : ad.packageId === 2 ? 'Gói Đặc biệt' 
-                      : 'Chưa chọn gói';
+    const packageName = packages.find(pkg => pkg.packageId === ad.packageId)?.packageName || 'Chưa chọn gói';
 
     const totalPrice = ad.transactions && ad.transactions.length > 0 
         ? formatCurrency(ad.transactions[0].totalPrice) 
@@ -130,7 +142,7 @@ const UserAdsManageDetail = ({ ad, onClose }) => {
                             <li>Trạng thái: <strong>{statusLabel}</strong></li>
                             <li>Ngày đăng: <strong>{ad.startedDate ? formatDate(ad.startedDate) : 'Chưa bắt đầu'}</strong></li>
                             <li>Ngày hết hạn: <strong>{ad.expiredDate ? formatDate(ad.expiredDate) : 'Chưa bắt đầu'}</strong></li>
-                            <li>Gói đăng ký: <strong>{packageType}</strong></li>
+                            <li>Gói đăng ký: <strong>{packageName}</strong></li>
                             <li>Số ngày đăng: <strong>{ad.duration ? `${ad.duration} ngày` : 'Chưa xác định'}</strong></li>
                             <li>Tổng tiền đã trả: <strong>{totalPrice}</strong></li>
                         </ul>

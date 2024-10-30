@@ -3,6 +3,27 @@ import { Link } from 'react-router-dom'
 import AdsCard from '../../Component/AdsCard'
 import NavBar from '../../Component/NavBar'
 import Footer from '../../Component/Footer'
+import Pagination from '@mui/material/Pagination';
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
+
+  const minutes = Math.floor(diffInSeconds / 60);
+  const hours = Math.floor(diffInSeconds / 3600);
+  const days = Math.floor(diffInSeconds / 86400);
+
+  if (minutes < 60) {
+    return `${minutes} phút trước`;
+  } else if (hours < 24) {
+    return `${hours} giờ trước`;
+  } else if (days < 30) {
+    return `${days} ngày trước`;
+  } else {
+    return date.toLocaleDateString('vi-VN');
+  }
+};
 
 const AdsPage = () => {
   const [adsData, setAdsData] = useState([])
@@ -11,6 +32,8 @@ const AdsPage = () => {
   const [elements, setElements] = useState([]) 
   const [fishTypes, setFishTypes] = useState([]) 
   const [searchItem, setSearchItem] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const adsPerPage = 20
 
   useEffect(() => {
     const fetchAdsData = async () => {
@@ -31,7 +54,6 @@ const AdsPage = () => {
       try {
         const response = await fetch('https://localhost:7275/api/Element/GetElement')
         const getData = await response.json()
-        console.log("menh",getData)
         setElements(getData.data)
       } catch (error) {
         console.error('Error fetching elements:', error)
@@ -60,6 +82,16 @@ const AdsPage = () => {
 
     return matchesType && matchesElement && matchesTitle;
   });
+
+  const indexOfLastAd = currentPage * adsPerPage;
+  const indexOfFirstAd = indexOfLastAd - adsPerPage;
+  const currentAds = filteredAds.slice(indexOfFirstAd, indexOfLastAd);
+
+  const totalPages = Math.ceil(filteredAds.length / adsPerPage);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   return (
     <>
@@ -101,11 +133,11 @@ const AdsPage = () => {
         
       </div>
 
-      {filteredAds.length === 0 ? (
+      {currentAds.length === 0 ? (
         <p className="text-center text-xl">Không có sản phẩm nào</p>
       ) : (
         <div className="flex flex-wrap justify-center gap-8">
-          {filteredAds.map(ad => (
+          {currentAds.map(ad => (
             <div key={ad.adsId} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" style={{ maxWidth: '260px' }}>
               <Link to={{
                 pathname: `/ads/product/${ad.adsId}`,
@@ -114,12 +146,24 @@ const AdsPage = () => {
                   imageUrl={ad.imageUrl}
                   title={ad.title}
                   content={ad.content}
+                  startedDate={ad.startedDate}
                 />
               </Link>
             </div>
           ))}
         </div>
       )}
+
+      <div className="flex justify-center mt-8">
+        <Pagination 
+          count={totalPages} 
+          page={currentPage} 
+          onChange={handlePageChange} 
+          color="primary" 
+          size="large" 
+          shape="rounded" 
+        />
+      </div>
     </div>
     <Footer/>
     </>
