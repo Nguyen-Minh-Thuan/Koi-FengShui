@@ -1,78 +1,78 @@
-import React, { useState, useEffect } from 'react'; 
-import NavBar from '../../../Component/NavBar';
-import Footer from '../../../Component/Footer';
-import { useNavigate, useLocation } from 'react-router-dom'; 
-import Snackbar from '@mui/material/Snackbar'; 
-import Alert from '@mui/material/Alert';
+import React, { useState, useEffect } from "react";
+import NavBar from "../../../Component/NavBar";
+import Footer from "../../../Component/Footer";
+import { useNavigate, useLocation } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState(''); 
-  const [password, setPassword] = useState(''); 
-  const [open, setOpen] = useState(false); 
-  const [message, setMessage] = useState(''); 
-  const [usernameError, setUsernameError] = useState(''); 
-  const [passwordError, setPasswordError] = useState(''); 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const location = useLocation();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-    setUsernameError('');
-    setPasswordError('');
+    setUsernameError("");
+    setPasswordError("");
 
-    let hasError = false; 
+    let hasError = false;
 
     if (!username) {
-      setUsernameError('Vui lòng điền đầy đủ thông tin!');
-      hasError = true; 
+      setUsernameError("Vui lòng điền đầy đủ thông tin!");
+      hasError = true;
     }
 
     if (!password) {
-      setPasswordError('Vui lòng điền đầy đủ thông tin!');
-      hasError = true; 
+      setPasswordError("Vui lòng điền đầy đủ thông tin!");
+      hasError = true;
     }
 
-    if (hasError) return; 
+    if (hasError) return;
 
     if (!username || !password) {
-      setMessage('Vui lòng điền đầy đủ thông tin!');
-      setOpen(true); 
+      setMessage("Vui lòng điền đầy đủ thông tin!");
+      setOpen(true);
       return;
     }
 
     try {
-      const response = await fetch('https://localhost:7275/api/Login/Login', {
-        method: 'POST',
+      const response = await fetch("https://localhost:7275/api/Login/Login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ usernameOrEmail: username, password }), 
+        body: JSON.stringify({ usernameOrEmail: username, password }),
       });
 
       if (response.ok) {
-        const data = await response.json(); 
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', JSON.stringify(data.token));
+        const data = await response.json();
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", JSON.stringify(data.token));
         if (data.user.roleId === 1) {
-          navigate('/admin'); 
+          navigate("/admin");
         } else if (data.user.roleId === 2) {
-          navigate('/staff'); 
+          navigate("/staff/adslist");
         } else {
-          navigate('/');
+          navigate("/");
         }
 
-        setMessage('Đăng nhập thành công!'); 
-        setOpen(true); 
+        setMessage("Đăng nhập thành công!");
+        setOpen(true);
       } else {
-        setMessage('Đăng nhập thất bại!'); 
-        setOpen(true); 
+        setMessage("Đăng nhập thất bại!");
+        setOpen(true);
       }
     } catch (error) {
-      console.error('Error:', error);
-      setMessage('Có lỗi xảy ra!'); 
+      console.error("Error:", error);
+      setMessage("Có lỗi xảy ra!");
       setOpen(true);
     }
   };
@@ -89,10 +89,10 @@ const LoginForm = () => {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
-    setOpen(false); 
+    setOpen(false);
   };
 
   return (
@@ -101,32 +101,42 @@ const LoginForm = () => {
       <div className="flex flex-col items-center justify-center min-h-[500px] bg-gray-100">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold mb-4 text-center">Đăng nhập</h2>
-          <form className="space-y-4" onSubmit={handleLogin}> 
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <input
                 type="tel"
                 placeholder="Username hoặc email"
-                className={`w-full px-3 py-2 border ${usernameError ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500`}
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)} 
+                className={`w-full px-3 py-2 border ${
+                  usernameError ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500`}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
-              {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
+              {usernameError && (
+                <p className="text-red-500 text-sm">{usernameError}</p>
+              )}
             </div>
             <div>
               <input
                 type="password"
                 placeholder="Mật khẩu"
-                className={`w-full px-3 py-2 border ${passwordError ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500`}
-                value={password} 
+                className={`w-full px-3 py-2 border ${
+                  passwordError ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500`}
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+              {passwordError && (
+                <p className="text-red-500 text-sm">{passwordError}</p>
+              )}
             </div>
             <div className="text-right">
-              <a href="#" className="text-blue-500 hover:underline text-sm">Quên mật khẩu?</a>
+              <a href="#" className="text-blue-500 hover:underline text-sm">
+                Quên mật khẩu?
+              </a>
             </div>
             <button
-              style={{ backgroundColor: '#161620' }}
+              style={{ backgroundColor: "#161620" }}
               type="submit"
               className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition duration-300"
             >
@@ -140,10 +150,15 @@ const LoginForm = () => {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-        style={{ marginTop: '100px' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        style={{ marginTop: "100px" }}
       >
-        <Alert onClose={handleSnackbarClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
