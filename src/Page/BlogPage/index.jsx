@@ -108,13 +108,10 @@ const BlogPage = () => {
                   </h3>
                   <p
                     className="text-gray-600 mb-4"
-                    dangerouslySetInnerHTML={{ __html: blog.content }.slice(
-                      0,
-                      100
-                    )}
-                  >
-                    ...
-                  </p>
+                    dangerouslySetInnerHTML={{
+                      __html: blog.content.slice(0, 100) + "...",
+                    }}
+                  ></p>
                   <Link
                     to={`/blog/detail/${blog.blogId}`}
                     className="text-blue-500 hover:underline"

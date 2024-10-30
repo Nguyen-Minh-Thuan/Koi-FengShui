@@ -64,6 +64,7 @@ const StaffBlogsDetail = () => {
           setBlog(data.data);
           setFormData((prev) => ({
             ...prev,
+            userId: data.data.userId,
             title: data.data.title,
             elementId: data.data.elementId,
             content: data.data.content,
@@ -131,7 +132,7 @@ const StaffBlogsDetail = () => {
       }
 
       const updateBlogData = {
-        userId: formData.userId,
+        userId: parseInt(formData.userId, 10),
         title: formData.title,
         content: formData.content,
         statusId: 0,
@@ -147,8 +148,11 @@ const StaffBlogsDetail = () => {
         "https://localhost:7275/api/Blog/UpdateBlog",
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`, },
-          
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+
           body: JSON.stringify(updateBlogData),
         }
       );
@@ -176,7 +180,7 @@ const StaffBlogsDetail = () => {
           `https://localhost:7275/api/Blog/DeleteBlog?id=${id}`,
           {
             method: "PUT",
-            headers: { "Authorization": `Bearer ${token}`, },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
