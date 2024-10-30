@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const initialState = {
   adType: "",
-  startTime: "",
   quantity: 0,
+  startedDate: "",
 };
 
 const formReducer = (state, action) => {
@@ -22,9 +22,25 @@ const ChoosePackagePage = ({ adsId, adsTypeId, userId, title, content, elementId
   const [fee, setFee] = useState(0);
   const [adPackages, setAdPackages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedPackageId, setSelectedPackageId] = useState(null); // Add state for packageId
-  const location = useLocation();
+  const [selectedPackageId, setSelectedPackageId] = useState(null);
   const navigate = useNavigate();
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const updateStartTime = (date, time) => {
+    const formattedDateTime = `${date}T${time || "00:00:00"}`;
+    dispatch({
+      type: "SET_FIELD",
+      field: "startedDate",
+      value: formattedDateTime,
+    });
+  };
+
+  const handleDateChange = (e) =>
+    updateStartTime(
+      e.target.value,
+      formData.startedDate.split("T")[1] || "00:00:00"
+    );
 
   const fetchAdPackages = async () => {
     try {
@@ -48,7 +64,7 @@ const ChoosePackagePage = ({ adsId, adsTypeId, userId, title, content, elementId
     if (selectedPackage) {
       setFee(selectedPackage.price);
       setDuration(selectedPackage.duration);
-      setSelectedPackageId(selectedPackage.packageId); // Set the packageId
+      setSelectedPackageId(selectedPackage.packageId); 
     }
   };
 
@@ -76,12 +92,15 @@ const ChoosePackagePage = ({ adsId, adsTypeId, userId, title, content, elementId
       elementId,
       imageUrl,
       quantity: formData.quantity,
-      packageId: selectedPackageId, // Include packageId in paymentData
+      packageId: selectedPackageId,
+      startedDate: formData.startedDate || new Date().toISOString(),
     };
 
     console.log("Dữ liệu thanh toán:", paymentData);
 
     try {
+      let token = localStorage.getItem("token");
+      token = token.replace(/^"|"$/g, "");
       const apiUrl = `https://localhost:7275/api/Advertisement/CreatePayment`;
 
       const response = await fetch(apiUrl, {
@@ -89,6 +108,7 @@ const ChoosePackagePage = ({ adsId, adsTypeId, userId, title, content, elementId
         headers: {
           accept: "*/*",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(paymentData),
       });
@@ -100,7 +120,6 @@ const ChoosePackagePage = ({ adsId, adsTypeId, userId, title, content, elementId
         navigate("/user/ads/list");
 
         console.log("Dữ liệu đã được gửi thành công:", paymentData);
-
       } else {
         const errorMessage = await response.text();
         console.error("Gửi dữ liệu thất bại:", errorMessage);
@@ -167,6 +186,18 @@ const ChoosePackagePage = ({ adsId, adsTypeId, userId, title, content, elementId
           ))}
         </div>
         <div className="mb-6">
+          <label className="block mb-2 font-semibold text-lg text-gray-700">
+            Chọn thời gian tin đăng
+          </label>
+          <div className="flex items-center mb-4">
+            <input
+              type="date"
+              min={today}
+              className="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleDateChange}
+              name="startTime"
+            />
+          </div>
           <div className="mb-4">
             <label className="block mb-1 font-semibold text-sm text-gray-700">
               Số lượng
