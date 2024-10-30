@@ -12,7 +12,7 @@ const Index = () => {
   const [duration, setDuration] = useState();
   const [updatePackagePopupVisible, setUpdatePackagePopupVisible] = useState(false);
 
-  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
+  const navigate = useNavigate(); 
 
   const openUpdatePackagePopup = () => {
     setUpdatePackagePopupVisible(true);

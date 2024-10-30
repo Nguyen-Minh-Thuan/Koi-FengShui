@@ -179,7 +179,7 @@ const Index = () => {
 
   useEffect(() => {
     fetchKoiPatternDetail();
-    fetchAvailableColors(); // Fetch the colors when the component mounts
+    fetchAvailableColors(); 
   }, []);
 
   return (
@@ -195,14 +195,14 @@ const Index = () => {
             <img 
               src={koiPattern.imageUrl} 
               alt={koiPattern.patternName} 
-              className="w-full h-64 object-cover mb-4 rounded"
+              className="w-[70%] h-fit object-cover mb-4 rounded "
             />
             <h2 className="text-xl font-semibold mb-2">Pattern Colors:</h2>
             <ul className='p-6 rounded-lg bg-slate-100 '>
               {colorList.map((colorItem) => (
                 <li key={colorItem.colorId} className="mb-2 flex justify-between w-[47%] ">
                   <div>
-                    <strong>Color:</strong> {colorItem.color.name} - <strong>Values:</strong> {colorItem.values} {colorItem.pcolorId}
+                    <strong>Color:</strong> {colorItem.color.name} - <strong>Values:</strong> {colorItem.values}
                   </div>
                   <div className='flex'>
                     <button
@@ -222,7 +222,7 @@ const Index = () => {
               ))}
               <button
                 className="bg-green-500 text-white px-4 py-2 rounded ml-2 hover:bg-green-600 transition"
-                onClick={() => setAddColorPopupVisible(true)}
+                onClick={() => openAddColorPopup()}
               >
                 Add Color
               </button>
@@ -292,7 +292,7 @@ const Index = () => {
                 <select
                   onChange={(e) => {
                     const colorId = parseInt(e.target.value, 10);
-                    console.log('Selected Color ID:', colorId); // Log giá trị đã chọn
+                    console.log('Selected Color ID:', colorId);
                     setSelectedColorId(colorId);
                   }}
                   className="border p-2 w-full"
@@ -324,11 +324,9 @@ const Index = () => {
                   <option value={1}>1</option>
                 </select>
 
-                {/* Nút xác nhận thêm màu sắc */}
                 <button
                   className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
                   onClick={async () => {
-                    // Kiểm tra xem có chọn màu và giá trị hợp lệ không
                     if (selectedColorId && newColorValue) {
                       await addColorPattern();
                     } else {
@@ -339,10 +337,9 @@ const Index = () => {
                   Confirm Add
                 </button>
 
-                {/* Nút hủy */}
                 <button
                   className="bg-gray-500 text-white px-4 py-2 rounded"
-                  onClick={() => setAddColorPopupVisible(false)}
+                  onClick={() => closeAddColorPopup()}
                 >
                   Cancel
                 </button>
@@ -351,7 +348,6 @@ const Index = () => {
           )}
 
 
-            {/* Update Color Popup Modal */}
             {updateColorPopupVisible && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded shadow-lg">
@@ -384,7 +380,6 @@ const Index = () => {
               </div>
             )}
 
-            {/* Delete Color Popup Modal */}
             {deleteColorPopupVisible && (
               <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-4 rounded shadow-lg">
