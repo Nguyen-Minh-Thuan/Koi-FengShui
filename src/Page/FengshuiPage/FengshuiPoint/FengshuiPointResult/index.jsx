@@ -263,6 +263,7 @@ const FengshuiPointResult = () => {
                     title={ad.title}
                     content={ad.content}
                     link={ad.link}
+                    startedDate={ad.startedDate}
                   />
                 </Link>
               ))
