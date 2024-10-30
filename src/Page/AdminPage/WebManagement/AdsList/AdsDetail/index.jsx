@@ -12,12 +12,14 @@ const Index = () => {
   const [reasonDecline, setReasonDecline] = useState("");
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);
   const [buttonVisible, setButtonVisible] = useState(false);
+  
 
   const ApproveAds = async () =>{
     try {
-      const response = await api.post(`Advertisement/GetAdsById?id=${adsId}`);
+      const response = await api.post(`Admin/ApproveAdvertisement/${adsId}`);
       if(response.status === 200){
         toast.success(`Success mesage: ${response.data}`);
+        fetchAdDetail();
       }
     } catch (error) {
       console.log(error);
@@ -52,18 +54,19 @@ const Index = () => {
     closeDeclinePopup();
   };
   
+  const fetchAdDetail = async () => {
+    try {
+      const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); 
+      setAdDetail(response.data.data);
+      if((response.data.data.status?.status1) === 'Pending' ? setButtonVisible(true) : setButtonVisible(false));
+      console.log(buttonVisible);
+    } catch (err) {
+      console.error('Error fetching ad details:', err);
+    }
+  };
   
   useEffect(() => {
-    const fetchAdDetail = async () => {
-      try {
-        const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`); 
-        setAdDetail(response.data.data);
-        if((response.data.data.status?.status1) === 'Pending' ? setButtonVisible(true) : setButtonVisible(false));
-        console.log(buttonVisible);
-      } catch (err) {
-        console.error('Error fetching ad details:', err);
-      }
-    };
+    fetchAdDetail();
 
     if (adsId) {
       fetchAdDetail();
