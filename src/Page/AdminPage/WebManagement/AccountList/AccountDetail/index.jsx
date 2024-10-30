@@ -67,12 +67,10 @@ const handleDeleteUser = async () => {
 };
 
 
-  // Mở popup xác nhận xóa
   const openDeleteConfirmPopup = () => {
     setDeleteConfirmPopupVisible(true);
   };
 
-  // Đóng popup xác nhận xóa
   const closeDeleteConfirmPopup = () => {
     setDeleteConfirmPopupVisible(false);
   };

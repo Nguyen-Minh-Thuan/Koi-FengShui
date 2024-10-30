@@ -15,7 +15,6 @@ function Index() {
   const [monthlyUser, setMonthlyUser] = useState(0);
   const [totalAds, setTotalAds] = useState(0);
   
-  // New States for Dashboard
   const [dailyUser, setDailyUser] = useState(0);
   const [monthlyAds, setMonthlyAds] = useState(0);
   const [dailyAds, setDailyAds] = useState(0);
@@ -30,41 +29,6 @@ function Index() {
 
   const [weeklyFengshuiStats, setWeeklyFengshuiStats] = useState([]);
   const [weeklyFenshuiStatsChart, setWeeklyFenshuiStatsChart] = useState([]);
-
-  // const [advertisementInteractions, setAdvertisementInteractions] = useState([]);
-
-  // const fetchAdvertisementInteractions = async () => {
-  //   try {
-  //     const response = await api.get('Admin/WeeklyAdsCheck');
-  //     if (response.status === 200 && response.data.status) {
-  //       // Lấy top 10 quảng cáo
-  //       const interactions = response.data.data.list;
-  //       const adCounts = {};
-        
-  //       interactions.forEach(interaction => {
-  //         if (adCounts[interaction.adsId]) {
-  //           adCounts[interaction.adsId]++;
-  //         } else {
-  //           adCounts[interaction.adsId] = 1;
-  //         }
-  //       });
-
-  //       // Chuyển đổi thành mảng và lấy 10 quảng cáo hàng đầu
-  //       const sortedAds = Object.entries(adCounts)
-  //         .map(([adsId, count]) => ({ adsId, count }))
-  //         .sort((a, b) => b.count - a.count)
-  //         .slice(0, 10);
-
-  //       setAdvertisementInteractions(sortedAds);
-  //     } else {
-  //       toast.error("Failed to fetch advertisement interactions");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Error fetching advertisement interactions");
-  //   }
-  // }
-    
 
   const fetchTotalAds = async () => {
     try {
@@ -99,7 +63,7 @@ function Index() {
       const response = await api.get('Advertisement/GetAll'); 
       if(response.status === 200){
         setAds(response.data.data);
-        toast.success("Fetch all ads successful")
+        // toast.success("Fetch all ads successful")
       }            
     } catch (error) {
       toast.error("Error !!");
@@ -117,7 +81,6 @@ function Index() {
     }
   };
 
-  // New Fetch Functions for Dashboard
   const fetchDailyUser = async () => {
     try {
       const response = await api.get('Admin/DailyUser?skip=0');
@@ -175,7 +138,7 @@ function Index() {
       );
       const stats = responses.map(response => response.data.data);
       
-      // Chuyển đổi dữ liệu về định dạng mong muốn cho biểu đồ
+     
       const chartData = stats.map((stat, index) => ({
         name: `${7 - (7-index)} ngày trước`,
         totalDir: stat.totalDir || 0,
@@ -184,7 +147,7 @@ function Index() {
       }));
       
       setWeeklyFengshuiStats(chartData);
-      setWeeklyFenshuiStatsChart(chartData); // Lưu vào state cho biểu đồ
+      setWeeklyFenshuiStatsChart(chartData); 
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch feng shui stats");
@@ -207,10 +170,6 @@ function Index() {
     ]);
   };
 
-  // const InteractAdsChartData = adsInteractions.map(interaction => ({
-  //   adsId: interaction.adsId, // Thay thế bằng tên quảng cáo nếu có
-  //   interactions: interaction.interactId // Số lượt tương tác
-  // }));
   
   useEffect(() => {
     fetchKoi();
@@ -219,7 +178,6 @@ function Index() {
     fetchTotalAds();
     fetchDashboardStats(); 
     fetchWeeklyStats();
-    // fetchAdvertisementInteractions();
     console.log(weeklyFengshuiStats);
   }, []);
 
@@ -232,26 +190,14 @@ function Index() {
     { name: 'This Month', ads: monthlyAds, users: monthlyUser },
   ];
 
-  // const fengshuiStatsData = [
-  //   { name: 'Today', ads: dailyAds, users: dailyUser },
-  //   { name: 'Yesterday', ads: monthlyAds, users: monthlyUser },
-  //   { name: '2 days ago', ads: monthlyAds, users: monthlyUser },
-  //   { name: '3 days ago', ads: monthlyAds, users: monthlyUser },
-  //   { name: '4 days ago', ads: monthlyAds, users: monthlyUser },
-  //   { name: '5 days ago', ads: monthlyAds, users: monthlyUser },
-  //   { name: '6 days ago', ads: monthlyAds, users: monthlyUser },
-  // ];
-
-
-
   return (
     <div className='bg-violet-100 min-h-screen'>
       <AdminHeader />
       <ToastContainer />
       <div className='flex'>
-        <AdminNavbar />
-        <div className='flex-1 p-6'>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6'>
+        <AdminNavbar/>
+        <div className='flex-1 p-3'>
+          <div className='grid grid-cols-12 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6'>
             <div className='bg-white p-6 rounded-lg shadow-lg'>
               <h2 className='text-xl font-semibold'>Tổng số Quảng Cáo</h2>
               <p className='text-3xl font-bold'>{totalAds}</p>
@@ -266,7 +212,6 @@ function Index() {
             </div>
           </div>
 
-          {/* New Dashboard Section */}
           <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
             <h2 className='text-xl font-semibold'>Thống kê hàng ngày và hàng tháng</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4'>
@@ -295,7 +240,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Existing Chart Section */}
           <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
             <h2 className='text-3xl font-semibold mb-8 text-center'>Thống kê Quảng Cáo và Người Dùng</h2>
             <BarChart width={600} height={300} data={chartData}>
@@ -320,31 +264,6 @@ function Index() {
               <Line type="monotone" dataKey="totalElement" stroke="#82ca9d" strokeWidth={2}/>
               <Line type="monotone" dataKey="totalPoint" stroke="#ff7300" strokeWidth={2}/>
             </LineChart>
-          </div>
-
-          {/* <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
-            <h2 className='text-3xl font-semibold mb-8 text-center'>Top 10 lượt tương tác của các quảng cáo</h2>
-            <BarChart width={1200} height={600} data={advertisementInteractions} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" label={{ value: 'Lượt nhấn', position: 'insideBottom', offset: 0 }} />
-              <YAxis dataKey="adsId" type="category" label={{ value: 'Tên quảng cáo', angle: -90, position: 'insideLeft', offset: 0 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="count" fill="#8884d8" />
-            </BarChart>
-          </div> */}
-
-          <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
-            <h2 className='text-xl font-semibold'>Các quảng cáo nổi bật</h2>
-            {ads.length > 0 ? (
-              <ul>
-                {ads.map(ad => (
-                  <li key={ad.adsId} className='p-2 border-b'>{ad.title} - {ad.status.status1}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>Không có quảng cáo.</p>
-            )}
           </div>
         </div>
       </div>

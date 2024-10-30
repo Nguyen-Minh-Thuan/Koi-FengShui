@@ -33,7 +33,7 @@ const Index = () => {
       toast.error(`Delete fail !!`);
       console.log(error);
     }
-    setDeleteVarietyPopupVisible(false); // Close the popup after deleting
+    setDeleteVarietyPopupVisible(false); 
   }
 
   const updateVariety = async () => {
@@ -49,7 +49,7 @@ const Index = () => {
       toast.error("Update Variety Fail !!");
       console.log(error);
     }
-    setUpdateVarietyPopupVisible(false); // Close the popup after updating
+    setUpdateVarietyPopupVisible(false); 
   } 
 
   const addNewPattern = async () => {
@@ -66,7 +66,7 @@ const Index = () => {
       toast.error("Add new Pattern Fail !!");
       console.log(error);
     }
-    setAddPatternPopupVisible(false); // Close the popup after adding
+    setAddPatternPopupVisible(false); 
   } 
 
  const openAddPatternPopup = () => {
@@ -142,14 +142,14 @@ const Index = () => {
           {pattern.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
                 {pattern.map(koi => (
-                <div key={koi.patternId} className="bg-white shadow-lg rounded-lg p-4 m-2">
+                <div key={koi.patternId} className="bg-white shadow-lg rounded-lg p-4 m-2 flex flex-col">
                     <img
-                    className="w-full h-48 object-cover"
+                    className="w-full h-fit object-cover"
                     src={koi.imageUrl || koiImg} 
                     />
                     <h3 className="text-lg font-bold mt-2">{koi.patternName || 'Không có tên'}</h3>
                     <p className="text-sm mt-2">{koi.description || 'No description'}</p>
-                    <div className='mt-4 text-right'>
+                    <div className='mt-auto text-right'>
                         <Link to={`/admin/koilist/${koi.varietyId}/${koi.patternId}`} className='bg-blue-500 px-2 py-2 text-white rounded-lg hover:bg-blue-600'>View Koi Details</Link>
                     </div>
                 </div>                

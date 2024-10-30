@@ -2,30 +2,28 @@ import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
 import { ToastContainer } from 'react-toastify';
-import { Line } from '@ant-design/charts'; // Sử dụng Line cho biểu đồ theo thời gian
+import { Line } from '@ant-design/charts';
 
 const Index = () => {
   const [chartData, setChartData] = useState([]);
 
-  // Dữ liệu mẫu
   const fetchData = () => {
-    // Giả lập dữ liệu, có thể thay thế bằng API để lấy dữ liệu thật
     const data = [];
     const currentTime = new Date();
     for (let i = 0; i < 10; i++) {
       data.push({
-        time: new Date(currentTime.getTime() - i * 60000).toLocaleTimeString(), // Thời gian hiện tại trừ đi số phút
-        queries: Math.floor(Math.random() * 100), // Số lượt tra cứu ngẫu nhiên
-        ads: Math.floor(Math.random() * 50), // Số quảng cáo ngẫu nhiên
+        time: new Date(currentTime.getTime() - i * 60000).toLocaleTimeString(), 
+        queries: Math.floor(Math.random() * 100), 
+        ads: Math.floor(Math.random() * 50), 
       });
     }
-    setChartData(data.reverse()); // Đảo ngược dữ liệu để hiển thị đúng thứ tự thời gian
+    setChartData(data.reverse()); 
   };
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 60000); // Cập nhật dữ liệu mỗi phút
-    return () => clearInterval(interval); // Dọn dẹp interval khi component bị gỡ bỏ
+    const interval = setInterval(fetchData, 60000);
+    return () => clearInterval(interval); 
   }, []);
 
   const config = {
@@ -38,7 +36,7 @@ const Index = () => {
     },
     yAxis: {
       label: {
-        formatter: (v) => `${v}`, // Có thể thay đổi định dạng nếu cần
+        formatter: (v) => `${v}`,
       },
     },
     point: {
@@ -63,13 +61,11 @@ const Index = () => {
       <div className='flex'>
         <AdminNavbar />
         <div className='flex-1 p-6'>
-          {/* Section: Biểu đồ thống kê theo thời gian */}
           <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
             <h2 className='text-xl font-semibold'>Thống kê Realtime: Tra Cứu Mệnh và Quảng Cáo</h2>
             <Line {...config} />
           </div>
 
-          {/* Các phần còn lại của trang */}
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6'>
             <div className='bg-white p-6 rounded-lg shadow-lg'>
               <h2 className='text-xl font-semibold'>Tổng số Quảng Cáo</h2>
@@ -85,7 +81,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Section: Danh sách Quảng Cáo */}
           <div className='bg-white p-6 rounded-lg shadow-lg mb-6'>
             <h2 className='text-xl font-semibold'>Các quảng cáo nổi bật</h2>
             <ul>

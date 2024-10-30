@@ -14,18 +14,14 @@ const Index = () => {
   const [rowPerPageAll, setRowPerPageAll] = useState(5);
   const [rowPerPagePending, setRowPerPagePending] = useState(5);
 
-
-  // Pagination for Pending Ads
   const startIndexPending = (currentPagePending - 1) * rowPerPagePending;
   const endIndexPending = startIndexPending + rowPerPagePending;
   const currentPendingAds = pendingAds.slice(startIndexPending, endIndexPending);
 
-  // Pagination for All Ads
   const startIndexAll = (currentPageAll - 1) * rowPerPagePending;
   const endIndexAll = startIndexAll + rowPerPagePending;
   const currentAllAds = allAds.slice(startIndexAll, endIndexAll);
 
-  // Fetch pending advertisements
   const fetchPendingAds = async () => {
     try {
       const response = await api.get('Advertisement/GetPendingAds'); 
@@ -35,7 +31,6 @@ const Index = () => {
     }
   };
 
-  // Fetch all advertisements
   const fetchAllAds = async () => {
     try {
       const response = await api.get('Advertisement/GetAll'); 
@@ -50,7 +45,6 @@ const Index = () => {
     fetchAllAds();
   }, []);
 
-  // Pagination handlers for Pending Ads
   const handleNextPagePending = () => {
     if (currentPagePending < Math.ceil(pendingAds.length / rowPerPagePending))
       setCurrentPagePending(currentPagePending + 1);
@@ -61,7 +55,6 @@ const Index = () => {
       setCurrentPagePending(currentPagePending - 1);
   };
 
-  // Pagination handlers for All Ads
   const handleNextPageAll = () => {
     if (currentPageAll < Math.ceil(allAds.length / rowPerPagePending))
       setCurrentPageAll(currentPageAll + 1);
@@ -74,8 +67,8 @@ const Index = () => {
 
   const handleChangeRowPerPage = (event) => {
     setRowPerPagePending(parseInt(event.target.value, 10));
-    setCurrentPagePending(1); // Reset to first page for Pending Ads
-    setCurrentPageAll(1); // Reset to first page for All Ads
+    setCurrentPagePending(1);
+    setCurrentPageAll(1); 
   };
 
   return (
