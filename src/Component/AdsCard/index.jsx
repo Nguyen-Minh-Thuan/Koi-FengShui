@@ -17,7 +17,7 @@ const AdsCard = ({ imageUrl, title, content, link, startedDate }) => {
     } else if (diffInDays < 30) {
       return `${diffInDays} ngày trước`;
     } else {
-      return date.toLocaleDateString('vi-VN');
+      return date.toLocaleDateString("vi-VN");
     }
   };
 
@@ -31,18 +31,27 @@ const AdsCard = ({ imageUrl, title, content, link, startedDate }) => {
         />
       </div>
       <div className="w-2/3 p-2 flex flex-col">
-        <h2 className="text-purple-600 text-sm font-semibold mb-1 truncate">{title}</h2>
-        <p className="text-gray-600 text-xs mb-1 overflow-hidden flex-grow" style={{
-          display: '-webkit-box',
-          WebkitBoxOrient: 'vertical',
-          WebkitLineClamp: 'none',
-          textOverflow: 'ellipsis'
-        }}>
-          {content}
-        </p>
+        <h2 className="text-purple-600 text-sm font-semibold mb-1 truncate">
+          {title}
+        </h2>
+        <p
+          className="text-gray-600 text-xs mb-1 overflow-hidden flex-grow"
+          dangerouslySetInnerHTML={{ __html: content.slice(0, 100) + "..." }}
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: "none",
+            textOverflow: "ellipsis",
+          }}
+        />
         <div className="flex justify-between items-center mt-auto">
-          <span className="text-gray-500 text-xs">{formatDate(startedDate)}</span>
-          <a href={link} className="text-purple-600 font-bold text-xs hover:underline">
+          <span className="text-gray-500 text-xs">
+            {formatDate(startedDate)}
+          </span>
+          <a
+            href={link}
+            className="text-purple-600 font-bold text-xs hover:underline"
+          >
             Chi tiết&gt;&gt;
           </a>
         </div>
