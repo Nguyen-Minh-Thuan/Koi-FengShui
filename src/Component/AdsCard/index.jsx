@@ -1,5 +1,5 @@
-import React from 'react'
-import Content from '../../Page/AdminPage/WebManagement/AdsList'
+import React from "react";
+import Content from "../../Page/AdminPage/WebManagement/AdsList";
 
 const AdsCard = ({ imageUrl, title, content, link, startedDate }) => {
     const formatDate = (dateString) => {
@@ -48,7 +48,29 @@ const AdsCard = ({ imageUrl, title, content, link, startedDate }) => {
               </div>
           </div>
       </div>
-    )
-}
+      <div className="w-2/3 p-2 flex flex-col">
+        <h2 className="text-purple-600 text-sm font-semibold mb-1 truncate">
+          {title}
+        </h2>
+        <p
+          className="text-gray-600 text-xs mb-1 overflow-hidden flex-grow"
+          dangerouslySetInnerHTML={{ __html: content }}
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: "none",
+            textOverflow: "ellipsis",
+          }}
+        ></p>
+        <a
+          href={link}
+          className="text-purple-600 font-bold text-xs hover:underline self-end mt-auto"
+        >
+          Chi tiết&gt;&gt;
+        </a>
+      </div>
+    </div>
+  );
+};
 
-export default AdsCard
+export default AdsCard;

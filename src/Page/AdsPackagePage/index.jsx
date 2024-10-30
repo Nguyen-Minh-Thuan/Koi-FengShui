@@ -5,9 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
 
+const today = new Date().toISOString().split("T")[0];
+
 const initialState = {
   adType: "",
-  startTime: "",
+  startedDate: "",
   quantity: 0,
 };
 
@@ -44,6 +46,35 @@ const AdsPackagePage = () => {
     fetchAdPackages();
   }, []);
 
+  const handleChange = useCallback(
+    ({ target: { name, value, type, files } }) => {
+      dispatch({
+        type: "SET_FIELD",
+        field: name,
+        value: type === "file" ? files[0] : value,
+      });
+    },
+    []
+  );
+
+  const updateStartTime = (date, time) => {
+    const formattedDateTime = `${date}T${time || "00:00:00"}`;
+    dispatch({
+      type: "SET_FIELD",
+      field: "startedDate",
+      value: formattedDateTime,
+    });
+  };
+
+  const handleDateChange = (e) =>
+    updateStartTime(
+      e.target.value,
+      formData.startedDate.split("T")[1] || "00:00:00"
+    );
+
+  const handleTimeChange = (e) =>
+    updateStartTime(formData.startedDate.split("T")[0] || "", e.target.value);
+
   const handleAdTypeChange = (type) => {
     dispatch({ type: "SET_FIELD", field: "adType", value: type });
     const selectedPackage = adPackages.find((pkg) => pkg.packageName === type);
@@ -72,22 +103,24 @@ const AdsPackagePage = () => {
 
     const paymentData = {
       adsId: 0,
-      adsTypeId: createAdsData?.adsTypeId,
-      userId: createAdsData?.userId,
-      packageId: adPackages.find((pkg) => pkg.packageName === formData.adType)
-        ?.packageId,
-      title: createAdsData?.title || "",
-      content: createAdsData?.content || "",
-      elementId: createAdsData?.elementId,
-      imageUrl: createAdsData?.imageUrl || "",
-      quantity: formData.quantity,
+      adsTypeId: createAdsData?.adsTypeId || 0,
+      userId: createAdsData?.userId || 0,
+      packageId:
+        adPackages.find((pkg) => pkg.packageName === formData.adType)
+          ?.packageId || 0,
+      title: createAdsData?.title || "string",
+      content: createAdsData?.content || "string",
+      elementId: createAdsData?.elementId || 0,
+      startedDate: formData.startedDate || new Date().toISOString(),
+      imageUrl: createAdsData?.imageUrl || "string",
+      quantity: formData.quantity || 0,
     };
 
     console.log("Dữ liệu thanh toán:", paymentData);
 
     try {
-      let token = localStorage.getItem("token"); 
-      token = token.replace(/^"|"$/g, '');
+      let token = localStorage.getItem("token");
+      token = token.replace(/^"|"$/g, "");
       const apiUrl = `https://localhost:7275/api/Advertisement/CreatePayment`;
 
       const response = await fetch(apiUrl, {
@@ -95,7 +128,7 @@ const AdsPackagePage = () => {
         headers: {
           accept: "*/*",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(paymentData),
       });
@@ -176,6 +209,18 @@ const AdsPackagePage = () => {
               ))}
             </div>
             <div className="mb-6">
+              <label className="block mb-2 font-semibold text-lg text-gray-700">
+                Chọn thời gian tin đăng
+              </label>
+              <div className="flex items-center mb-4">
+                <input
+                  type="date"
+                  min={today}
+                  className="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleDateChange}
+                  name="startedDate"
+                />
+              </div>
               <div className="mb-4">
                 <label className="block mb-1 font-semibold text-sm text-gray-700">
                   Số lượng

@@ -6,13 +6,12 @@ import Footer from '../../Component/Footer';
 import AdsCard from '../../Component/AdsCard';  
 
 const elementIdToCategory = {
-  1: 'Kim',
-  2: 'Thủy',
-  3: 'Hỏa',
-  4: 'Mộc',
-  5: 'Thổ',
+  1: "Kim",
+  2: "Thủy",
+  3: "Hỏa",
+  4: "Mộc",
+  5: "Thổ",
 };
-
 
 const AdsDetailPage = () => {
   const { id } = useParams(); 
@@ -21,7 +20,9 @@ const AdsDetailPage = () => {
 
   useEffect(() => {
     const fetchAd = async () => {
-      const response = await fetch(`https://localhost:7275/api/Advertisement/GetAdsById?id=${id}`); 
+      const response = await fetch(
+        `https://localhost:7275/api/Advertisement/GetAdsById?id=${id}`
+      );
       const addata = await response.json();
       const ad = addata.data;
       setAd(ad);
@@ -35,7 +36,7 @@ const AdsDetailPage = () => {
     };
 
     fetchAd();
-  }, [id]); 
+  }, [id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -56,7 +57,7 @@ const AdsDetailPage = () => {
   };
 
   if (!ad) {
-    return <div>ad not found</div>; 
+    return <div>ad not found</div>;
   }
   return (
     <>
@@ -101,8 +102,7 @@ const AdsDetailPage = () => {
           </div>
         )}
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 };
