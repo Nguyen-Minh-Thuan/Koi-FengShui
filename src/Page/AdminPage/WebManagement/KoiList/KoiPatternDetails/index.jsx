@@ -22,8 +22,8 @@ const Index = () => {
   const [colorId, setColorId] = useState(0);
   const [pColorId, setpColorId] = useState(0);
 
-  const [newColorValue, setNewColorValue] = useState(0); 
-  const [selectedColorId, setSelectedColorId] = useState(0);
+  const [newColorValue, setNewColorValue] = useState(); 
+  const [selectedColorId, setSelectedColorId] = useState();
   const [colorList, setColorList] = useState([]);
   const [availableColors, setAvailableColors] = useState([]);
 
@@ -104,8 +104,8 @@ const Index = () => {
   
   const closeAddColorPopup = () => {
     setAddColorPopupVisible(false);
-    setSelectedColorId(0);
-    setNewColorValue(0);
+    setSelectedColorId();
+    setNewColorValue();
   }
 
   const openUpdateColorPopup = () => {
@@ -114,8 +114,8 @@ const Index = () => {
 
   const closeUpdateColorPopup = () => {
     setUpdateColorPopupVisible(false);
-    setSelectedColorId(0);
-    setNewColorValue(0);
+    setSelectedColorId();
+    setNewColorValue();
   }
 
   const addColorPattern = async () => {
@@ -137,7 +137,7 @@ const Index = () => {
       toast.error(`An error occurred while adding the color. ${error.response?.status}`);
       console.error(error);
     }
-    setAddColorPopupVisible(false); 
+    closeAddColorPopup();
   };
   
 
@@ -288,7 +288,7 @@ const Index = () => {
             {addColorPopupVisible && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="bg-white p-4 rounded shadow-lg">
-                <h2 className="text-lg font-semibold my-4">Select New Color</h2>
+                <h2 className="text-lg font-semibold ">Select New Color</h2>                
                 <select
                   onChange={(e) => {
                     const colorId = parseInt(e.target.value, 10);
@@ -297,6 +297,7 @@ const Index = () => {
                   }}
                   className="border p-2 w-full"
                 >
+                  <option>-- Select color --</option>
                   {availableColors.map(color => (
                     <option key={color.colorId} value={color.colorId}>
                       {color.name}
@@ -304,14 +305,16 @@ const Index = () => {
                   ))}
                 </select>
 
+                <h2 className="text-lg font-semibold mt-4">Select value</h2>                  
                 <select
                   onChange={(e) => {
                     const value = parseFloat(e.target.value);
                     console.log('New Color Value:', value); 
                     setNewColorValue(value);
                   }}
-                  className="border p-2 mb-2 w-full my-6"
+                  className="border p-2 w-full mb-6"
                 >
+                  <option value={0}>-- Select value --</option>
                   <option value={0.1}>0.1</option>
                   <option value={0.2}>0.2</option>
                   <option value={0.3}>0.3</option>
@@ -358,7 +361,7 @@ const Index = () => {
                       setNewColorValue(value);
                       }} 
                     >
-                    <h3>{selectedColorId}</h3>
+                    <option value={0}>-- Select value you want to updae --</option>
                     <option value={0.1}> 0.1 </option>
                     <option value={0.2}> 0.2 </option>
                     <option value={0.3}> 0.3 </option>
@@ -370,7 +373,12 @@ const Index = () => {
                     <option value={0.9}> 0.9 </option>
                     <option value={1}> 1 </option>
                   </select>
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={() => updateColor(pColorId)}>
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={() => {
+                    if(newColorValue)
+                      updateColor(pColorId);
+                    else
+                      toast.error("Please choose value!!")
+                  }}>
                     Confirm Update
                   </button>
                   <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setUpdateColorPopupVisible(false)}>
