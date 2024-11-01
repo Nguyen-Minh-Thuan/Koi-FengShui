@@ -37,6 +37,7 @@ import StaffPage from "../Page/StaffPage";
 import UserChangePassword from "../Page/UserProfile/UserChangePassword";
 import StaffAdsDetail from "../Page/StaffPage/StaffAdsDetail";
 import StaffBlogsDetail from "../Page/StaffPage/StaffBlogsDetail";
+import Test from "../Page/AdminPage/Statistic/Test";
 
 const getCurrentUser = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -315,6 +316,8 @@ const AppRouter = () => {
             />
           }
         />
+
+      <Route path="/admin/test" element={<Test />} />
       </Routes>
     </BrowserRouter>
   );

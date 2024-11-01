@@ -12,8 +12,9 @@ const handleLogout = () => {
 
 const AdminHeader = () => {
   return (
-    <div className="relative">
-      <div className="bg-white border-b-2 w-full py-2 flex justify-between px-10 shadow-md">
+    <>
+    <div className="relative w-full h-18 bg-blue-50">
+      <div className="bg-white border-b-1 py-2 flex justify-between px-10 shadow-md">
         <div className="text-2xl flex px-6 justify-between items-center w-[50%]">
           <Link to="/admin" className="font-bold w-[50%]">
             <div className="flex items-center ">
@@ -21,14 +22,10 @@ const AdminHeader = () => {
               <span className="ml-4 text-2xl font-semibold">FengShuiKoi</span>
             </div>
           </Link>
-          {/* <Link to="/" className="w-[50%]"> */}
           Admin Chanel
-          {/* </Link> */}
         </div>
         <div className="flex justify-end w-[50%] items-center h-[60%]">
-          {/* <Link to="/"> */}
           <img src={User} alt="UserIcon" className="h-12" />
-          {/* </Link> */}
           <img
             src={Logout}
             alt="Logout"
@@ -38,8 +35,8 @@ const AdminHeader = () => {
           />
         </div>
       </div>
-      {/* <div className='h-[0px] w-full'/> */}
     </div>
+    </>
   );
 };
 
