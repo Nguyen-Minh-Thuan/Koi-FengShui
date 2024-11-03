@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../../../../Config/axios';
 import { toast, ToastContainer } from 'react-toastify';
 import AdminHeader from '../../../../../Component/HeaderAdmin';
+import { storage } from '../../../../../Config/firebase';
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Index = () => {
   const { koiPatternId } = useParams();
@@ -17,7 +19,7 @@ const Index = () => {
   const [deleteColorPopupVisible, setDeleteColorPopupVisible] = useState(false);
   
   const [patternName, setPatternName] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imgFile, setImgFile] = useState('');
   const [varietyId, setVarietyId] = useState(0);
   const [colorId, setColorId] = useState(0);
   const [pColorId, setpColorId] = useState(0);
@@ -33,7 +35,7 @@ const Index = () => {
       if (response.data.status) {
         setKoiPattern(response.data.data);
         setPatternName(response.data.data.patternName);
-        setImageUrl(response.data.data.imageUrl);
+        setImgFile(response.data.data.imageUrl);
         setVarietyId(response.data.data.varietyId || 0);
         setColorList(response.data.data.patternColors || []); // Get pattern colors
       } else {
@@ -63,9 +65,10 @@ const Index = () => {
 
   const updateKoiPattern = async () => {
     try {
+      const imgUrlFromFirebase = await uploadImageToFirebase();
       const response = await api.put(`Pattern/Update/${koiPatternId}`, {
         patternName,
-        imageUrl,
+        imageUrl: imgUrlFromFirebase,
         varietyId,
       });
 
@@ -80,6 +83,32 @@ const Index = () => {
       console.error(error);
     }
     setUpdatePatternPopupVisible(false);
+  };
+
+  
+  const uploadImageToFirebase = async () => {
+    if (!imgFile) {
+      toast.error("imgFile null")
+      return null;
+    }; 
+    try {      
+      const storageRef = ref(storage, `Koi_Images/${imgFile.name}`);
+      await uploadBytes(storageRef, imgFile);
+      const imgUrlFromFirebase = await getDownloadURL(storageRef);
+      // toast.success("Upload to Firebase successful!");
+      return imgUrlFromFirebase;
+    } catch (error) {
+      console.log(error);
+      toast.error("Upload to Firebase failed");
+      return null; 
+    }
+  };
+
+  const handleChangeImg = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImgFile(file);
+    }
   };
 
   const deleteKoiPattern = async () => {
@@ -255,11 +284,10 @@ const Index = () => {
                     placeholder="Pattern Name" 
                   />
                   <input 
-                    type="text" 
-                    value={imageUrl} 
-                    onChange={(e) => setImageUrl(e.target.value)} 
+                    type='file'
+                  onChange={handleChangeImg}
+                  placeholder="Chọn ảnh"
                     className="border p-2 mb-2 w-full" 
-                    placeholder="Image URL" 
                   />
                   <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={updateKoiPattern}>
                     Confirm Update

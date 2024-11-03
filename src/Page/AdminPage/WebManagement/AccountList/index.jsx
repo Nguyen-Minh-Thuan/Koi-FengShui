@@ -19,7 +19,7 @@ const AccountList = () => {
 
   const fetchAccounts = async () => {
     try {
-      const response = await api.get('User/GetUserByPage?pageIndex=0');
+      const response = await api.get('User/GetUserByPage');
       setAccounts(response.data.data);
     } catch (error) {
       console.error("loi roi: ", error);

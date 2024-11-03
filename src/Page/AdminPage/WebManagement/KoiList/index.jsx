@@ -3,31 +3,40 @@ import AdminNavbar from '../../../../Component/AdminNavbar';
 import AdminHeader from '../../../../Component/HeaderAdmin';
 import koiImg from  '../../../../assets/img/Home_banner.jpg';
 import api from '../../../../Config/axios';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { storage } from '../../../../Config/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 function Index() {
   const [kois, setKois] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [varietyName, setVarietyName] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImgUrl] = useState("");
   const [addPopupVisible, setAddPopupVisible] = useState(false);
+  const [imgFile, setImgFile] = useState(null);
 
   const handleAddVarietyKoi = async () => {
-    if (!varietyName || !description || !imageUrl) {
+    if (!varietyName || !description || !imgFile) {
       toast.error('Vui lòng điền đầy đủ thông tin.');
       return;
     }
-
+  
+    // Chờ upload ảnh lên Firebase
+    const imgUrlFromFirebase = await uploadImageToFirebase();
+    
+    if (!imgUrlFromFirebase) {
+      toast.error('Lỗi khi tải ảnh lên Firebase');
+      return;
+    }
+  
     try {
       const newKoi = {
         varietyName,
+        imageUrl: imgUrlFromFirebase, 
         description,
-        imageUrl,
       };
-
+      
       const response = await api.post(`Koi/AddNewKoi`, newKoi);
       if (response.status === 200) {
         toast.success(`Add new variety Koi successful!`);
@@ -40,6 +49,31 @@ function Index() {
     }  
   };
 
+  const uploadImageToFirebase = async () => {
+    if (!imgFile) {
+      toast.error("imgFile null")
+      return null;
+    }; 
+    try {      
+      const storageRef = ref(storage, `Koi_Images/${imgFile.name}`);
+      await uploadBytes(storageRef, imgFile);
+      const imgUrlFromFirebase = await getDownloadURL(storageRef);
+      // toast.success("Upload to Firebase successful!");
+      return imgUrlFromFirebase;
+    } catch (error) {
+      console.log(error);
+      toast.error("Upload to Firebase failed");
+      return null; 
+    }
+  };
+
+  const handleChangeImg = (event) => {
+    const file = event.target.files[0];
+    if(file){
+      setImgFile(file);
+    }
+  }
+
   const openAddPopupVisible = () => {
     setAddPopupVisible(true);
   }
@@ -47,7 +81,6 @@ function Index() {
   const closeAddPopupVisible = () => {    
     setDescription("");
     setVarietyName("");
-    setImgUrl("");
     setAddPopupVisible(false);
   }
 
@@ -57,7 +90,6 @@ function Index() {
       setKois(response.data.data);
     } catch (error) {
       console.log(error);
-      setError('Loading error!');
     } finally {
       setLoading(false);
     }
@@ -66,6 +98,7 @@ function Index() {
   useEffect(() => {
     fetchKoi();
   }, []);
+
 
   if (loading) {
     return <div>Loading...</div>;
@@ -84,7 +117,7 @@ function Index() {
           </button>
 
           {kois.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  mt-6 gap-4 ">
               {kois.map(koi => (
                 <div key={koi.varietyId} className="bg-white shadow-lg rounded-lg p-4 m-2 h-full flex flex-col">
                   <img
@@ -96,11 +129,11 @@ function Index() {
                   <p className="text-sm mt-2">{koi.description || 'Chưa có mô tả'}</p>
                   <div className="mt-4 flex-1">
                     <h4 className="text-md font-bold">Pattern: </h4>
-                    {koi.patterns && koi.patterns.length > 0 ? (
+                    {koi.patterns && koi.patterns.is > 0 ? (
                       <ul>
                         {koi.patterns.map(pattern => (
                           <li key={pattern.patternId} className="text-sm">
-                            {pattern.patternName || 'Không có mẫu'}.
+                            {pattern.patternName ||  'Không có mẫu'}.
                           </li>
                         ))}
                       </ul>
@@ -140,9 +173,9 @@ function Index() {
             />
             <input 
               className="h-14 w-full border-2 border-black rounded p-2 mt-6" 
-              value={imageUrl}
-              onChange={(event) => setImgUrl(event.target.value)}
-              placeholder="Img url"
+              type='file'
+              onChange={handleChangeImg}
+              placeholder="Chọn ảnh" 
             />
             <div className='flex justify-center mt-6'>
               <button className='bg-green-500 p-2 mx-4 rounded-lg text-white hover:bg-green-600' onClick={handleAddVarietyKoi}>Add</button>

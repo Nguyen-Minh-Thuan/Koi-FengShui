@@ -48,25 +48,27 @@ const Index = () => {
 
       const response = await api.put(`Package/UpdatePackage/${packageId}`, packageUpdate);
       if (response.status === 200) {
-        toast.success(`Success message: Update package successful`);
-        closeUpdatePackagePopup();
+        toast.success(`Success message: Update package successful`);    
+        fetchPackagesDetail();    
       }
     } catch (error) {
       console.log(error.response?.data);
       toast.error(`Fail message: ${error.response?.status}`);
     }
+    closeUpdatePackagePopup();
+  };
+
+  const fetchPackagesDetail = async () => {
+    try {
+      const response = await api.get(`Package/GetPackageById/${packageId}`);
+      setPackageDetail(response.data.data);
+    } catch (error) {
+      console.log(error);
+      alert(`Error: ${error.response?.data}`);
+    }
   };
 
   useEffect(() => {
-    const fetchPackagesDetail = async () => {
-      try {
-        const response = await api.get(`Package/GetPackageById/${packageId}`);
-        setPackageDetail(response.data.data);
-      } catch (error) {
-        console.log(error);
-        alert(`Error: ${error.response?.data}`);
-      }
-    };
     if (packageId) fetchPackagesDetail();
   }, [packageId]);
 
