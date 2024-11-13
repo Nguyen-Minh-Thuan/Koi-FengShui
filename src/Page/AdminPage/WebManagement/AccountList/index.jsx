@@ -64,7 +64,7 @@ const AccountList = () => {
                   <img src={search} className="h-8 w-8" alt="Search" />
                 </Link>
               </div> */}
-              <table className="min-w-full border-2 border-collapse border-indigo-400">
+              <table className="min-w-full border-2 border-collapse border-indigo-400 shadow-lg">
                 <thead>
                   <tr className="bg-indigo-100 border-separate border-b-2 border-indigo-400">
                   <th className="p-2">User Id</th>

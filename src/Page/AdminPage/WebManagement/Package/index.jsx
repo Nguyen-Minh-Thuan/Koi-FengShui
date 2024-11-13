@@ -64,14 +64,14 @@ const Index = () => {
       <div className='flex bg-violet-100'>
         <AdminNavbar/>        
         <div className='flex-1 p-8 min-h-screen'>
-        <button className='bg-white rounded-xl pr-4 ml-4 border-gray-200 border-2 mt-3 hover:bg-gray-100 shadow-lg font-semibold flex items-center text-xl' onClick={openAddPackagePopup}>
+        <button className='bg-white rounded-xl pr-4 ml-4 mt-3 hover:bg-gray-100 shadow-lg font-semibold flex items-center text-xl' onClick={openAddPackagePopup}>
           <span className='m-3 text-3xl'>+</span>
           Add new package
         </button>
-        <div className='h-min border-2 my-6 bg-white p-12'>
+        <div className='h-min border-2 my-6 bg-white p-12 shadow-xl'>
           <h1 className='text-center text-3xl font-semibold'> Package List detail </h1>
             <div className='items-center relative w-full h-min my-6'>
-              <table className="min-w-full border-2 border-collapse border-indigo-400">
+              <table className="min-w-full border-2 border-collapse border-indigo-400 shadow-lg">
                 <thead>
                   <tr className="bg-indigo-100 border-separate border-b-2 border-indigo-400">
                     <th className='py-2'> Package Name </th>

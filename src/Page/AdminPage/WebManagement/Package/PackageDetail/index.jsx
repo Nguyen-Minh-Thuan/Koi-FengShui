@@ -73,24 +73,21 @@ const Index = () => {
   }, [packageId]);
 
   return (
-    <div>
+    <div className='bg-violet-100 min-h-screen'>
       <AdminHeader />
       <ToastContainer/>
-      <div className='p-8 my-8 mx-32 shadow-xl border-gray-200 rounded-lg border-2 h-fit'>
+      <div className='p-8 my-8 mx-32 shadow-xl  rounded-lg h-fit bg-white'>
         <h1 className='text-center py-6 w-full text-5xl font-semibold h-fit'>Package Information</h1>
         <div className='flex justify-between text-xl'>
           <div className='pl-14 '>
             <p className='m-4'>
-                <strong>Package ID: </strong> {packageDetail?.packageId || 'N/A'}
-            </p>
-            <p className='m-4'>
                 <strong>Package Name: </strong> {packageDetail?.packageName || 'N/A'}
             </p>
-          </div>
-          <div className='pr-14'>
             <p className='m-4'>
                 <strong>price: </strong> {packageDetail?.price || 'N/A'} VNĐ
             </p>
+          </div>
+          <div className='pr-14'>            
             <p className='m-4'>
                 <strong>duration: </strong> {packageDetail?.duration || 'N/A'} Days
             </p>

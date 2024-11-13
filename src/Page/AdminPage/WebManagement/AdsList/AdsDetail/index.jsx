@@ -82,10 +82,10 @@ const Index = () => {
   }
 
   return (
-    <>
+    <div className='bg-violet-100 min-h-screen'>
       <AdminNavbar/>
       <ToastContainer/>
-      <div className="p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4">
+      <div className="p-8 mx-40 my-10 bg-white shadow-lg rounded-lg mb-4">
         <h1 className="text-2xl font-bold mb-4 flex justify-center">Advertisement Details</h1>
         <div className='flex justify-between'>
           <div className='pl-40'>
@@ -114,7 +114,7 @@ const Index = () => {
 
       </div>      
 
-      <div className='p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4'>
+      <div className='p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4 bg-white'>
         <h1 className='font-bold text-2xl text-center'>{adDetail.title}</h1>
         <div className='w-full flex justify-center'>
           <img className='rounded-lg my-4 ' src={adDetail.imageUrl}></img>
@@ -138,7 +138,7 @@ const Index = () => {
         </div>
       )}
 
-    </>
+    </div>
   );
 };
 
