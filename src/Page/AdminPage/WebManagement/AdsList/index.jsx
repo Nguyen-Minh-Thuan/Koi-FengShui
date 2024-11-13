@@ -9,17 +9,18 @@ import { ToastContainer } from 'react-toastify';
 const Index = () => {
   const [pendingAds, setPendingAds] = useState([]); 
   const [allAds, setAllAds] = useState([]);
-  const [currentPagePending, setCurrentPagePending] = useState(1);
+
   const [currentPageAll, setCurrentPageAll] = useState(1);
   const [rowPerPageAll, setRowPerPageAll] = useState(5);
   const [rowPerPagePending, setRowPerPagePending] = useState(5);
+  const [currentPagePending, setCurrentPagePending] = useState(1);
 
   const startIndexPending = (currentPagePending - 1) * rowPerPagePending;
   const endIndexPending = startIndexPending + rowPerPagePending;
   const currentPendingAds = pendingAds.slice(startIndexPending, endIndexPending);
 
-  const startIndexAll = (currentPageAll - 1) * rowPerPagePending;
-  const endIndexAll = startIndexAll + rowPerPagePending;
+  const startIndexAll = (currentPageAll - 1) * rowPerPageAll;
+  const endIndexAll = startIndexAll + rowPerPageAll;
   const currentAllAds = allAds.slice(startIndexAll, endIndexAll);
 
   const fetchPendingAds = async () => {
@@ -65,10 +66,14 @@ const Index = () => {
       setCurrentPageAll(currentPageAll - 1);
   };
 
-  const handleChangeRowPerPage = (event) => {
+  const handleChangeRowPerPagePending = (event) => {
     setRowPerPagePending(parseInt(event.target.value, 10));
-    setCurrentPagePending(1);
-    setCurrentPageAll(1); 
+    setCurrentPagePending(1); 
+  };
+
+  const handleChangeRowPerPageAll = (event) => {
+    setRowPerPageAll(parseInt(event.target.value, 10));
+    setCurrentPageAll(1);
   };
 
   return (
@@ -81,7 +86,7 @@ const Index = () => {
           <div className='bg-white shadow-lg p-8 mb-6'>
             <h1 className='text-center font-semibold text-2xl'>Pending Advertisements</h1>
             <div className='relative w-full h-min flex flex-col px-[5%] py-[3%]'>
-              <div className='flex items-start mb-4'>
+              {/* <div className='flex items-start mb-4'>
                 <div className="border-2 border-black px-2 rounded-lg">
                   <input
                     className="focus:border-transparent focus:outline-none py-2 w-72"
@@ -91,11 +96,11 @@ const Index = () => {
                 <Link to="/" className="bg-white focus:border-transparent cursor-pointer py-1 ml-2">
                   <img src={search} className="h-8 w-8" alt="Search" />
                 </Link>
-              </div>
+              </div> */}
 
-              <table className="min-w-full border-collapse border-4 border-gray-300">
+              <table className="min-w-full border-2 border-collapse border-indigo-400">
                 <thead>
-                  <tr className="bg-gray-200">
+                  <tr className="bg-indigo-100 border-separate border-b-2 border-indigo-400">
                     <th className="p-2">Advertisement Title</th>
                     <th className="p-2">User Name</th>
                     <th className="p-2">Post At</th>
@@ -113,7 +118,9 @@ const Index = () => {
                       <td className="p-2 text-center">{ad.package?.packageName || 'N/A'}</td>
                       <td className="p-2">{ad.status.status1}</td>
                       <td className="p-2">
-                        <Link to={`/admin/adslist/${ad.adsId}`} className="text-blue-500 hover:underline">Details</Link>
+                        <Link to={`/admin/adslist/${ad.adsId}`} className="text-white">
+                          <button className='bg-indigo-400 p-2 rounded-lg hover:bg-indigo-500'>Details</button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -122,7 +129,7 @@ const Index = () => {
 
               <div className="mt-4 flex justify-between items-center">
                 <span>Rows per page: </span>
-                <select className="border p-2" value={rowPerPagePending} onChange={handleChangeRowPerPage}>
+                <select className="border p-2" value={rowPerPagePending} onChange={handleChangeRowPerPagePending}>
                   <option value={5}>5</option>
                   <option value={10}>10</option>
                   <option value={15}>15</option>
@@ -152,10 +159,10 @@ const Index = () => {
 
           <div className='bg-white shadow-lg p-8'>
             <h1 className='text-center font-semibold text-2xl'>All Advertisements</h1>
-            <div className='relative w-full h-min flex flex-col px-[5%] py-[3%]'>
-              <table className="min-w-full border-collapse border-4 border-gray-300">
+            <div className='relative w-full h-min flex flex-col px-[5%] py-[3%] rounded-lg'>
+              <table className="min-w-full border-2 border-collapse border-indigo-400">
                 <thead>
-                  <tr className="bg-gray-200">
+                  <tr className="bg-indigo-100 border-separate border-b-2 border-indigo-400">
                     <th className="p-2">Advertisement Title</th>
                     <th className="p-2">User Name</th>
                     <th className="p-2">Post At</th>
@@ -173,7 +180,9 @@ const Index = () => {
                       <td className="p-2 text-center">{ad.package?.packageName || 'N/A'}</td>
                       <td className="p-2">{ad.status.status1}</td>
                       <td className="p-2">
-                        <Link to={`/admin/adslist/${ad.adsId}`} className="text-blue-500 hover:underline">Details</Link>
+                        <Link to={`/admin/adslist/${ad.adsId}`} className="text-white">
+                          <button className='bg-indigo-400 p-2 rounded-lg hover:bg-indigo-500'>Details</button>
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -182,7 +191,7 @@ const Index = () => {
 
               <div className="mt-4 flex justify-between items-center">
                 <span>Rows per page: </span>
-                <select className="border p-2" value={rowPerPageAll} onChange={handleChangeRowPerPage}>
+                <select className="border p-2" value={rowPerPageAll} onChange={handleChangeRowPerPageAll}>
                   <option value={5}>5</option>
                   <option value={10}>10</option>
                   <option value={15}>15</option>

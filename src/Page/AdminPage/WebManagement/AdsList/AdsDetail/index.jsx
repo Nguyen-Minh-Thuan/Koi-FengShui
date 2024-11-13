@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import api from '../../../../../Config/axios';
-import { Hidden } from '@mui/material';
 import AdminNavbar from '../../../../../Component/HeaderAdmin'
-import Imgtemp from '../../../../../assets/img/Home_img1.png'
 import { toast, ToastContainer } from 'react-toastify';
 
 const Index = () => {
   const { adsId } = useParams(); 
   const [adDetail, setAdDetail] = useState(null);
-  const [reasonDecline, setReasonDecline] = useState("");
+  const [reasonDecline, setReasonDecline] = useState();
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);
   const [buttonVisible, setButtonVisible] = useState(false);
   
@@ -38,14 +36,19 @@ const Index = () => {
 
   const DeclineAds = async () => {
     try {
-      const response = await api.post(`Admin/DeclineAdvertisement/${adsId}`, reasonDecline, {
-        headers: {
-          'Content-Type': 'application/json'
+      const token = JSON.parse(localStorage.getItem('token')); 
+      const response = await api.post(
+        `Admin/DeclineAdvertisement/${adsId}`,
+        JSON.stringify(reasonDecline), 
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, 
+          }
         }
-      });
-      
+      );      
       if(response.status === 200){
-        toast.success(`Success mesage: ${response.data}`);
+        toast.success(`Decline successful !!`);
       }
     } catch (error) {
       console.error('Error declining ad:', error.response?.data || error.message);
@@ -71,6 +74,7 @@ const Index = () => {
     if (adsId) {
       fetchAdDetail();
     }
+
   }, [adsId]);
 
   if (!adDetail) {
@@ -88,9 +92,9 @@ const Index = () => {
             <p className="mb-2"><strong>Title:</strong> {adDetail?.title || 'No Title Available'}</p>
             <p className="mb-2"><strong>User Name:</strong> {adDetail?.user?.userName || 'N/A'}</p>
             <p className="mb-2">
-              <strong>Posted at:</strong> {adDetail?.startedDate ? new Date(adDetail.startedDate).toLocaleDateString('vi-VN') : 'N/A'}
+              <strong>Start date:</strong> {adDetail?.startedDate ? new Date(adDetail.startedDate).toLocaleDateString('vi-VN') : 'N/A'}
             </p>
-            <p className="mb-2"><strong>Package:</strong> {adDetail?.package?.packageId ? `Package ${adDetail.package.packageId}` : 'N/A'}</p>
+            <p className="mb-2"><strong>Package:</strong> {adDetail?.package?.packageName ? `${adDetail.package.packageName}` : 'N/A'}</p>
           </div>
 
           <div className='pr-40'>            
@@ -103,27 +107,29 @@ const Index = () => {
        
         {buttonVisible &&
         <div className='flex justify-center'>
-          <Link to=''>
             <button className='bg-red-500 p-2 mx-8 rounded-lg text-white hover:bg-red-600' onClick={openDeclinePopup}>Decline</button>
-          </Link>
-          <Link to=''>
             <button className='bg-green-500 p-2 mx-12 rounded-lg text-white hover:bg-green-600 ' onClick={ApproveAds}>Approve</button>
-          </Link>
         </div>
         }
+
       </div>      
 
       <div className='p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4'>
         <h1 className='font-bold text-2xl text-center'>{adDetail.title}</h1>
-        <img className='rounded-lg my-4 px-[10%] h-[500px]' src={adDetail.imageUrl}></img>
-        <div>{adDetail.content}</div>
+        <div className='w-full flex justify-center'>
+          <img className='rounded-lg my-4 ' src={adDetail.imageUrl}></img>
+        </div>
+        
+        <div dangerouslySetInnerHTML={{ __html: adDetail.content}}/>
       </div>
 
       {declinedPopupVisible && (
         <div className='fixed flex inset-0 items-center justify-center bg-opacity-50 bg-black '>
           <div className='bg-white shadow-md p-6 rounded-lg h-[40%] w-[50%]'>
             <h1 className='text-xl font-semibold mb-4 text-center'>Enter decline reason</h1>
-            <input className='h-14 w-full border-2 border-black rounded p-2 mt-6'></input>
+            <input className='h-14 w-full border-2 border-black rounded p-2 mt-6'
+              onChange={(event) => setReasonDecline(event.target.value)}
+            />
             <div className='flex justify-center p-8'>
               <button className='bg-red-500 p-2 mx-4 rounded-lg text-white hover:bg-red-600' onClick={DeclineAds}>Decline</button>
               <button className='bg-orange-500 p-2 rounded-lg text-white hover:bg-orange-600 mx-4' onClick={closeDeclinePopup}>Cancel</button>

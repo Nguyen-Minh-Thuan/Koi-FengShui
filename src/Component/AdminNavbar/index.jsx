@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import BlogIcon from "../../assets/Icon/blog_icon.png";
+// import BlogIcon from "../../assets/Icon/blog_icon.png";
 import AdsIcon from "../../assets/Icon/ads.png";
 import AccountIcon from "../../assets/Icon/profile.png";
 import ChartIcon from "../../assets/Icon/line-graph.png";
 import PackageIcon from "../../assets/Icon/package.png";
 import realTime from "../../assets/Icon/real-time.png";
-import NotificationIcon from "../../assets/Icon/Notification_icon.png";
 import Koi from "../../assets/Icon/koi-fish.png"
 
 const AdminNavbar = () => {
@@ -38,12 +37,12 @@ const AdminNavbar = () => {
               Package
             </Link>
           </li>
-          <li className={`mb-4 duration-500 px-4 py-2 rounded-lg ${location.pathname === '/admin/blog' ? 'bg-blue-900 transition-all text-white':'hover:bg-slate-300'}`}>
+          {/* <li className={`mb-4 duration-500 px-4 py-2 rounded-lg ${location.pathname === '/admin/blog' ? 'bg-blue-900 transition-all text-white':'hover:bg-slate-300'}`}>
             <Link to='/admin/blog' className="flex items-center ">
               <img src={BlogIcon} className="h-8 w-8 mr-4 ml-1 "></img>
               Blog
             </Link>
-          </li>
+          </li> */}
           <li className={`mb-4 duration-500 px-4 py-2 rounded-lg ${location.pathname === '/admin/koilist' ? 'bg-blue-900 transition-all text-white':'hover:bg-slate-300'}`}>
             <Link to='/admin/koilist' className="flex items-center ">
               <img src={Koi} className="h-8 w-8 mr-4 ml-1 "></img>

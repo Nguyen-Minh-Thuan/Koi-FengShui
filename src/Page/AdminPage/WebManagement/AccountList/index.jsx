@@ -22,7 +22,7 @@ const AccountList = () => {
       const response = await api.get('User/GetUserByPage');
       setAccounts(response.data.data);
     } catch (error) {
-      console.error("loi roi: ", error);
+      console.error(`ERROR : ${error.response.status}`);
     }
   };
 
@@ -53,7 +53,7 @@ const AccountList = () => {
         <div className='bg-white shadow-lg p-8'>
           <h1 className='text-center font-semibold text-2xl'> Account List</h1>
           <div className='relative w-full h-min flex flex-col px-[5%] py-[3%]'>
-            <div className='flex items-start mb-4'>
+            {/* <div className='flex items-start mb-4'>
                 <div className="border-2 border-black px-2 rounded-lg">
                   <input
                     className="focus:border-transparent focus:outline-none py-2 w-72"
@@ -63,10 +63,10 @@ const AccountList = () => {
                 <Link to="/" className="bg-white focus:border-transparent cursor-pointer py-1 ml-2">
                   <img src={search} className="h-8 w-8" alt="Search" />
                 </Link>
-              </div>
-            <table className="min-w-full border-collapse border-4 border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
+              </div> */}
+              <table className="min-w-full border-2 border-collapse border-indigo-400">
+                <thead>
+                  <tr className="bg-indigo-100 border-separate border-b-2 border-indigo-400">
                   <th className="p-2">User Id</th>
                   <th className="p-2">User Name</th>
                   <th className="p-2">Password</th>
@@ -90,7 +90,9 @@ const AccountList = () => {
                     <td className="p-2">{account.isActive === true ? <span>Active</span> : <span>Inactive</span>}</td>
                     <td className="p-2 ">{account.bio}</td>
                     <td className="p-2">
-                      <Link to={`/admin/accountlist/${account.userId}`}className="text-blue-500 hover:underline">Details</Link>
+                      <Link to={`/admin/accountlist/${account.userId}`} className="text-white">
+                          <button className='bg-indigo-400 p-2 rounded-lg hover:bg-indigo-500'>Details</button>
+                      </Link>
                     </td>
                   </tr>
                 ))}

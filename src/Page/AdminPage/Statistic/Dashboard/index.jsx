@@ -58,8 +58,8 @@ const Index = () => {
   const totalPoint = fengshuiData.reduce((sum, curr) => sum + curr.point, 0);
 
   const FengshuiChartData =  [
-    { name: 'Total pond orientation check requests', value: totalPond },
-    { name: 'Total Koi destiny check requests by destiny', value: totalKoi },
+    { name: 'Total pond  check requests', value: totalPond },
+    { name: 'Total Destiny check requests', value: totalKoi },
     { name: 'Total compatibility check requests', value: totalPoint },
   ];
 
@@ -131,7 +131,7 @@ const Index = () => {
                     <Pie 
                     data={FengshuiChartData} 
                     dataKey="value"
-                    label
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(2)}%`}
                     >
                     {FengshuiChartData.map((color, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
