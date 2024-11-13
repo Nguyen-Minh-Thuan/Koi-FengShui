@@ -80,10 +80,10 @@ const handleDeleteUser = async () => {
   }, [accountId]);
 
   return (
-    <div>
+    <div className='bg-violet-100 min-h-screen'>
       <AdminHeader />
       <ToastContainer /> 
-      <div className='p-8 my-8 mx-32 shadow-xl border-gray-200 rounded-lg border-2 h-fit'>
+      <div className='p-8 my-8 mx-32 shadow-xl bg-white  rounded-lg  h-fit'>
         <h1 className='text-center py-6 w-full text-5xl font-semibold h-fit'>User Information</h1>
         <div className='flex justify-between text-xl'>
           <div className='pl-14'>
