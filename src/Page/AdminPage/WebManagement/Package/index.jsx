@@ -71,10 +71,10 @@ const Index = () => {
         <div className='h-min border-2 my-6 bg-white p-12'>
           <h1 className='text-center text-3xl font-semibold'> Package List detail </h1>
             <div className='items-center relative w-full h-min my-6'>
-              <table className='min-w-full border-collapse border-4 border-gray-300'>
-                <thead className=''>
-                  <tr className='bg-gray-200'>
-                    <th> Package Name </th>
+              <table className="min-w-full border-2 border-collapse border-indigo-400">
+                <thead>
+                  <tr className="bg-indigo-100 border-separate border-b-2 border-indigo-400">
+                    <th className='py-2'> Package Name </th>
                     <th> Duration </th>
                     <th> price </th>
                     <th> Action</th>
@@ -87,7 +87,9 @@ const Index = () => {
                     <td>{pack.duration} days</td>
                     <td>{pack.price}</td>
                     <td>
-                      <Link to={`/admin/packages/${pack.packageId}`} className='text-blue-700 hover:underline'>Detail</Link>
+                      <Link to={`/admin/packages/${pack.packageId}`} className="text-white">
+                          <button className='bg-indigo-400 p-2 rounded-lg  hover:bg-indigo-500 my-1'>Details</button>
+                      </Link>
                     </td>
                   </tr>
                   ))}
@@ -97,6 +99,8 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+
       {addPackagePopupVisible && (
         <div className='fixed flex inset-0 items-center justify-center bg-opacity-50 bg-black '>
           <div className='bg-white shadow-md p-6 rounded-lg h-fit w-fit'>

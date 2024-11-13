@@ -108,7 +108,7 @@ const NavBar = () => {
           <li className='px-8 duration-200 ease-in-out active:scale-110'><Link to="/ads/create">Đăng kí quảng cáo</Link></li>
           <li className='px-8 duration-200 ease-in-out active:scale-110'><Link to="/fengshui">Tra Cứu Mệnh</Link></li>
           <li className='px-8 duration-200 ease-in-out active:scale-110'><Link to="/blog">Chia sẻ</Link></li>
-          <li className='px-8 duration-200 ease-in-out active:scale-110'><Link to="/">Fengshui Koi</Link></li>
+          {/* <li className='px-8 duration-200 ease-in-out active:scale-110'><Link to="/">Fengshui Koi</Link></li> */}
         </ul>
       </div>
       <div className="h-[113px]"></div>
