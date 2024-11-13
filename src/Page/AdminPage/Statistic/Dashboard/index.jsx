@@ -53,9 +53,9 @@ const Index = () => {
     totalAds: data.total,
   }));
 
-  const totalPond = fengshuiData.reduce((sum, curr) => sum + curr.pond, 0);
-  const totalKoi = fengshuiData.reduce((sum, curr) => sum + curr.koi, 0);
-  const totalPoint = fengshuiData.reduce((sum, curr) => sum + curr.point, 0);
+  const totalPond = fengshuiData.reduce((sum, curr) => sum + curr.pond, 0); 
+  const totalKoi = fengshuiData.reduce((sum, curr) => sum + curr.koi, 0); 
+  const totalPoint = fengshuiData.reduce((sum, curr) => sum + curr.point, 0); 
 
   const FengshuiChartData =  [
     { name: 'Total pond  check requests', value: totalPond },
@@ -120,7 +120,7 @@ const Index = () => {
                 <YAxis />
                 <Tooltip/>
                 <Line type="monotone" dataKey="totalAds" name="New Ads daily" stroke="#00B8A9" strokeWidth={2} />
-                <Legend verticalAlign="top"/>
+                <Legend verticalAlign="bot"/>
               </LineChart>
             </div>
 
@@ -137,7 +137,6 @@ const Index = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                     </Pie>
-                    <Tooltip /> 
                     <Legend verticalAlign="top"/>
                 </PieChart>
               </div>              
