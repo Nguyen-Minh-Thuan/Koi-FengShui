@@ -28,11 +28,10 @@ const Footer = () => {
         </div>
         <div className="flex">
           <div className="mr-10">
-            <h3 className="font-semibold">LIÊN KẾT NHANH</h3>
-
+            <h3 className="font-bold">LIÊN KẾT NHANH</h3>
             <ul>
               <li>
-                <Link to="/" className="hover:underline">
+                <Link to="/fengshui" className="hover:underline">
                   Tra cứu Mệnh
                 </Link>
               </li>
@@ -42,10 +41,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:underline">
-                  About
+                <Link to="/ads/product" className="hover:underline">
+                  Sản Phẩm
                 </Link>
               </li>
+
               {/* <li>
                 <Link to="/blog/create" className="hover:underline">
                   Tạo Blog
@@ -54,16 +54,11 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold">LIÊN HỆ QUẢNG CÁO</h3>
+            <h3 className="font-bold">LIÊN HỆ QUẢNG CÁO</h3>
             <ul>
               <li>
                 <Link to="/ads/create" className="hover:underline">
                   Đăng kí quảng cáo sản phẩm
-                </Link>
-              </li>
-              <li>
-                <Link to="/" className="hover:underline">
-                  Hỗ trợ
                 </Link>
               </li>
               {/* <li>

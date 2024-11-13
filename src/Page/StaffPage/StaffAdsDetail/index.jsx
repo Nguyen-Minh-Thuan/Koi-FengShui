@@ -12,6 +12,8 @@ const StaffAdsDetail = () => {
   const [declinedPopupVisible, setDeclinePopupVisible] = useState(false);
   const [userName, setUserName] = useState("N/A");
   const [packageName, setPackageName] = useState("N/A");
+  const [pendingAds, setPendingAds] = useState([]);
+  const [buttonVisible, setButtonVisible] = useState(false);
 
   const ApproveAds = async () => {
     try {
@@ -67,7 +69,7 @@ const StaffAdsDetail = () => {
       try {
         const response = await api.get(`Advertisement/GetAdsById?id=${adsId}`);
         setAdDetail(response.data.data);
-
+        if((response.data.data.status?.status1) === 'Pending' ? setButtonVisible(true) : setButtonVisible(false));
         const userId = response.data.data.userId;
         if (userId) {
           const userResponse = await api.get(`User/GetUserById?id=${userId}`);
@@ -138,25 +140,13 @@ const StaffAdsDetail = () => {
           </div>
         </div>
 
-        {/* Bạn có thể thêm nhiều thông tin hơn nếu cần */}
-        <div className="flex justify-center">
-          <Link to="">
-            <button
-              className="bg-red-500 p-2 mx-8 rounded-lg text-white hover:bg-red-600"
-              onClick={openDeclinePopup}
-            >
-              Decline
-            </button>
-          </Link>
-          <Link to="">
-            <button
-              className="bg-green-500 p-2 mx-12 rounded-lg text-white hover:bg-green-600 "
-              onClick={ApproveAds}
-            >
-              Approve
-            </button>
-          </Link>
+        {buttonVisible &&
+        <div className='flex justify-center'>
+            <button className='bg-red-500 p-2 mx-8 rounded-lg text-white hover:bg-red-600' onClick={openDeclinePopup}>Decline</button>
+            <button className='bg-green-500 p-2 mx-12 rounded-lg text-white hover:bg-green-600 ' onClick={ApproveAds}>Approve</button>
         </div>
+        }
+
       </div>
 
       <div className="p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4">
