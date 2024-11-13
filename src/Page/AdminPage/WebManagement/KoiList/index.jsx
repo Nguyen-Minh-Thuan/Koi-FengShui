@@ -127,7 +127,8 @@ function Index() {
                   />
                   <h3 className="text-lg font-bold mt-2">{koi.varietyName || 'Không có tên'}</h3>
                   <p className="text-sm mt-2">{koi.description || 'Chưa có mô tả'}</p>
-                  <div className="mt-4 flex-1">
+
+                  {/* <div className="mt-4 flex-1">
                     <h4 className="text-md font-bold">Pattern: </h4>
                     {koi.patterns && koi.patterns.is > 0 ? (
                       <ul>
@@ -140,7 +141,8 @@ function Index() {
                     ) : (
                       <p></p>
                     )}
-                  </div>
+                  </div> */}
+
                   <div className="mt-auto text-right">
                     <Link to={`/admin/koilist/${koi.varietyId}`} className="bg-blue-500 px-2 py-2 text-white rounded-lg hover:bg-blue-600">
                       View Pattern Details

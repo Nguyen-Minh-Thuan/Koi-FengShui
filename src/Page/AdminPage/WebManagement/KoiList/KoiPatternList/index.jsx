@@ -72,7 +72,7 @@ const Index = () => {
       toast.error("Add new Pattern Fail !!");
       console.log(error);
     }
-    setAddPatternPopupVisible(false);
+    closeAddPatternPopup();
   };
 
   const openAddPatternPopup = () => {
@@ -80,6 +80,7 @@ const Index = () => {
   };
 
   const closeAddPatternPopup = () => {
+    setPatternName("");
     setAddPatternPopupVisible(false);
   };
 
@@ -199,15 +200,15 @@ const Index = () => {
                   <h3 className="text-lg font-bold mt-2">
                     {koi.patternName || "Không có tên"}
                   </h3>
-                  <p className="text-sm mt-2">
+                  {/* <p className="text-sm mt-2">
                     {koi.description || "No description"}
-                  </p>
+                  </p> */}
                   <div className="mt-auto text-right">
                     <Link
                       to={`/admin/koilist/${koi.varietyId}/${koi.patternId}`}
                       className="bg-blue-500 px-2 py-2 text-white rounded-lg hover:bg-blue-600"
                     >
-                      View Koi Details
+                      View Color Details
                     </Link>
                   </div>
                 </div>
