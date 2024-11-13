@@ -6,7 +6,7 @@ import Footer from '../../Component/Footer';
 import FengshuiRecKoi from './FengshuiRecKoi';
 
 const FengshuiPage = () => {
-  const [activeTab, setActiveTab] = useState('generate');
+  const [activeTab, setActiveTab] = useState('reckoi');
 
   return (
     <>

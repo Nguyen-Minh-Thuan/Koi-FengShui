@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../Component/NavBar";
 import Footer from "../../Component/Footer";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [activeElement, setActiveElement] = useState("Mệnh Kim");
@@ -18,40 +19,44 @@ const Home = () => {
     {
       name: "Mệnh Mộc",
       fishes: [
-        { image: "/path/to/moc-koi-1.jpg", name: "Asagi" },
-        { image: "/path/to/moc-koi-2.jpg", name: "Showa" },
-        { image: "/path/to/moc-koi-3.jpg", name: "Midori Ogon" }
+        { image: "https://www.toriikoi.com/wp-content/uploads/2024/08/Tips-for-Caring-Your-Asagi-Koi-Fish.jpg", name: "Asagi" },
+        { image: "https://cacanhthaihoa.com/wp-content/uploads/2015/02/ca-koi-showa-9.jpg", name: "Showa" },
+        { image: "https://www.koi-bito.com/forum/filedata/fetch?id=228775", name: "Midori Ogon" }
       ],
       icon: "https://nguyenthehoa.com/wp-content/uploads/Nguyen-to-thuy-to-phong-thuy-MOC.jpg"
     },
     {
       name: "Mệnh Thủy",
       fishes: [
-        { image: "/path/to/thuy-koi-1.jpg", name: "Thủy Koi 1" },
-        { image: "/path/to/thuy-koi-2.jpg", name: "Thủy Koi 2" },
-        { image: "/path/to/thuy-koi-3.jpg", name: "Thủy Koi 3" }
+        { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZYnzmAJK1pRICNjJom1N6gfqPbqwHvPXWEg&s", name: "Kohaku" },
+        { image: "https://cakoibienhoa.com/public/userfiles/products/ca-koi-taisho-sanke-7.jpg", name: "Sanke" },
+        { image: "https://i.redd.it/my-new-koi-shiro-utsuri-v0-37lmktnmq3g91.jpg?width=3024&format=pjpg&auto=webp&s=cfb94f8a1a42ce82b68c5ac2f456d98b7f083eb6", name: "Shiro Utsuri" }
       ],
       icon: "https://nguyenthehoa.com/wp-content/uploads/Nguyen-to-thuy-to-phong-thuy-THUY.jpg"
     },
     {
       name: "Mệnh Hỏa",
       fishes: [
-        { image: "/path/to/hoa-koi-1.jpg", name: "Hỏa Koi 1" },
-        { image: "/path/to/hoa-koi-2.jpg", name: "Hỏa Koi 2" },
-        { image: "/path/to/hoa-koi-3.jpg", name: "Hỏa Koi 3" }
+        { image: "https://bizweb.dktcdn.net/100/307/111/files/ca-koi-showa-sankoku1.jpg?v=1534352487117", name: "Showa" },
+        { image: "https://cacanhthaihoa.com/wp-content/uploads/2015/02/ca-koi-benigoi.jpg", name: "Benigoi" },
+        { image: "https://koilover.vn/uploads/images/nguon-goc-kohaku.jpg", name: "Kohaku" }
       ],
       icon: "https://nguyenthehoa.com/wp-content/uploads/Nguyen-to-thuy-to-phong-thuy-HOA.jpg"
     },
     {
       name: "Mệnh Thổ",
       fishes: [
-        { image: "/path/to/tho-koi-1.jpg", name: "Thổ Koi 1" },
-        { image: "/path/to/tho-koi-2.jpg", name: "Thổ Koi 2" },
-        { image: "/path/to/tho-koi-3.jpg", name: "Thổ Koi 3" }
+        { image: "https://aquariumfishindia.com/wp-content/uploads/2023/02/s-l1200-197.jpg", name: "Yamabuki" },
+        { image: "https://askfarms.ca/wp-content/uploads/2021/03/ASK-Farms-Koi-008.jpg", name: "Shusui" },
+        { image: "https://www.cakoinhatban.com/wp-content/uploads/2017/08/ca-benigoi-koi.jpg", name: "Benigoi" }
       ],
       icon: "https://nguyenthehoa.com/wp-content/uploads/Nguyen-to-thuy-to-phong-thuy-THO.jpg"
     }
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="home-container">
@@ -77,6 +82,11 @@ const Home = () => {
               <p className="text-lg">
                 Sử dụng thuật toán tính toán chính xác để tính ra bản mệnh của khách hàng và đưa ra những tư vấn tốt nhất.
               </p>
+              <div className="text-center mt-4">
+                <Link to="/fengshui" className="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                  Tra cứu mệnh
+                </Link>
+              </div>
             </div>
             <div className="md:w-1/2">
               <img
@@ -125,7 +135,7 @@ const Home = () => {
                   <img
                     src={fish.image}
                     alt={`${fish.name}`}
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                    className="w-full h-[413px] object-cover rounded-lg shadow-lg"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-white text-xl font-bold drop-shadow-lg">

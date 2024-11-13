@@ -403,7 +403,7 @@ const FengshuiPoint = () => {
           </div>
 
           <div className="w-1/3 pl-2">
-            <label htmlFor="quantity" className="block text-left mb-2">Số lưng *</label>
+            <label htmlFor="quantity" className="block text-left mb-2">Số lượng *</label>
             <select
               id="quantity"
               value={quantity}

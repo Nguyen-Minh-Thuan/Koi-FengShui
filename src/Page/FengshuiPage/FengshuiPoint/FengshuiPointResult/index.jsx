@@ -112,7 +112,7 @@ const FengshuiPointResult = () => {
           </div>
         </div>
 
-        <p className="mb-6">Hướng đặt bể cá bạn chọn là: <span className="font-semibold">{direction} (Điểm: {bonusDirection}/10)</span></p>
+        <p className="mb-6">Hướng đặt bể cá bạn chọn là: <span className="font-semibold">{direction} (Điểm: {bonusDirection}/1)</span></p>
         <p className="mb-6">
           Hướng đặt bể cá hợp với mệnh của bạn là: {' '}
           <span className="font-semibold">
@@ -122,10 +122,10 @@ const FengshuiPointResult = () => {
         <p className="mb-6">
           Hình dạng hồ cá bạn đã chọn: {' '}
           <span className="font-semibold">
-            {shape} (Điểm: {bonusPond}/10)
+            {shape} (Điểm: {bonusPond}/1)
           </span>
         </p>
-        <p className="mb-6">Tổng số lượng cá bạn chọn là: <span className="font-semibold">{totalAmount}  (Điểm: {bonusQuantity}/10)</span></p>
+        <p className="mb-6">Tổng số lượng cá bạn chọn là: <span className="font-semibold">{totalAmount}  (Điểm: {bonusQuantity}/1)</span></p>
 
         <div className="flex flex-wrap mb-6">
           <div className="w-2/3 pr-4">
