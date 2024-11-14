@@ -41,12 +41,14 @@ const StaffAdsDetail = () => {
 
   const DeclineAds = async () => {
     try {
+      const token = JSON.parse(localStorage.getItem('token')); 
       const response = await api.post(
         `staff/DeclineAdvertisement/${adsId}`,
         reasonDecline,
         {
           headers: {
             "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`, 
           },
         }
       );
@@ -163,7 +165,9 @@ const StaffAdsDetail = () => {
             <h1 className="text-xl font-semibold mb-4 text-center">
               Enter decline reason
             </h1>
-            <input className="h-14 w-full border-2 border-black rounded p-2 mt-6"></input>
+            <input className='h-14 w-full border-2 border-black rounded p-2 mt-6'
+              onChange={(event) => setReasonDecline(event.target.value)}
+            />
             <div className="flex justify-center p-8">
               <button
                 className="bg-red-500 p-2 mx-4 rounded-lg text-white hover:bg-red-600"
