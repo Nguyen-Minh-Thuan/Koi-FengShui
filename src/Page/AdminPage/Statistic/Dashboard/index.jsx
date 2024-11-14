@@ -137,6 +137,7 @@ const Index = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                     </Pie>
+                    <Tooltip/>
                     <Legend verticalAlign="top"/>
                 </PieChart>
               </div>              
