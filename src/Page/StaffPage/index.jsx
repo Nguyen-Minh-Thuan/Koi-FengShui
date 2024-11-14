@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import StaffHeader from "../../Component/StaffHeader";
 import api from "../../Config/axios";
 import { DataGrid } from "@mui/x-data-grid";
@@ -6,7 +6,6 @@ import StaffSidebar from "../../Component/StaffSideBar";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import blog from "../../assets/Icon/blog_icon.png";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 

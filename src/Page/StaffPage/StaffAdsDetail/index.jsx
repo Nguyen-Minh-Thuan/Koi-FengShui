@@ -150,8 +150,10 @@ const StaffAdsDetail = () => {
       </div>
 
       <div className="p-8 mx-40 my-10 border border-gray-200 shadow-lg rounded-lg mb-4">
-        <h1 className="font-bold text-2xl text-center">{adDetail.title}</h1>
-        <img className="rounded-lg my-4 px-[10%] h-[500px]" src={Imgtemp}></img>
+        <h1 className="font-bold text-2xl text-center flex justify-center">{adDetail.title}</h1>
+        <div className="justify-center flex">
+          <img className='rounded-lg my-4 ' src={adDetail.imageUrl}/>
+        </div>
         <div dangerouslySetInnerHTML={{ __html: adDetail.content }}></div>
       </div>
 
