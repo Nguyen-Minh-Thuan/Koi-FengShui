@@ -85,6 +85,7 @@ const UserAdsList = () => {
                     ad.status.status1 === 'Deploying' ? 'Đang quảng cáo' :
                     ad.status.status1 === 'Sold Out' ? 'Đã bán' :
                     ad.status.status1 === 'Expired' ? 'Hết hạn' :
+                    ad.status.status1 === 'Cancelled' ? 'Bị từ chối' :
                     ad.status.status1,
             packageName: packageName,
             startedDate: ad.startedDate ? format(new Date(ad.startedDate), 'dd/MM/yyyy') : 'Chưa bắt đầu',
